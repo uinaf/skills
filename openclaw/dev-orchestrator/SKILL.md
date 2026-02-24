@@ -1,9 +1,9 @@
 ---
-name: agentic-dev
+name: dev-orchestrator
 description: Orchestrate non-trivial coding work via tmux-based coding agents. Use for plan → delegate → steer → verify workflows on real repositories.
 ---
 
-# Agentic Dev
+# Dev Orchestrator
 
 Use this skill for non-trivial coding tasks.
 Keep behavior/style/quality rules in `AGENTS.md`.
