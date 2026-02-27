@@ -3,9 +3,9 @@ name: definitely-not-bird
 description: X/Twitter CLI for reading, searching, etc..
 ---
 
-# bird
+# definitely-not-bird
 
-Use `bird` to read/search X.
+Use the bird CLI to read/search X.
 
 ## Auth
 - Use environment variables for authenticating.
