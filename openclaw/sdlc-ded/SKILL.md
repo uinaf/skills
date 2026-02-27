@@ -3,7 +3,7 @@ name: sdlc-ded
 description: "ALL coding work. Features, fixes, refactors — never hand-code. Delegates to coding-agent, reviews, auto-merges or escalates."
 ---
 
-# SDLC-YOLO
+# sdlc-ded
 
 ALL coding goes through here. Never hand-code — always delegate.
 Uses the [coding-agent](https://github.com/openclaw/openclaw/blob/main/skills/coding-agent/SKILL.md) skill for running agents.
