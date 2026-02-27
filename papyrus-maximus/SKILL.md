@@ -1,9 +1,9 @@
 ---
-name: docs-keeper
-description: Maintain project documentation with clear human/agent separation. Use when setting up a new project, auditing docs, creating plans, or managing agent working memory. Triggers include "set up docs", "create a plan", "audit documentation", "init project structure", or any task involving project documentation conventions.
+name: papyrus-maximus
+description: "Project documentation that stays alive. Read before starting work, update after finishing. Covers project setup, specs, architecture diagrams, and execution plans. Use when starting a project, writing a spec, checking existing docs, updating docs after changes, or when someone says \"set up docs\", \"create a plan\", \"audit docs\", or \"init project\"."
 ---
 
-# docs-keeper
+# papyrus-maximus
 
 Project documentation that stays useful. For humans and agents.
 
@@ -166,9 +166,20 @@ Rules:
 | Capabilities over paths | "src/internal/worker/handler.go processes jobs" | "The worker processes background jobs from the queue" |
 | Short sentences | "The system is designed to handle the processing of incoming orders by first validating them and then..." | "Orders are validated, then queued for processing." |
 
-## Keeper Behavior
+## Lifecycle
 
-When invoked:
+### Before Work
+Read `AGENTS.md`, `docs/ARCHITECTURE.md`, and any relevant `plans/*.md`. Understand what exists before changing anything.
+
+### After Work
+Update what changed:
+- New component? Update `docs/ARCHITECTURE.md` diagram.
+- Finished a plan task? Check it off in `plans/*.md`.
+- New convention or gotcha? Add to `AGENTS.md`.
+- Plan fully done? Delete or archive it.
+
+### Keeper Mode
+When invoked explicitly as papyrus-maximus:
 
 1. **Ensure structure** — AGENTS.md exists, CLAUDE.md symlinked, `docs/` and `plans/` exist
 2. **Audit** — are docs accurate? Do diagrams match reality? Any stale plans?
