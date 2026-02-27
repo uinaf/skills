@@ -5,154 +5,173 @@ description: Maintain project documentation with clear human/agent separation. U
 
 # docs-keeper
 
-Maintain project documentation with clear human/agent separation. Includes planning workflow.
+Project documentation that stays useful. For humans and agents.
 
-## Project Structure
+## Structure
 
 ```
 project/
-  README.md              ← project entrypoint (human-facing)
-  AGENTS.md              ← agent instructions (project-specific)
-  CLAUDE.md              ← symlink → AGENTS.md
+  README.md          ← humans: what is this, how to run it
+  AGENTS.md          ← agents: project rules, stack, commands
+  CLAUDE.md          ← symlink → AGENTS.md
   docs/
-    ARCHITECTURE.md      ← human: high-level design, domain concepts
-    *.md                 ← human: guides, ADRs, onboarding
-    agents/
-      PLAN.md            ← agent: living project plan
-      ASSUMPTIONS.md     ← agent: tracked assumptions
-      notes/             ← agent: session notes
-        YYYYMMDD-HHMM-slug.md
+    ARCHITECTURE.md  ← how the system works (diagrams > text)
+    *.md             ← guides, references, anything useful
+  plans/
+    *.md             ← specs, execution plans, living docs
 ```
 
-### Project root
+That's it. No nested agent zones. No session notes folder. No assumptions file.
 
-- **README.md** — canonical project entrypoint (setup, usage, status).
-- **AGENTS.md** — project-specific agent instructions. Tech stack, commands, conventions, gotchas. Keep under 150 lines.
-- **CLAUDE.md** — always a symlink to AGENTS.md. Ensure this exists: `ln -sf AGENTS.md CLAUDE.md`
+## File Roles
 
-### Human zone (`docs/*.md`)
+### README.md
+For humans. High-level only.
 
-Written by humans, maintained by humans. Agents read these but don't edit unless explicitly asked.
+| Section | Content |
+|---------|---------|
+| What | One paragraph — what does this do? |
+| Getting Started | Clone, install, run. Copy-pasteable. |
+| Usage | Key commands / API surface |
+| Contributing | How to dev, test, deploy |
 
-- `README.md` at project root is the primary project overview.
-- **docs/ARCHITECTURE.md** — high-level design. Describe capabilities and domain concepts, not file paths.
-- Other docs as needed: ADRs, API guides, onboarding.
+No architecture. No internal module descriptions. No detailed folder trees.
 
-### Agent zone (`docs/agents/`)
+### AGENTS.md
+For coding agents. Under 150 lines.
 
-Written and maintained by agents. Committed to git. Survives context windows and agent rotations.
+| Section | Content |
+|---------|---------|
+| Stack | Languages, frameworks, key deps |
+| Commands | Build, test, lint, deploy — exact commands |
+| Conventions | Naming, patterns, gotchas |
+| Architecture | One sentence + "see docs/ARCHITECTURE.md" |
 
-- **PLAN.md** — the living project plan (see Planning below)
-- **ASSUMPTIONS.md** — document assumptions before acting. Update as confirmed or invalidated.
-- **notes/** — timestamped session notes (see Session Notes below)
+If it's growing past 150 lines, move content to `docs/`.
 
----
+### docs/ARCHITECTURE.md
+How the system is built. **Diagram-first, text-second.**
 
-## Planning
-
-Before any multi-step work, create or update `docs/agents/PLAN.md`.
-
-### Brainstorming (before the plan)
-
-Don't jump into planning. Understand first:
-
-1. **Explore context** — read existing docs, code, recent commits
-2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
-3. **Propose 2-3 approaches** — with trade-offs and your recommendation
-4. **Present design in sections** — scaled to complexity, get approval after each section
-5. **Save design** — write validated design to `docs/agents/PLAN.md`
-
-Do NOT write code until the design is approved. Every project goes through this, even "simple" ones. Simple projects are where unexamined assumptions waste the most work.
-
-### Plan format
-
-Plans are bite-sized tasks. Each task is one action (2-5 minutes):
+Use mermaid diagrams liberally:
+- System context → who talks to what (C4 level 1)
+- Component diagram → major modules and boundaries (C4 level 2)
+- Sequence diagrams → key flows
+- State diagrams → lifecycle of important entities
 
 ```markdown
-# [Feature] Implementation Plan
+## System Context
 
-**Goal:** One sentence.
-**Approach:** 2-3 sentences.
-**Tech:** Key technologies/libraries.
+\```mermaid
+graph LR
+  User --> App
+  App --> DB[(PostgreSQL)]
+  App --> Queue[Redis]
+  Worker --> Queue
+  Worker --> ExtAPI[External API]
+\```
 
----
+## Components
 
-### Task 1: [Component]
+| Component | Responsibility | Talks to |
+|-----------|---------------|----------|
+| API | HTTP handlers, auth | DB, Queue |
+| Worker | Background jobs | Queue, ExtAPI |
+| CLI | Admin commands | DB |
 
-**Files:**
-- Create: `exact/path/to/file.go`
-- Modify: `exact/path/to/existing.go`
-- Test: `exact/path/to/file_test.go`
+## Key Flows
 
-**Steps:**
-1. Write failing test
-2. Run test, verify it fails
-3. Write minimal implementation
-4. Run test, verify it passes
-5. Commit
-
-**Verify:** `go test ./... -run TestSpecificThing`
+\```mermaid
+sequenceDiagram
+  User->>API: POST /order
+  API->>DB: insert order
+  API->>Queue: enqueue process_order
+  Worker->>Queue: dequeue
+  Worker->>ExtAPI: submit
+  Worker->>DB: update status
+\```
 ```
 
 Rules:
-- Exact file paths, always
-- Complete code in plan (not "add validation")
-- Exact commands with expected output
-- Each step is one action, not a paragraph
+- **Diagrams > text.** If you can draw it, draw it.
+- **Tables > paragraphs.** Component lists, config options, API surfaces.
+- **Pseudocode > real code.** `process(order) → validate → enqueue → respond` beats a 30-line function that'll change next week.
+- **No folder trees.** They go stale immediately. Describe capabilities and boundaries instead.
+- **Mention modules by name**, not by path. "The worker module handles..." not "src/worker/index.ts handles..."
 
-### Execution
+### docs/*.md — Other Material
+Anything useful for humans or agents:
+- **GUIDE.md** — walkthrough for common tasks
+- **API.md** — endpoint reference
+- **DEPLOYMENT.md** — how to ship it
+- **DECISIONS.md** — notable past decisions (lightweight ADR: what, why, when — no template ceremony)
 
-Execute plans in batches (3 tasks at a time):
+### plans/*.md — Specs & Execution Plans
+Living documents. Specs before code. Updated as work progresses.
 
-1. Follow each step exactly
-2. Run verifications as specified
-3. After each batch: report what was done, show verification output, wait for feedback
-4. Apply feedback, continue next batch
+```markdown
+# [Feature Name]
 
-**Stop and ask when:**
-- Hit a blocker (missing dep, test fails, instruction unclear)
-- Plan has gaps
-- Verification fails repeatedly
-- Don't guess through blockers
+## Goal
+One sentence.
 
----
+## Context
+Why now? What's the current state? What's wrong with it?
 
-## Session Notes
+## Design
 
-Write notes to `docs/agents/notes/YYYYMMDD-HHMM-slug.md` when you learn something worth preserving:
+\```mermaid
+graph LR
+  ...
+\```
 
-- Lessons learned from debugging
-- Architecture decisions and rationale
-- Failed approaches and why they didn't work
-- Investigation findings (API quirks, library gotchas)
-- Mistakes and how to avoid them
+| Decision | Choice | Why |
+|----------|--------|-----|
+| Storage | SQLite | Single machine, no need for Postgres |
+| Auth | API key | Internal tool, simplicity wins |
 
-Keep notes concise. Future agents read these for context.
+## Pseudocode
+\```
+on_request(order):
+  validate(order.fields)
+  enriched = fetch_market_data(order.ticker)
+  if enriched.price > order.limit: reject("above limit")
+  queue.push(enriched)
+  return accepted(order.id)
+\```
 
----
+## Tasks
+- [x] Design approved
+- [ ] Implement core handler
+- [ ] Add validation
+- [ ] Write tests
+- [ ] Update ARCHITECTURE.md
 
-## Session Discipline
+## Open Questions
+- How to handle partial fills? → decided: treat as separate orders
+```
 
-**Start:** Read `docs/agents/PLAN.md` and `AGENTS.md`.
+Rules:
+- **Spec first, code second.** Don't start implementation without an approved plan.
+- **Keep them alive.** Check off tasks, update decisions, close questions.
+- **Delete when done.** Completed plans can be archived or removed. They served their purpose.
+- **One plan per feature/initiative.** Don't combine unrelated work.
 
-**End:** Update plan if anything changed. Write a note if you learned something.
+## Writing Principles
 
----
+| Principle | Instead of | Write |
+|-----------|-----------|-------|
+| Show, don't describe | "The system uses a pub/sub pattern for async communication between services" | A mermaid diagram showing the flow |
+| Tables over lists | A bullet list of 8 config options with descriptions | A table with columns: option, type, default, description |
+| Pseudocode over real code | A 40-line Go function | `validate → enrich → enqueue → respond` |
+| Capabilities over paths | "src/internal/worker/handler.go processes jobs" | "The worker processes background jobs from the queue" |
+| Short sentences | "The system is designed to handle the processing of incoming orders by first validating them and then..." | "Orders are validated, then queued for processing." |
 
 ## Keeper Behavior
 
-When invoked as docs-keeper (or when documentation is stale):
+When invoked:
 
-1. **Ensure structure** — AGENTS.md exists, CLAUDE.md is symlinked, `docs/agents/` exists
-2. **Audit** — check all docs exist, are accurate, aren't contradicting code
-3. **Fix** — update what you can (agents zone only, unless asked for human zone)
+1. **Ensure structure** — AGENTS.md exists, CLAUDE.md symlinked, `docs/` and `plans/` exist
+2. **Audit** — are docs accurate? Do diagrams match reality? Any stale plans?
+3. **Fix** — update what you can. Create missing diagrams. Trim bloat.
 4. **Flag** — report what needs human attention
-5. **Trim** — AGENTS.md should stay under 150 lines. Move overflow to `docs/`
-
-## Rules
-
-- One code example beats three paragraphs
-- Describe capabilities, not file paths (paths go stale)
-- Don't document what agents already know (language syntax, common patterns)
-- Create `docs/agents/` and subdirectories if they don't exist
-- Never edit human zone docs without explicit permission
+5. **Trim** — AGENTS.md under 150 lines. README under 80 lines. Move overflow to `docs/`.
