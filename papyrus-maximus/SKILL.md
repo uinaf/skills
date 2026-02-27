@@ -106,7 +106,7 @@ Anything useful for humans or agents:
 
 ### docs/plans/*.md — Specs & Execution Plans
 
-Filename convention: `kebab-case-slug.md` (e.g. `kalshi-hardening.md`, `loss-reduction.md`). No SHOUTING, no date suffix — the date goes in the file header.
+Filename convention: `kebab-case-slug.md` (e.g. `kalshi-hardening-2026-02-23.md`, `loss-reduction-2026-02-23.md`). No SHOUTING. Date suffix for at-a-glance staleness detection.
 Living documents. Specs before code. Updated as work progresses.
 
 ```markdown
