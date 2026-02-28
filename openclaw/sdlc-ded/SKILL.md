@@ -112,3 +112,36 @@ git branch -d <slug>
 - Verification:
 - Risks / follow-ups:
 ```
+
+### ⚠️ Tool choice is sacred
+
+When the user specifies which tool to use (Claude Code, Codex, etc.), **that is the tool. Period.**
+
+- If the specified tool fails → **fix the invocation** (flags, env, working dir). Do NOT silently swap to a different tool.
+- If you can't figure out the correct invocation → **ask the user**. Do NOT substitute.
+- If the tool genuinely can't do the job → **tell the user** and ask what they want to do.
+- Never rationalize a swap ("it's faster", "it already failed"). The user chose deliberately.
+
+### ⚠️ Don't merge without permission
+
+- Default: **push branch + create PR**. Let the user review/merge.
+- Only merge directly if the user explicitly says "ship it" or "merge it".
+- Never merge and then ask. Always ask and then merge.
+- If a previous task was merged directly, that doesn't mean the next one should be too.
+
+### Tool reference: Codex CLI
+
+\`\`\`bash
+# Non-interactive (full auto, no approval prompts):
+codex exec --full-auto "<prompt>"
+
+# With explicit writable paths:
+codex exec --full-auto -w . "<prompt>"
+\`\`\`
+
+### Tool reference: Claude Code
+
+\`\`\`bash
+# Non-interactive (skip permission prompts):
+claude --dangerously-skip-permissions -p "<prompt>"
+\`\`\`
