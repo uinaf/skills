@@ -1,27 +1,27 @@
 ---
 name: sdlc-ded
-description: "ALL coding work. Features, fixes, refactors — never hand-code. Delegates to coding-agent, reviews, ships or escalates."
+description: "ALL coding work. Features, fixes, refactors - never hand-code. Delegate via ACP coding agents, review, ship, or escalate."
 ---
 
 # sdlc-ded
 
-ALL coding goes through here. Never hand-code — always delegate.
+ALL coding goes through here. Never hand-code - always delegate.
 
 ## The Loop
 
 ```
-Scope → Delegate → Agent does everything → Orchestrator reviews → Merge
+Scope → Delegate (ACP) → Agent does everything → Orchestrator reviews → Merge
                                                     ↓ fail
                                                Respawn (max 3) → Escalate
 ```
 
-1. **Scope** — write task brief (mandatory, see template below)
-2. **Delegate** — create worktree, launch agent
-3. **Agent does everything** — code, test, commit, push branch, fire system event
-4. **Orchestrator reviews** — read diffs, check constraints, no scope creep
-5. **Merge** — orchestrator merges branch + cleans up worktree
+1. **Scope** - write task brief (mandatory, see template)
+2. **Delegate** - create worktree, spawn ACP session
+3. **Agent does everything** - code, test, commit, push branch, fire system event
+4. **Orchestrator reviews** - read diffs, check constraints, no scope creep
+5. **Merge** - merge branch + clean worktree
 6. **Guardrails fail** → respawn agent with fix prompt (max 3 attempts)
-7. **3 respawns exhausted** → escalate to user with full context
+7. **3 respawns exhausted** → escalate with full context
 
 ## Task Brief (mandatory)
 
@@ -37,7 +37,7 @@ No structured brief = no delegation. Every prompt must include:
 **Read first:** AGENTS.md
 ```
 
-Always append to every prompt:
+Always append:
 
 ```markdown
 **When done:**
@@ -46,56 +46,64 @@ Always append to every prompt:
 3. Commit with a conventional commit message
 4. Push your branch: `git push origin HEAD`
 5. Run: `/opt/homebrew/bin/openclaw system event --text "Done: <summary>" --mode now`
+6. If an announce/completion reply is requested, output exactly: `ANNOUNCE_SKIP`
 ```
 
 ## Delegation
 
-**Default tool: Codex CLI.** Faster than Claude Code (2-4min vs 8-10min). Only use Claude Code if user asks or task requires it.
-
-**One task per agent.** Never batch multiple issues into one prompt — they time out.
-
-**Timeout: 900s (15min).** Single tasks finish in 2-4min on Codex, 8-10min on Claude Code. 15min gives headroom.
+### 1) Prepare worktree
 
 ```bash
-# 1. Create worktree
 cd ~/projects/<repo>
 git worktree add -b <branch> ~/worktrees/<repo>/<branch>
-
-# 2. Launch agent (fire and forget)
-cd ~/worktrees/<repo>/<branch> && codex --yolo exec "<prompt>"
-# exec with: pty:true, background:true, timeout:900
-
-# 3. Move on immediately. System event wakes you.
 ```
 
-### After launch: fire and forget
+### 2) Spawn via acp-router
 
-1. `exec pty:true background:true timeout:900` — launch
-2. **Move on immediately.** Respond to user. Do other work.
-3. System event wakes you when agent finishes
-4. Check worktree `git log` + `git diff main` to review (PTY output is unreadable)
-5. **Never poll. Never block. Never wait.**
+ACP routing and spawn mechanics are owned by the `acp-router` skill. sdlc-ded prepares the brief + worktree, then hands off.
+
+Pass to acp-router:
+- `cwd: "~/worktrees/<repo>/<branch>"`
+- `task: <full brief from template above>`
+- `agentId: "codex"` (default) or whatever harness was requested
+
+acp-router handles: `sessions_spawn` calls, agentId mapping, thread vs one-shot, recovery/fallback, direct acpx path.
+
+### 3) Fire and forget
+
+1. Spawn via acp-router
+2. Move on immediately; do not block
+3. Wait for system event completion
+4. Review via git history/diff
+
+### 4) Delivery hygiene (mandatory)
+
+- Treat ACP as silent background execution for chat users.
+- Never let raw ACP agent chatter reach the user.
+- Require announce suppression in task briefs (`ANNOUNCE_SKIP`).
+- Send only sanitized orchestrator updates: status + final diff/verify summary.
+- If announce leakage is observed, auto-disable ACP-from-chat immediately and switch to local Codex/Claude CLI fallback until gateway routing is fixed.
 
 ## Review
 
-Orchestrator reviews after agent completes:
-- `git diff main --stat` — scope check
-- `git diff main -- src/` — read key changes
-- Verify agent ran guardrails (check commit message or log)
-- Smell-test: does the change match the brief? No scope creep?
+After agent completion:
+- `git diff main --stat` - scope check
+- `git diff main -- <key paths>` - read critical changes
+- Confirm guardrails ran and are green
+- Verify brief alignment and no scope creep
 
 ## Ship Modes
 
-**Default: branch → review → merge.** Agent pushes branch, orchestrator reviews, then merges.
+**Default: branch → review → merge**
 
 | Mode | Trigger | Flow |
 |---|---|---|
 | **Branch** (default) | nothing | agent pushes branch → review → merge |
 | **Yolo** | "push it" / "merge" | review → merge to main immediately |
-| **PR** | "make a PR" | branch + push + GitHub PR |
-| **Stacked** | "stack it" | graphite stacked PRs |
+| **PR** | "make a PR" | branch + push + PR |
+| **Stacked** | "stack it" | stacked PR flow |
 
-**Never push red.** If any guardrail fails (tests, lint, typecheck) → fix first or escalate.
+**Never push red.** If guardrails fail → fix or escalate.
 
 ## Merge + Cleanup
 
@@ -105,39 +113,18 @@ git worktree remove ~/worktrees/<repo>/<branch>
 git branch -d <branch>
 ```
 
-Cleanup is part of "done." No cleanup = not done.
+Cleanup is part of done.
 
 ## Hard Rules
 
 ### Never hand-patch
-CI failing, tests red, agent output broken → delegate to coding agent. Not "let me just look at it." Delegate. If agent fails 3 times → escalate.
+CI failing or broken output → delegate again. Max 3 attempts, then escalate.
 
-### Never swap tools
-User says Codex → use Codex. Tool fails → fix invocation, max 2 retries. Then escalate. Never silently switch.
+### Never swap requested harness silently
+If user asked Codex, use ACP `agentId: codex`. If invocation fails, retry invocation (max 2), then escalate.
 
 ### Respawn limit
-Max 3 agent attempts per task. Then escalate with: what was tried, what failed, error output.
+Max 3 attempts per task. Then escalate with: attempts, errors, why blocked.
 
 ### One concern per agent
-Don't batch unrelated issues. Related or chained tasks (fix + update docs, refactor + add tests) are fine in one prompt.
-
-## Tool Reference
-
-⚠️ **Both tools require PTY.** Always `exec pty:true background:true`. Never `& disown`.
-
-### Codex CLI (default)
-```bash
-codex --yolo exec "<prompt>"
-```
-
-### Claude Code (when requested)
-```bash
-claude --dangerously-skip-permissions -p "<prompt>"
-```
-
-### Codex Review
-```bash
-codex review --base main
-codex review --uncommitted
-codex review --commit <sha>
-```
+Don't batch unrelated issues into one task.
