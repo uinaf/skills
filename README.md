@@ -1,14 +1,14 @@
 # skills
 
-Shared agent skill library.
+Shared agent skill library. Bias toward harness engineering: small AGENTS files, repo-first truth, and command-backed verification.
 
 | Skill | Description |
 |-------|-------------|
-| **papyrus-maximus** | Project docs that stay alive. Specs, architecture diagrams, execution plans. |
-| **sanity-check** | Post-implementation reality check. Run after tests pass, before declaring done. |
+| **docs** | Project docs that keep a repo legible to agents. AGENTS as TOC, deeper guidance in versioned docs, command-backed audits. |
+| **verify** | Post-implementation reality check. Run after tests pass, before declaring done, using the harness as source of truth and recording proof. |
 
 ## Install
 
 ```bash
-npx skills add uinaf/skills -g -s papyrus-maximus
+npx skills add uinaf/skills -g -s docs
 ```
