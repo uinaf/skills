@@ -5,7 +5,7 @@ description: "The verification infrastructure that makes agent work trustworthy.
 
 # Harness
 
-The verification infrastructure that makes agent work trustworthy. Covers the full loop: audit what exists, set up what's missing, verify changes work, document what matters.
+The verification infrastructure that makes agent work trustworthy.
 
 ## Principles
 
@@ -16,6 +16,7 @@ The verification infrastructure that makes agent work trustworthy. Covers the fu
 - **Context is a public good** — push knowledge into the repo; what agents can't access doesn't exist
 - **Scoped rules over global rules** — per-directory/file-pattern rules, not a global dump
 - **Progressive disclosure** — small entry points, load detail on demand
+- **Accept and correct > prevent all errors** — small steady error rate with rapid correction beats perfection-seeking that serializes everything
 
 ## The 7-Layer Stack
 
@@ -40,7 +41,7 @@ Grade the repo across four dimensions. For each: `status` (pass/partial/fail), `
 - **Observable** — structured logs, health endpoints, or error traces queryable by agent
 - **Verifiable** — agent can produce evidence (screenshots, response logs, traces)
 
-Use parallel subagents (one per dimension). Grade using `references/grading.md`. Lowest dimension = overall grade.
+Use parallel subagents where available (one per dimension); otherwise audit sequentially. Grade using `references/grading.md`. Lowest dimension = overall grade.
 
 ### 2. Setup
 
@@ -52,7 +53,7 @@ Each piece should be independently useful. Stop after any step if remaining gaps
 
 ### 3. Verify
 
-Prove changes work on real surfaces. The agent that wrote the code must not verify it.
+Prove changes work on real surfaces. The agent that wrote the code must not verify it — spawn an independent evaluator. If subagents are unavailable, use a fresh session or hand off to human review. Do not self-certify with implementation context still loaded.
 
 - Boot the app, interact with it (Playwright CLI for UI, curl for APIs, CLI invocation)
 - Check nearby flows and likely regressions, not just the exact diff
@@ -78,8 +79,11 @@ For AGENTS.md structure, scoped rules, and hygiene: `references/documentation.md
 For non-trivial features, write a spec before coding. Not a throwaway PRD — a living contract.
 
 - Define what, why, acceptance criteria, non-goals
+- Define conformance tests or acceptance checks — the mechanical definition of "done"
+- Get human approval on spec before implementation when scope is non-trivial
 - Break into testable tasks
 - Capture decisions during implementation and flow them back to the spec
+- Reconcile spec ↔ code ↔ tests after implementation
 
 For the SDD triangle, conformance tests, and the 70/30 rule: `references/specifications.md`
 
@@ -90,6 +94,7 @@ For the SDD triangle, conformance tests, and the 70/30 rule: `references/specifi
 - **Global AGENTS.md dump** — fills context before work starts
 - **Infinite retry loops** — max 2 CI rounds, then hand back with partial result
 - **All-agentic pipeline** — lint/push/format should be deterministic
+- **Context flooding** — running full test suites floods context, agent hallucinates. Run targeted subsets, swallow passing output, surface only errors
 - **Designing the perfect harness upfront** — iterate from failures, not theory
 
 ## Output

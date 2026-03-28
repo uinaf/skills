@@ -185,6 +185,19 @@ Rules: no hardcoded ports, each worktree gets its own Docker Compose project, te
 
 This split saves tokens, reduces errors, and guarantees critical steps happen every time.
 
+## Stop Hooks / Back-Pressure
+
+Run targeted checks when the agent finishes a task — before commit, not just in CI. Silent on success, error-only on failure to avoid context flooding.
+
+```bash
+# .git-hooks/pre-commit or agent stop hook
+set -euo pipefail
+<your-typecheck-command> 2>&1 | tail -20  # truncate passing output
+<your-targeted-test-command> 2>&1 | tail -20
+```
+
+Key: run only tests related to changed files, not the full suite. Most test runners support file-pattern filtering. This catches issues immediately without flooding context with 4000 lines of passing tests.
+
 ## Retry Caps
 
 Max 2 CI rounds. No infinite loops.

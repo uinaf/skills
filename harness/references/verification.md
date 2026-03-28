@@ -147,13 +147,13 @@ Pick the smallest set of independent lanes that challenge the change from differ
 
 ## Model Selection
 
-Match model weight to lane complexity:
+Match model capability to lane complexity:
 
-- **High reasoning**: security, types-and-contracts (complex logic, edge cases, ambiguity)
-- **Medium reasoning**: tests, maintainability, silent-failures (balanced default)
-- **Low reasoning**: ui-surface, api-surface, state-and-config (speed over depth)
+- **Strong reasoning** (e.g. Opus, GPT-5.4): security, types-and-contracts, orchestration/planning
+- **Balanced** (e.g. Sonnet, GPT-5.4-mini): tests, maintainability, silent-failures
+- **Fast/cheap** (e.g. Haiku, flash): ui-surface, api-surface, state-and-config scans
 
-Use expensive models (Opus) for orchestration/planning. Cheap models (Sonnet/Haiku) for workers. This is universal across Uber, Cursor, HumanLayer.
+Use your strongest model for planning/orchestration. Use cheaper models for workers and surface checks.
 
 ## Cost Awareness
 

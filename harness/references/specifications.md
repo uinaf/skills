@@ -40,13 +40,18 @@ Drew Breunig's key insight: SDD is not a one-way equation (spec → code). It's 
 
 ```
     Spec
-   ↗    ↘
+   ↗ ↓  ↘
+  |  Tests  |
+  |    ↓    |
 Decisions ← Code
 ```
 
-- **Spec → Code**: spec defines what to build (including conformance tests)
+- **Spec → Tests**: spec defines conformance tests (the mechanical "done" criteria)
+- **Spec → Code**: spec defines what to build
+- **Tests → Code**: tests validate the implementation
 - **Code → Decisions**: implementing surfaces ambiguities, edge cases, tradeoffs
 - **Decisions → Spec**: decisions flow back to update the spec
+- **Spec updates → Tests**: when spec changes, tests must change too
 
 **The key insight**: implementing code *improves* the spec. No spec is perfect upfront. The act of building surfaces ambiguities, edge cases, and architectural choices that weren't anticipated. All three nodes must stay in sync.
 
