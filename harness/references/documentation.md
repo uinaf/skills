@@ -104,14 +104,6 @@ src/
 - `docs/*.md` — task-specific references (API, deployment, guides, decisions)
 - `docs/plans/*.md` — one plan per feature with goal, design, tasks, validation hooks
 
-## Style
-
-- Never put a period directly after a code span, URL, or code block
-  - ❌ Clone `some-repo-name`.
-  - ✅ Clone `some-repo-name`
-- Use repo-relative Markdown links in checked-in docs. Reserve absolute paths for chat/UI references
-- When changing Markdown links, verify each target exists
-
 ## Hygiene
 
 Run periodically or after a burst of changes:

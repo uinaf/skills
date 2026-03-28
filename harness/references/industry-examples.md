@@ -26,21 +26,6 @@ Real-world harness patterns from teams running agents at scale.
 - [Cursor — Self-Driving Codebases](#cursor--self-driving-codebases)
 - [Convergent Architecture](#convergent-architecture)
 
-## Common Traits
-
-Every team running agents at scale converges on these:
-
-1. **Single-command boot** — no setup wiki
-2. **Real surfaces** — tests hit the actual running app, not mocks
-3. **Agent can see results** — screenshots, logs, response bodies as evidence
-4. **Mechanical enforcement** — git hooks, CI gates, lint rules catch issues before "done"
-5. **Deterministic + agentic split** — lint/push/format hardcoded, implementation agentic
-6. **Isolation** — parallel agents don't step on each other
-7. **Init before work** — boot + smoke at start of every session
-8. **Separate builder from judge** — the agent that writes code doesn't evaluate it
-9. **Hard retry cap** — max 2 CI rounds, then hand back
-10. **Scoped rules** — per-directory/file-pattern, not global dump
-
 ## OpenAI — Codex Frontend
 
 3 engineers, ~1,500 PRs, ~1M LOC, 3.5 PRs/engineer/day. Zero lines of manually-written code over 5 months.
@@ -172,11 +157,4 @@ Source: https://newsletter.pragmaticengineer.com/p/how-uber-uses-ai-for-developm
 
 ## Convergent Architecture
 
-Everyone converges on the same stack:
-
-1. **Model cost stratification**: expensive models for planning, cheap for workers
-2. **Isolation is structural**: workers don't know about each other
-3. **Accept and correct > prevent all errors**: small error rate with rapid correction beats perfection-seeking
-4. **Filesystem is the coordination primitive**: specs, plans, scratchpads, handoffs — all files
-5. **Progressive disclosure everywhere**: AGENTS.md as TOC, skills on demand, truncated output
-6. **PR remains the safety gate**: where human oversight happens, regardless of automation level
+Every team converges on: expensive models for planning, cheap for workers. Workers isolated from each other. Filesystem as coordination primitive (not message passing). Accept and correct > prevent all errors. PR as the human oversight gate.
