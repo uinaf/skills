@@ -102,6 +102,7 @@ These map to the reviewer files under [reviewers/](../reviewers/).
 **`general`** — broad code review against repo doctrine and obvious risk
 - Project rule violations that matter
 - Actual bugs, risky logic, or awkward complexity
+- Security risks: auth bypass, leaked secrets, unsanitized input, access control at the wrong layer
 - Obvious maintainability, accessibility, or performance issues when they materially affect the diff
 
 **`tests`** — behavioral coverage and regression resistance
@@ -151,8 +152,8 @@ Pick the smallest set of independent lanes that challenge the change from differ
 
 Match model capability to lane complexity:
 
-- **Strong reasoning** (e.g. Opus, GPT-5.4): security, types-and-contracts, orchestration/planning
-- **Balanced** (e.g. Sonnet, GPT-5.4-mini): tests, maintainability, silent-failures
+- **Strong reasoning** (e.g. Opus, GPT-5.4): general (security-sensitive changes), types, orchestration/planning
+- **Balanced** (e.g. Sonnet, GPT-5.4-mini): tests, silent-failures, comments
 - **Fast/cheap** (e.g. Haiku, flash): ui-surface, api-surface, state-and-config scans
 
 Use your strongest model for planning/orchestration. Use cheaper models for workers and surface checks.

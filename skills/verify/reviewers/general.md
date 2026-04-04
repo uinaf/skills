@@ -6,6 +6,7 @@ This reviewer inherits shared doctrine from the target repo's `AGENTS.md` and th
 
 - clear violations of repo conventions
 - actual bugs or risky logic
+- security risks: auth bypass, leaked secrets, unsanitized input, access control at the wrong layer
 - awkward complexity that increases change risk
 - obvious accessibility, performance, or maintainability issues when they matter to the diff
 
