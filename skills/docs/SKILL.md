@@ -12,7 +12,7 @@ Keep the repo legible to humans and agents.
 - Docs rot silently — every code change is a possible doc change
 - Routing docs stay short; depth lives in `docs/`
 - No duplication when a pointer will do
-- Repo-relative links only
+- Use repo-relative links for in-repo docs; external links are fine in sources and references
 - Doc drift is a real failure, not polish debt
 
 ## Handoffs
@@ -44,6 +44,7 @@ Keep top-level docs terse and navigational.
 - `CONTRIBUTING.md` should hold contributor setup, validation, and workflow
 - `SECURITY.md` should hold private-first vulnerability reporting guidance
 - Push detail downward instead of bloating top-level files
+- Use the concrete top-level split and section order in [references/documentation.md](references/documentation.md) instead of inventing a new shape every time
 
 ### 3. Update deep docs and specs
 

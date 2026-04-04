@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Review code changes and pull requests using the repo's existing harness. Use when validating your own changes, reviewing someone else's PR, or producing a ship-it / needs-review / blocked verdict with evidence. If the repo is not verifiable yet, stop and hand off to harness instead of improvising checks."
+description: "Review code changes and pull requests using the repo's existing harness. Use when validating your own changes via an independent evaluator context, reviewing someone else's PR, or producing a ship-it / needs-review / blocked verdict with evidence. If the repo is not verifiable yet, stop and hand off to harness instead of improvising checks."
 ---
 
 # Verify
@@ -9,7 +9,7 @@ Use the existing harness to judge changes on real surfaces.
 
 ## Principles
 
-- The builder does not grade their own work
+- The builder does not grade their own work; when validating your own changes, use a separate subagent or fresh evaluator context
 - Evidence beats vibes
 - Use the smallest set of reviewer lanes that meaningfully challenge the change
 - Load shared doctrine from the repo's `AGENTS.md` first; reviewer files add a lens, not a new religion
@@ -23,9 +23,10 @@ Use the existing harness to judge changes on real surfaces.
 ## Before You Start
 
 1. Define the scope: diff, branch, commit range, or PR
-2. Confirm you can boot and interact with the real surface
-3. Load the target repo's `AGENTS.md`
-4. Choose reviewer lanes from [references/reviewer-selection.md](references/reviewer-selection.md)
+2. If reviewing your own work, switch into an independent evaluator context before judging it
+3. Confirm you can boot and interact with the real surface
+4. Load the target repo's `AGENTS.md`
+5. Choose reviewer lanes from [references/reviewer-selection.md](references/reviewer-selection.md)
 
 Default lanes:
 
