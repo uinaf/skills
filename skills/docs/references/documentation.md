@@ -14,7 +14,11 @@ Keep the repo legible to humans and agents. Docs rot silently — every code cha
 
 - [AGENTS.md](#agentsmd)
 - [Scoped Rules](#scoped-rules)
+- [Top-Level Doc Split](#top-level-doc-split)
 - [README.md](#readmemd)
+- [CONTRIBUTING.md](#contributingmd)
+- [SECURITY.md](#securitymd)
+- [Docs Section](#docs-section)
 - [Architecture Docs](#architecture-docs)
 - [Hygiene](#hygiene)
 - [Keep Docs Alive](#keep-docs-alive)
@@ -83,19 +87,90 @@ src/
     └── AGENTS.md       # shared library conventions
 ```
 
+## Top-Level Doc Split
+
+Use a small default top-level set with one responsibility per file:
+
+- **`README.md`** — what the project is, how to install it, how to use it
+- **`CONTRIBUTING.md`** — contributor setup, validation commands, branch/PR workflow
+- **`SECURITY.md`** — private-first vulnerability reporting path and boundaries
+- **`LICENSE`** — legal terms, not contributor instructions
+
+Do not cram all four responsibilities into `README.md` unless the repo is tiny enough that the split adds no value.
+
 ## README.md
+
+Use this default order unless the repo gives you a strong reason not to:
+
+1. **Hero** — name + one-sentence purpose
+2. **Install** — fastest path to getting it running or consuming it
+3. **Quick usage** — one first successful flow
+4. **Optional examples / variants / integration notes**
+5. **Docs** — compact navigation to deeper material
+6. **Contributing** — short pointer to `CONTRIBUTING.md`
+7. **License** — short pointer to `LICENSE`
+
+Guidance:
 
 - **Lead** with one sentence: what the project is and why it exists
 - **Put the fastest path to value near the top**: install, quickstart, docs, or demo
 - **Link out** to deeper docs instead of duplicating them
 - Keep contributing and license sections short
+- For package repos, show install plus one short usage example
+- For app repos, keep end-user usage in `README.md` and move contributor setup to `CONTRIBUTING.md`
 
 ### Shape selection
 
-- **Minimal product**: short value prop, one docs link (shadcn/ui pattern)
-- **CLI**: install first, then quickstart, then docs links
-- **Product + contributor**: short intro, install, dev entry points, contributing
+- **Minimal product**: short value prop, one docs link
+- **CLI/package**: install first, then quickstart, then docs links
+- **Product + contributor**: short intro, install, usage, docs, contributing
 - **With navigation/examples**: TOC, visual demo, usage examples
+
+## CONTRIBUTING.md
+
+Use this default order unless the repo gives you a strong reason not to:
+
+1. **Setup**
+2. **Run locally**
+3. **Validation**
+4. **Development notes**
+5. **Pull request expectations**
+6. **Release notes** only if contributors genuinely need them
+
+Guidance:
+
+- Put environment bootstrap first
+- Keep commands copy-pastable and verified against the repo
+- Include only contributor-facing commands here: install toolchain, install dependencies, run locally, run checks
+- Keep repo-specific development notes only when they materially help contributors
+- Link deeper docs instead of letting `CONTRIBUTING.md` turn into a handbook
+
+## SECURITY.md
+
+Keep it short and private-first.
+
+Default shape:
+
+1. **Contact**
+2. **Scope**
+3. **Guidelines**
+4. **Supported versions**
+5. **Disclosure**
+
+Guidance:
+
+- Tell reporters not to open public issues for vulnerabilities
+- Use the repo's real security contact; do not guess
+- Link from `README.md` only when it helps navigation instead of crowding the user flow
+
+## Docs Section
+
+When `README.md` has a `Docs` section, keep it compact and canonical.
+
+- Link to deeper docs without dumping their contents into the README
+- Common links: About, Guides, Architecture, Deployment, Security
+- Do not duplicate the same navigation list across multiple top-level files
+- Keep it skimmable
 
 ## Architecture Docs
 

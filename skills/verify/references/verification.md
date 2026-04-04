@@ -97,32 +97,33 @@ Subagents are **context firewalls** — each gets only the context for its conce
 
 ### Review Lanes
 
-**`security`** — auth, secrets, injection, access control, unsafe input
-- Hardcoded credentials, leaked tokens in config
-- Auth flows: bypass, privilege escalation paths
-- Unsanitized input reaching SQL, shell, eval, templates
-- Access control enforced at the right layer (not just UI)
+These map to the reviewer files under [reviewers/](../reviewers/).
 
-**`tests`** — missing behavioral coverage, weak edge cases, brittle tests
-- Behavioral coverage over line coverage
-- Untested error handling paths that cause silent failures
-- Missing edge cases at boundaries (empty, null, max, concurrent)
-- Tests that test implementation details instead of behavior
+**`general`** — broad code review against repo doctrine and obvious risk
+- Project rule violations that matter
+- Actual bugs, risky logic, or awkward complexity
+- Security risks: auth bypass, leaked secrets, unsanitized input, access control at the wrong layer
+- Obvious maintainability, accessibility, or performance issues when they materially affect the diff
 
-**`silent-failures`** — swallowed errors, broad catches, hidden fallbacks
-- Zero tolerance for catch blocks that swallow errors without surfacing
-- Every fallback must be explicit and justified
-- Optional chaining chains that silently return undefined through important paths
+**`tests`** — behavioral coverage and regression resistance
+- Missing coverage on key paths
+- Weak assertions that would miss real regressions
+- Edge cases, failure paths, async behavior, and boundary conditions
 
-**`types-and-contracts`** — type design, invariants, API contracts, schema drift
-- Can invalid states be constructed?
-- Invariants enforced at construction, not scattered across callers
-- Stringly-typed fields that should be enums or branded types
+**`silent-failures`** — swallowed errors, vague logging, hidden fallbacks
+- Broad catches that hide real failures
+- Fallbacks that conceal a broken primary path
+- Optional chaining/defaults that erase important signals
 
-**`maintainability`** — unnecessary complexity, duplication, awkward abstractions
-- Where does understanding one concept require bouncing between many small files?
-- Tightly coupled modules creating integration risk at seams
-- Inaccurate comments, misleading docs, comment rot
+**`types`** — type design, contracts, and invariants
+- Invalid states still constructible
+- Schema drift between boundaries
+- Weakly typed interfaces that should be explicit
+
+**`comments`** — comment accuracy and maintenance risk
+- Comments that contradict the code
+- Docstrings that drifted from reality
+- Large explanatory comments that are already stale or likely to rot fast
 
 ### Sanity-Check Lanes (run-it-and-prove-it)
 
@@ -140,17 +141,19 @@ Each lane should **execute commands and capture evidence**, not just read code.
 
 Pick the smallest set of independent lanes that challenge the change from different angles:
 
-- **UI change**: `ui-surface` + `tests`; add `types-and-contracts` if data shape changed
-- **API/backend**: `api-surface` + `tests`; add `silent-failures` or `external-contracts` for integrations
-- **State/migration/config**: `state-and-config` + `tests`; add `types-and-contracts` for invariant changes
+- **Default**: `general` + `tests` + `silent-failures`
+- **UI change**: add `ui-surface`; add `types` if data shape changed
+- **API/backend**: add `api-surface`; add `types` or `external-contracts` when contracts moved
+- **State/migration/config**: add `state-and-config`; add `types` for invariant changes
+- **Comment-heavy or docstring-heavy diff**: add `comments`
 - If the risk is broader than the request, verify broadly anyway
 
 ## Model Selection
 
 Match model capability to lane complexity:
 
-- **Strong reasoning** (e.g. Opus, GPT-5.4): security, types-and-contracts, orchestration/planning
-- **Balanced** (e.g. Sonnet, GPT-5.4-mini): tests, maintainability, silent-failures
+- **Strong reasoning** (e.g. Opus, GPT-5.4): general (security-sensitive changes), types, orchestration/planning
+- **Balanced** (e.g. Sonnet, GPT-5.4-mini): tests, silent-failures, comments
 - **Fast/cheap** (e.g. Haiku, flash): ui-surface, api-surface, state-and-config scans
 
 Use your strongest model for planning/orchestration. Use cheaper models for workers and surface checks.
