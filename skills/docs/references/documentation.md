@@ -14,6 +14,7 @@ Keep the repo legible to humans and agents. Docs rot silently — every code cha
 
 - [AGENTS.md](#agentsmd)
 - [Scoped Rules](#scoped-rules)
+- [Top-Level Doc Split](#top-level-doc-split)
 - [README.md](#readmemd)
 - [Architecture Docs](#architecture-docs)
 - [Hygiene](#hygiene)
@@ -82,6 +83,17 @@ src/
 └── lib/
     └── AGENTS.md       # shared library conventions
 ```
+
+## Top-Level Doc Split
+
+Use a small default top-level set with one responsibility per file:
+
+- **`README.md`** — what the project is, how to install it, how to use it
+- **`CONTRIBUTING.md`** — contributor setup, validation commands, branch/PR workflow
+- **`SECURITY.md`** — private-first vulnerability reporting path and boundaries
+- **`LICENSE`** — legal terms, not contributor instructions
+
+Do not cram all four responsibilities into `README.md` unless the repo is tiny enough that the split adds no value.
 
 ## README.md
 

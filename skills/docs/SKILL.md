@@ -10,7 +10,7 @@ Keep the repo legible to humans and agents.
 ## Principles
 
 - Docs rot silently — every code change is a possible doc change
-- Routing docs stay short; depth lives in `docs/` and `references/`
+- Routing docs stay short; depth lives in `docs/`
 - No duplication when a pointer will do
 - Repo-relative links only
 - Doc drift is a real failure, not polish debt
@@ -28,6 +28,8 @@ Check the files humans and agents actually rely on:
 
 - `AGENTS.md`
 - `README.md`
+- `CONTRIBUTING.md`
+- `SECURITY.md`
 - `docs/`
 - plans, specs, runbooks, decision docs
 
@@ -38,7 +40,9 @@ Flag stale commands, dead paths, duplicated guidance, and routing failures.
 Keep top-level docs terse and navigational.
 
 - `AGENTS.md` should be a table of contents, not a wiki
-- `README.md` should lead with value and the fastest path to use or contribute
+- `README.md` should lead with value and the fastest path to use the project
+- `CONTRIBUTING.md` should hold contributor setup, validation, and workflow
+- `SECURITY.md` should hold private-first vulnerability reporting guidance
 - Push detail downward instead of bloating top-level files
 
 ### 3. Update deep docs and specs
