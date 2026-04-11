@@ -6,9 +6,11 @@ Prove your own changes work on real surfaces. The agent that wrote the code must
 
 - Anthropic evaluator pattern: https://www.anthropic.com/engineering/harness-design-long-running-apps
 - Anthropic PR review toolkit (agent-per-concern): https://github.com/anthropics/claude-code/tree/main/plugins/pr-review-toolkit/agents
+- Anthropic code simplifier agent: https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-simplifier/agents/code-simplifier.md
 - OpenAI Codex subagents: https://developers.openai.com/codex/concepts/subagents
 - HumanLayer context flooding: https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents
 - Datadog verification pyramid: https://www.datadoghq.com/blog/ai/harness-first-agents/
+- Desloppify: https://github.com/peteromallet/desloppify
 - Context rot research: https://research.trychroma.com/context-rot
 
 ## Contents
@@ -39,6 +41,12 @@ Prove your own changes work on real surfaces. The agent that wrote the code must
 - Run the repo's built-in verify entrypoint first when it exists
 - Prefer targeted checks over full-suite context floods during iteration
 - If a deterministic check fails, fix that failure before claiming runtime success
+
+### Code Shape
+- Review the changed files for clarity, duplication, and maintainability after behavior is proven
+- Prefer matching existing language/framework patterns over inventing a new local style
+- Delete comments that only compensate for unclear code; keep only durable context the code cannot express
+- Ask whether a fresh agent could extend the changed path without reverse-engineering hidden intent
 
 ### External Contracts
 - Verify field names, enums, response shapes against docs or real responses
@@ -96,6 +104,7 @@ Pick the smallest set of checks that can honestly disprove the change:
 - **CLI/tooling** → shipped command invocation, representative args, exit code, stdout/stderr sanity check
 - **State/config** → write/read round trip, restart, boot with changed config, migrate existing state
 - **Pure refactor** → deterministic tests plus one surface check that proves behavior parity
+- **Generated-looking or overly busy code** → add a code-shape pass on the touched files: clarity, dedupe, abstraction pressure, and comment necessity
 
 ## Model Selection
 

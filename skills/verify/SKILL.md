@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Verify your own completed code changes using the repo's existing harness and an independent evaluator context. Use after implementing a change when you need to run unit or integration tests, check build or lint gates, and prove the real surface works with evidence. If the repo is not verifiable yet, hand off to `harness`; if you are reviewing someone else's code, use `review`."
+description: "Verify your own completed code changes using the repo's existing harness and an independent evaluator context. Use after implementing a change when you need to run unit or integration tests, check build or lint gates, prove the real surface works with evidence, and challenge the changed code for clarity, deduplication, and maintainability. If the repo is not verifiable yet, hand off to `harness`; if you are reviewing someone else's code, use `review`."
 ---
 
 # Verify
@@ -12,6 +12,7 @@ Use the existing harness to prove your own change works before calling it done.
 - The builder does not grade their own work in the same context; switch into a fresh evaluator context or separate subagent first
 - Evidence beats confidence
 - Run repo guardrails first, then hit the real surface
+- Challenge the changed code for shape as well as behavior; passing tests do not excuse bloated, duplicated, or comment-dependent code
 - Load shared doctrine from the repo's `AGENTS.md` before judging the result
 - If the harness is too weak to verify reliably, stop and hand off to `harness`
 
@@ -45,13 +46,23 @@ Use the existing harness to prove your own change works before calling it done.
 
 Follow [references/evidence-rules.md](references/evidence-rules.md) when collecting proof.
 
-### 3. Probe adjacent risk
+### 3. Run a code-shape pass on the changed files
+
+- Focus on code touched in the current task unless the changes obviously exposed a broader local mess
+- Ask whether the solution matches the repo's language, framework, and design patterns rather than merely working
+- Remove duplication, dead branches, and unnecessary abstractions when they do not protect a real boundary
+- Prefer code that explains itself; comments should survive only when they carry durable context the code cannot make obvious
+- Read the changed files as if a brand new agent inherited them tomorrow and had to extend the flow without prior context
+
+Use [references/simplification.md](references/simplification.md) for the exact simplification questions.
+
+### 4. Probe adjacent risk
 
 - Check the main happy path
 - Check at least one failure path or edge case
 - Re-test any config, persistence, or restart-sensitive behavior touched by the change
 
-### 4. Synthesize the verdict
+### 5. Synthesize the verdict
 
 Produce one clear outcome:
 
@@ -68,6 +79,7 @@ After verification, report:
 - verdict
 - change verified
 - surfaces exercised
+- code-shape findings: clarity, duplication, comments, or maintainability debt in the changed files
 - top findings by severity
 - exact evidence: commands, screenshots, traces, responses, or file references
 - harness gaps or doc drift discovered during verification
@@ -79,6 +91,7 @@ Example:
 verdict: needs review
 change verified: retry banner after transient API failure
 surfaces exercised: pnpm test test/retry.spec.ts, curl http://127.0.0.1:3000/api/retry
+code-shape finding: low — retry counter update is split across two helpers with identical branching; merge into one explicit path
 finding: medium — the UI recovers, but the retry count is not persisted across refresh
 evidence: local API returned 200 after retry; browser screenshot after refresh shows count reset to 0
 recommended follow-up: implementation
@@ -88,3 +101,4 @@ recommended follow-up: implementation
 
 - [references/verification.md](references/verification.md) — evaluator pattern, targeted real-surface checks, and cost trade-offs
 - [references/evidence-rules.md](references/evidence-rules.md) — what counts as proof and how to report it
+- [references/simplification.md](references/simplification.md) — clarity, dedupe, and "fresh-agent readability" checks for changed code
