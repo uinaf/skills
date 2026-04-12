@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent-Readiness"
+  short_description: "Audit, build, and improve a repo's readiness for autonomous agent work"
+  default_prompt: "Use $agent-readiness to audit and build missing infrastructure layers or improve weak readiness layers. Hand off docs work to $docs, code review to $review, and self-verification to $verify."

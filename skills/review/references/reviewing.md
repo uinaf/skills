@@ -26,7 +26,7 @@ Review existing code with independent lenses, then collapse the result into one 
 
 - `ship it` — no material findings; remaining risk is minor and named
 - `needs review` — issues exist, but the repo and harness are good enough to continue
-- `blocked` — missing harness, missing context, or a severe issue stops honest review
+- `blocked` — missing infrastructure, missing context, or a severe issue stops honest review
 
 ## Anti-Patterns
 

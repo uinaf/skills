@@ -1,6 +1,6 @@
 ---
 name: docs
-description: "Update repo documentation and agent-facing guidance such as AGENTS.md, README.md, docs/, specs, plans, and runbooks. Use when code, skill, or harness changes risk doc drift or when documentation needs cleanup or restructuring. Do not use for code review, runtime verification, or harness setup."
+description: "Update repo documentation and agent-facing guidance such as AGENTS.md, README.md, docs/, specs, plans, and runbooks. Use when code, skill, or infrastructure changes risk doc drift or when documentation needs cleanup or restructuring. Do not use for code review, runtime verification, or `agent-readiness` setup."
 ---
 
 # Docs
@@ -17,7 +17,7 @@ Keep the repo legible to humans and agents.
 
 ## Handoffs
 
-- Missing boot, smoke, e2e, logs, or agent-readiness infrastructure → use `harness`
+- Missing boot, smoke, e2e, logs, or agent-readiness infrastructure → use `agent-readiness`
 - Need to judge existing code, a diff, branch, or PR with evidence → use `review`
 - Need to validate your own completed change on the real surface → use `verify`
 
@@ -55,7 +55,7 @@ Refresh the detailed documents that actually carry the knowledge.
 - architecture and API docs
 - task guides and runbooks
 - feature plans and specs
-- harness usage docs after harness changes
+- readiness infrastructure docs after agent-readiness changes
 
 ### 4. Clean up drift
 
@@ -63,6 +63,14 @@ Refresh the detailed documents that actually carry the knowledge.
 - delete or archive stale docs
 - fix cross-links and moved paths
 - keep naming and commands consistent across files
+
+Example — fixing a stale path after a rename:
+
+```diff
+ # AGENTS.md
+-- Run `scripts/bootstrap.sh` to set up the dev environment.
++- Run `scripts/setup.sh` to set up the dev environment.
+```
 
 ### 5. Validate reality
 
@@ -81,7 +89,7 @@ After docs work, report:
 - stale or duplicated docs removed or rewritten
 - commands or paths verified
 - remaining doc gaps
-- any handoff needed to `harness`, `review`, or `verify`
+- any handoff needed to `agent-readiness`, `review`, or `verify`
 
 ## References
 

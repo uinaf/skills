@@ -1,11 +1,11 @@
 ---
 name: verify
-description: "Verify your own completed code changes using the repo's existing harness and an independent evaluator context. Use after implementing a change when you need to run unit or integration tests, check build or lint gates, prove the real surface works with evidence, and challenge the changed code for clarity, deduplication, and maintainability. If the repo is not verifiable yet, hand off to `harness`; if you are reviewing someone else's code, use `review`."
+description: "Verify your own completed code changes using the repo's existing infrastructure and an independent evaluator context. Use after implementing a change when you need to run unit or integration tests, check build or lint gates, prove the real surface works with evidence, and challenge the changed code for clarity, deduplication, and maintainability. If the repo is not verifiable yet, hand off to `agent-readiness`; if you are reviewing someone else's code, use `review`."
 ---
 
 # Verify
 
-Use the existing harness to prove your own change works before calling it done.
+Use the existing infrastructure to prove your own change works before calling it done.
 
 ## Principles
 
@@ -14,11 +14,11 @@ Use the existing harness to prove your own change works before calling it done.
 - Run repo guardrails first, then hit the real surface
 - Challenge the changed code for shape as well as behavior; passing tests do not excuse bloated, duplicated, or comment-dependent code
 - Load shared doctrine from the repo's `AGENTS.md` before judging the result
-- If the harness is too weak to verify reliably, stop and hand off to `harness`
+- If the infrastructure is too weak to verify reliably, stop and hand off to `agent-readiness`
 
 ## Handoffs
 
-- No stable boot / smoke / interact path, or harness too weak to trust → use `harness`
+- No stable boot / smoke / interact path, or infrastructure too weak to trust → use `agent-readiness`
 - Need to review existing code, a diff, branch, or PR you are not verifying as the builder → use `review`
 - Main problem is stale AGENTS.md, README, specs, or repo docs → use `docs`
 
@@ -39,7 +39,7 @@ Use the existing harness to prove your own change works before calling it done.
 
 ### 2. Exercise the real surface
 
-- UI → run the browser harness, navigate the changed flow, and capture screenshots
+- UI → run the browser automation, navigate the changed flow, and capture screenshots
 - API → hit the local endpoint with a real request such as `curl http://127.0.0.1:3000/health`
 - CLI → run the shipped command such as `node dist/cli.js --help` or the repo's packaged entrypoint
 - state/config → verify round trips, restart behavior, and config boot paths
@@ -70,7 +70,7 @@ Produce one clear outcome:
 - `needs review`
 - `blocked`
 
-If blocked because the harness is weak, say so explicitly and hand off to `harness`.
+If blocked because the infrastructure is weak, say so explicitly and hand off to `agent-readiness`.
 
 ## Output
 
@@ -82,8 +82,8 @@ After verification, report:
 - code-shape findings: clarity, duplication, comments, or maintainability debt in the changed files
 - top findings by severity
 - exact evidence: commands, screenshots, traces, responses, or file references
-- harness gaps or doc drift discovered during verification
-- recommended follow-up: `harness`, `docs`, or implementation
+- readiness gaps or doc drift discovered during verification
+- recommended follow-up: `agent-readiness`, `docs`, or implementation
 
 Example:
 

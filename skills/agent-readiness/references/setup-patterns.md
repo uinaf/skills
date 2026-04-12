@@ -1,6 +1,6 @@
 # Setup Patterns
 
-Concrete patterns for building each harness layer. Substitute your project's actual tools.
+Concrete patterns for building each readiness layer. Substitute your project's actual tools.
 
 ## Sources
 
@@ -129,8 +129,6 @@ jobs:
 Error messages should tell the agent how to fix the issue:
 
 ```javascript
-// Bad: "Don't use fetch directly"
-// Good:
 meta: {
   messages: {
     noDirectFetch: 'Use the API client from lib/api instead of fetch(). See docs/api-conventions.md'
@@ -150,7 +148,7 @@ Structured JSON logs + machine-readable health endpoints. This is what makes "Gr
 GET /health → {"status":"ok","version":"1.2.3","uptime":3600}
 ```
 
-Datadog's insight: observability isn't just for production. Wire it into the dev harness so agents can verify behavior through telemetry, not just test assertions.
+Datadog's insight: observability isn't just for production. Wire it into the dev environment so agents can verify behavior through telemetry, not just test assertions.
 
 ## Seed Data / Fixtures
 

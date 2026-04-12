@@ -1,6 +1,6 @@
 # Industry Examples
 
-Real-world harness patterns from teams running agents at scale.
+Real-world patterns from teams running agents at scale.
 
 ## Sources
 
@@ -29,7 +29,7 @@ Real-world harness patterns from teams running agents at scale.
 
 3 engineers, ~1,500 PRs, ~1M LOC, 3.5 PRs/engineer/day. Zero lines of manually-written code over 5 months.
 
-**Harness**:
+**Infrastructure**:
 - Per-worktree bootable app — each change gets its own running instance
 - CDP wired into agent runtime — DOM snapshots, screenshots, navigation
 - Ephemeral observability per worktree — logs, metrics, traces torn down after task
@@ -66,7 +66,7 @@ GAN-inspired three-agent pattern: Planner → Generator → Evaluator.
 
 **Communication**: agents coordinate via files, not message passing.
 
-**Cost**: solo $9/20min → full harness $200/6hr. Simplified (Opus 4.6): $125/4hr.
+**Cost**: solo $9/20min → full 3-agent setup $200/6hr. Simplified (Opus 4.6): $125/4hr.
 
 Source: https://www.anthropic.com/engineering/harness-design-long-running-apps
 
@@ -90,7 +90,7 @@ Sources: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agen
 
 ## Datadog — Observability-Driven Verification
 
-The most rigorous verification approach. Harness-first: invest in automated checks, not code review.
+The most rigorous verification approach. Infrastructure-first: invest in automated checks, not code review.
 
 **Verification pyramid**:
 

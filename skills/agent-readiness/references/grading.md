@@ -1,10 +1,10 @@
-# Harness Grading Scale
+# Agent-Readiness Grading Scale
 
-Grade a project's verification infrastructure from F to A. Mechanical criteria — no subjective judgment.
+Grade a project's readiness for autonomous agent work from F to A. Mechanical criteria — no subjective judgment.
 
 ## Scale
 
-### F — No Harness
+### F — Not Ready
 - App cannot start without manual multi-step setup (env files, manual installs, wiki)
 - Zero tests, or only trivial tests that import nothing from the app
 - Agent cannot run the app at all

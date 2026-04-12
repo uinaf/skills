@@ -1,18 +1,18 @@
 ---
-name: harness
-description: "Build or repair the verification infrastructure agents need to prove changes: boot scripts, smoke tests, interaction paths, e2e checks, observability, and isolation. Use when a repo cannot boot, tests or CI are broken, there is no reliable way to verify changes, or you need an agent-readiness audit. Do not use for reviewing an existing diff or for documentation-only cleanup."
+name: agent-readiness
+description: "Audit and build the infrastructure a repo needs so agents can work autonomously — boot scripts, smoke tests, CI/CD gates, dev environment setup, observability, and isolation. Use when a repo can't boot, tests are broken or missing, there's no dev environment, agents can't verify their work, or agents need human help to get anything done. Do not use for reviewing an existing diff or for documentation-only cleanup."
 ---
 
-# Harness
+# Agent-Readiness
 
-Build the verification infrastructure that makes agent work trustworthy.
+Make a repo ready for autonomous agent work.
 
 ## Principles
 
-- **Environment > instruction** — the harness matters more than the prompt
+- **Environment > instruction** — infrastructure matters more than the prompt
 - **Mechanical enforcement > prose** — hooks, CI, health checks, and scripts beat wishes
-- **Separate builder from judge** — `harness` builds the rig, `verify` proves your own change, `review` critiques existing code
-- **Smallest useful harness first** — add layers in order, stop when the repo becomes reliably verifiable
+- **Separate builder from judge** — `agent-readiness` builds the rig, `verify` proves your own change, `review` critiques existing code
+- **Smallest useful layer first** — add layers in order, stop when the repo becomes reliably verifiable
 - **Progressive disclosure** — keep the core workflow here, load patterns on demand
 
 ## Handoffs
@@ -75,6 +75,43 @@ Build missing layers in this order:
 
 Each step should be independently useful. Stop once the repo is reliably verifiable; do not build a cathedral because you got excited.
 
+**Boot** — create a single-command entry point:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+<your-boot-command> &
+APP_PID=$!
+for i in $(seq 1 30); do
+  curl -sf http://localhost:${PORT:-3000}/health > /dev/null 2>&1 && break
+  sleep 1
+done
+curl -sf http://localhost:${PORT:-3000}/health > /dev/null 2>&1 || {
+  echo "ERROR: App failed to start"; kill $APP_PID 2>/dev/null; exit 1
+}
+echo "App is ready"
+```
+
+**Smoke** — fast proof the app is alive (< 5 seconds):
+
+```bash
+curl -sf http://localhost:3000/health | jq .   # HTTP service
+./dist/my-cli --version                         # CLI tool
+npx playwright test smoke.spec.ts               # UI app
+```
+
+**Enforce** — pre-push hook to catch failures before CI:
+
+```bash
+#!/usr/bin/env bash
+# .git-hooks/pre-push
+set -euo pipefail
+<your-lint-command>
+<your-smoke-command>
+```
+
+See [references/setup-patterns.md](references/setup-patterns.md) for e2e, observability, isolation, and containerized stack patterns.
+
 ### 3. Improve
 
 Tighten weak or flaky layers:
@@ -87,19 +124,19 @@ Tighten weak or flaky layers:
 ### 4. Hand Off
 
 When the repo reaches C+ and can be judged honestly, hand off to `verify` or `review`.
-If harness changes created doc drift, hand off to `docs`.
+If changes created doc drift, hand off to `docs`.
 
 ## Anti-Patterns
 
 - **Mock-only tests** — pass by construction, verify nothing
 - **Self-evaluation** — builder grading its own work
-- **Docs-only fixes disguised as harness work**
+- **Docs-only fixes disguised as readiness work**
 - **Routine PR review here** — that's `review`
-- **Perfect harness upfront** — iterate from real failure modes
+- **Perfect infrastructure upfront** — iterate from real failure modes
 
 ## Output
 
-After harness work, report:
+After readiness work, report:
 
 - grade before and after
 - dimensions with evidence
@@ -110,6 +147,6 @@ After harness work, report:
 
 ## References
 
-- [references/grading.md](references/grading.md) — harness quality grading scale with mechanical criteria
+- [references/grading.md](references/grading.md) — agent-readiness grading scale with mechanical criteria
 - [references/setup-patterns.md](references/setup-patterns.md) — boot, smoke, e2e, observability, and isolation patterns
-- [references/industry-examples.md](references/industry-examples.md) — external patterns and justification for harness investment
+- [references/industry-examples.md](references/industry-examples.md) — external patterns and justification for readiness investment

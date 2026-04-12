@@ -1,4 +1,4 @@
 interface:
   display_name: "Verify"
-  short_description: "Verify your own changes on real surfaces using the existing harness"
-  default_prompt: "Use $verify after implementation to validate your own change in an independent evaluator context with real-surface evidence, then challenge the changed code for clarity, duplication, and comment pressure. If the repo is not verifiable, hand off to $harness. If the task is reviewing someone else's code, use $review."
+  short_description: "Verify your own changes on real surfaces using the existing infrastructure"
+  default_prompt: "Use $verify after implementation to validate your own change in an independent evaluator context with real-surface evidence, then challenge the changed code for clarity, duplication, and comment pressure. If the repo is not verifiable, hand off to $agent-readiness. If the task is reviewing someone else's code, use $review."

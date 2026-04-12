@@ -24,11 +24,11 @@ Prove your own changes work on real surfaces. The agent that wrote the code must
 
 ## Before You Start
 
-1. Check harness grade: C+ = proceed. D/F = invoke harness setup first
+1. Check readiness grade: C+ = proceed. D/F = invoke `agent-readiness` setup first
 2. Can you boot the app?
 3. Can you interact with it? (Playwright CLI for UI, curl for APIs, CLI invocation)
 4. Can you verify your own work from a fresh evaluator context or separate subagent?
-5. If not, flag as a harness gap — don't improvise a one-off check
+5. If not, flag as a readiness gap — don't improvise a one-off check
 
 ## Checks
 
@@ -120,8 +120,8 @@ Use your strongest model for planning/orchestration. Use cheaper models for work
 
 Anthropic's numbers:
 - **Solo agent**: $9 / 20 min
-- **Full harness (3-agent)**: $200 / 6 hours (22x more)
-- **Simplified harness (Opus 4.6)**: $125 / 4 hours
+- **Full 3-agent setup**: $200 / 6 hours (22x more)
+- **Simplified (Opus 4.6)**: $125 / 4 hours
 
 The evaluator is expensive. Use it for:
 - Complex features at the model's capability edge
@@ -131,6 +131,6 @@ The evaluator is expensive. Use it for:
 Skip it for:
 - Tasks within the model's comfort zone
 - Simple CRUD, config, or migration work
-- When the harness's deterministic checks (lint, tests, CI) are sufficient
+- When deterministic checks (lint, tests, CI) are sufficient
 
-**Key principle**: "Every component in a harness encodes an assumption about what the model can't do on its own, and those assumptions are worth stress testing." As models improve, simplify the harness.
+**Key principle**: "Every component in a harness encodes an assumption about what the model can't do on its own, and those assumptions are worth stress testing." As models improve, simplify the infrastructure.

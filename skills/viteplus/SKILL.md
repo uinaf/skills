@@ -36,6 +36,16 @@ export default defineConfig({
 })
 ```
 
+Before/after for a common migration — replacing hand-rolled test scripts:
+
+```diff
+ # package.json scripts
+-- "test": "vitest run --coverage",
+-- "test:watch": "vitest",
++- "test": "vp test",
++- "test:watch": "vp test --watch",
+```
+
 ## Guardrails
 
 - Treat `vp` as the tool owner for runtime, package-manager, and frontend-tooling operations when a repo has adopted Vite+.

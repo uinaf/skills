@@ -56,6 +56,22 @@ const program = Effect.gen(function* () {
 3. Use `effect.website` for the canonical API surface.
 4. If a local clone of the Effect repo exists, grep it for real implementations before guessing.
 
+```ts
+class UserRepo extends Context.Tag("UserRepo")<
+  UserRepo,
+  { readonly get: (id: UserId) => Effect.Effect<User, UserNotFound> }
+>() {}
+
+const UserRepoLive = Layer.succeed(UserRepo, {
+  get: (id) => Effect.gen(function* () {
+    const sql = yield* SqlClient.SqlClient
+    const rows = yield* sql`SELECT * FROM users WHERE id = ${id}`
+    if (rows.length === 0) return yield* new UserNotFound({ id })
+    return rows[0] as User
+  }),
+})
+```
+
 ## Avoid
 
 - Returning raw `Promise` values from service methods unless the boundary forces it.

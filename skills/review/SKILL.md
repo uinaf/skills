@@ -18,7 +18,7 @@ Review existing code with independent lenses before deciding whether it is safe 
 ## Handoffs
 
 - Need to prove your own completed change works on real surfaces → use `verify`
-- Review is blocked because the repo cannot be booted or exercised reliably → use `harness`
+- Review is blocked because the repo cannot be booted or exercised reliably → use `agent-readiness`
 - Main problem is stale AGENTS.md, README, specs, or repo docs → use `docs`
 
 ## Before You Start
@@ -80,8 +80,8 @@ After review, report:
 - reviewer personas used
 - top findings by severity
 - exact evidence: file references, commands, traces, or responses
-- unverified areas or harness gaps
-- recommended follow-up: implementation, `verify`, `harness`, or `docs`
+- unverified areas or readiness gaps
+- recommended follow-up: implementation, `verify`, `agent-readiness`, or `docs`
 
 Example:
 
