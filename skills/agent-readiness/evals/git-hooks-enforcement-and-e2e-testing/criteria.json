@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent creates a correct pre-push git hook following the required pattern, adds honest end-to-end CLI tests using golden file diffs rather than mock-based tests, recommends the correct dead-code detection tool for TypeScript, and documents git hook activation correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "pre-push shebang and strict mode",
+      "max_score": 10,
+      "description": ".git-hooks/pre-push starts with a bash shebang and includes set -euo pipefail"
+    },
+    {
+      "name": "pre-push runs lint",
+      "max_score": 8,
+      "description": ".git-hooks/pre-push invokes a lint command (e.g., npm run lint or eslint)"
+    },
+    {
+      "name": "pre-push runs smoke check",
+      "max_score": 8,
+      "description": ".git-hooks/pre-push invokes a smoke or build verification command (e.g., build, --version, or a smoke script)"
+    },
+    {
+      "name": "Hook activation command",
+      "max_score": 10,
+      "description": "setup-notes.md includes the command `git config core.hooksPath .git-hooks` (or equivalent) to activate the hook"
+    },
+    {
+      "name": "E2e uses real CLI invocation",
+      "max_score": 10,
+      "description": "e2e/cli.test.sh invokes the actual CLI binary or script (not a mocked or imported function) on a real input file"
+    },
+    {
+      "name": "Golden file diff in e2e",
+      "max_score": 10,
+      "description": "e2e/cli.test.sh compares output against expected.json using diff or equivalent comparison (golden file approach)"
+    },
+    {
+      "name": "Fixture files present",
+      "max_score": 8,
+      "description": "Both e2e/fixtures/sample.csv and e2e/fixtures/expected.json exist and contain consistent data (parsing sample.csv would yield expected.json)"
+    },
+    {
+      "name": "Knip for dead-code detection",
+      "max_score": 12,
+      "description": "setup-notes.md recommends npx knip (not a different tool) as the dead-code detection command for this TypeScript project"
+    },
+    {
+      "name": "No mock tests treated as coverage",
+      "max_score": 8,
+      "description": "setup-notes.md does NOT claim the existing jest mock tests provide meaningful coverage or replace the need for e2e tests"
+    },
+    {
+      "name": "legacyParseCsv identified as dead code",
+      "max_score": 8,
+      "description": "setup-notes.md or any output file identifies legacyParseCsv as an example of dead/unused code that the dead-code tool would catch"
+    },
+    {
+      "name": "e2e exit code on failure",
+      "max_score": 8,
+      "description": "e2e/cli.test.sh exits with a non-zero code if the test fails (explicit exit 1 or relies on set -e with a failing diff command)"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent systematically detects and fixes all stale references in documentation after a code refactor, verifying actual file/path existence before making changes, and produces a structured audit report documenting every issue found.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "bootstrap.sh replaced",
+      "max_score": 12,
+      "description": "Both AGENTS.md and README.md no longer reference `scripts/bootstrap.sh` — replaced with `scripts/setup.sh` or removed"
+    },
+    {
+      "name": "config path updated",
+      "max_score": 12,
+      "description": "README.md no longer references `config/app.yaml` or `config/app.yaml.example` — updated to `config/settings.yaml` variants"
+    },
+    {
+      "name": "api-v2.md link fixed",
+      "max_score": 10,
+      "description": "AGENTS.md and README.md no longer link to `docs/api-v2.md` — updated to `docs/api-v3.md`"
+    },
+    {
+      "name": "API version updated in runbook",
+      "max_score": 10,
+      "description": "docs/ops/runbook.md no longer references `/api/v2/health` or `/api/v2/webhooks/stripe` — updated to v3 equivalents"
+    },
+    {
+      "name": "PDF export section removed",
+      "max_score": 10,
+      "description": "docs/ops/runbook.md no longer contains the PDF export troubleshooting section (feature was removed)"
+    },
+    {
+      "name": "test-pdf.sh reference removed",
+      "max_score": 8,
+      "description": "No documentation file references `scripts/test-pdf.sh` after the fix"
+    },
+    {
+      "name": "Audit report produced",
+      "max_score": 8,
+      "description": "doc-audit.md file exists with a structured list of stale references found"
+    },
+    {
+      "name": "Audit covers all stale refs",
+      "max_score": 10,
+      "description": "doc-audit.md mentions at least 4 distinct stale references that were found and fixed"
+    },
+    {
+      "name": "Audit includes verification",
+      "max_score": 10,
+      "description": "doc-audit.md states what the correct replacement is and confirms it was verified to exist (not just assumed)"
+    },
+    {
+      "name": "Valid links preserved",
+      "max_score": 10,
+      "description": "Links that are still valid (docs/architecture.md, docs/ops/deploy.md, docs/ops/runbook.md, src/utils/logger.ts, src/lib/calculator.ts) are NOT removed from docs"
+    }
+  ]
+}

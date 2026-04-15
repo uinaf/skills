@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent correctly identifies and fixes progressive disclosure violations — moving rubrics and examples from SKILL.md into references/, removing duplicate checklist content already in a script, and fixing invalid frontmatter fields — then reruns Tessl to confirm improvement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Rubric moved to references",
+      "max_score": 9,
+      "description": "The scoring rubric is removed from SKILL.md and placed in a file under skills/release-coordinator/references/"
+    },
+    {
+      "name": "Examples moved to references",
+      "max_score": 9,
+      "description": "The worked examples are removed from SKILL.md and placed in a file under skills/release-coordinator/references/"
+    },
+    {
+      "name": "Duplicate checklist removed",
+      "max_score": 9,
+      "description": "The inline Release Checklist in SKILL.md is removed (it duplicates do-release.sh); SKILL.md instead references the script"
+    },
+    {
+      "name": "Frontmatter cleaned",
+      "max_score": 9,
+      "description": "The updated SKILL.md frontmatter contains only `name` and `description` — extra fields (triggers, owner, last_updated) are removed"
+    },
+    {
+      "name": "References linked from SKILL.md",
+      "max_score": 8,
+      "description": "SKILL.md contains repo-relative links to the reference files that were moved out (not bare filenames or absolute paths)"
+    },
+    {
+      "name": "Tessl run before edits",
+      "max_score": 9,
+      "description": "audit-log.sh shows a Tessl invocation before any file edits are recorded"
+    },
+    {
+      "name": "Tessl rerun after edits",
+      "max_score": 9,
+      "description": "audit-log.sh shows a second Tessl invocation after edits, and audit-report.md states the post-edit score"
+    },
+    {
+      "name": "Before/after scores compared",
+      "max_score": 8,
+      "description": "audit-report.md explicitly compares the pre-edit and post-edit Tessl scores"
+    },
+    {
+      "name": "Change reasons documented",
+      "max_score": 8,
+      "description": "audit-report.md explains the reason for each structural change made (not just listing what changed)"
+    },
+    {
+      "name": "SKILL.md remains workflow-focused",
+      "max_score": 8,
+      "description": "The updated SKILL.md retains the Workflow section and handoff/boundary information without adding new non-workflow content"
+    },
+    {
+      "name": "Optimizer not used",
+      "max_score": 7,
+      "description": "audit-log.sh does NOT contain `--optimize`"
+    },
+    {
+      "name": "Scope respected",
+      "max_score": 7,
+      "description": "The agent does NOT rewrite do-release.sh or other files outside the skill package unless explicitly justified; out-of-scope issues are flagged rather than fixed"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent restructures monolithic README.md content into the correct top-level doc split (README.md for users, CONTRIBUTING.md for contributors, SECURITY.md for reporters), following the prescribed section order in each file, with README.md linking out rather than duplicating content.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "README hero section",
+      "max_score": 10,
+      "description": "README.md starts with a one-sentence purpose/description of the project (hero section is first or near-first)"
+    },
+    {
+      "name": "README install near top",
+      "max_score": 10,
+      "description": "README.md has Installation section before Architecture or any deep explanatory content"
+    },
+    {
+      "name": "README links out to CONTRIBUTING",
+      "max_score": 8,
+      "description": "README.md contains a link or pointer to CONTRIBUTING.md rather than re-stating contributor steps inline"
+    },
+    {
+      "name": "README links out to SECURITY",
+      "max_score": 8,
+      "description": "README.md contains a link or pointer to SECURITY.md rather than re-stating security contact inline"
+    },
+    {
+      "name": "No content duplication",
+      "max_score": 8,
+      "description": "Contributor setup steps (npm install, branch naming, PR process) appear in CONTRIBUTING.md but NOT duplicated in README.md"
+    },
+    {
+      "name": "CONTRIBUTING setup first",
+      "max_score": 8,
+      "description": "CONTRIBUTING.md has Setup or environment bootstrap section before Pull request or Release notes sections"
+    },
+    {
+      "name": "CONTRIBUTING validation section",
+      "max_score": 8,
+      "description": "CONTRIBUTING.md contains a section for running tests/validation with the actual commands (npm test or npm run test:coverage)"
+    },
+    {
+      "name": "SECURITY private-first",
+      "max_score": 12,
+      "description": "SECURITY.md explicitly tells reporters NOT to open public issues for vulnerabilities"
+    },
+    {
+      "name": "SECURITY contact present",
+      "max_score": 10,
+      "description": "SECURITY.md contains a contact section with the security email address"
+    },
+    {
+      "name": "SECURITY short",
+      "max_score": 8,
+      "description": "SECURITY.md is at most 50 lines"
+    },
+    {
+      "name": "Doc changes summary",
+      "max_score": 10,
+      "description": "doc-changes.md exists and lists at least two pieces of content that moved from README.md to another file"
+    }
+  ]
+}

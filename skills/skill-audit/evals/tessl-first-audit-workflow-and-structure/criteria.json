@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent runs Tessl before proposing any edits, uses the correct single-skill CLI invocation, produces a structured audit report matching the required output format, and separates blockers from polish when prioritizing findings.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Tessl run first",
+      "max_score": 10,
+      "description": "The audit-log.sh shows a Tessl command executed before any edits or recommendations are written"
+    },
+    {
+      "name": "Correct single-skill command",
+      "max_score": 10,
+      "description": "audit-log.sh contains `npx tessl skill review` (or `tessl skill review`) with the `--json` flag and a path targeting the single skill folder"
+    },
+    {
+      "name": "Score reported",
+      "max_score": 8,
+      "description": "audit-report.md states the Tessl score (a numeric value or rating) from the run"
+    },
+    {
+      "name": "Tessl command reported",
+      "max_score": 7,
+      "description": "audit-report.md includes the exact Tessl command that was run"
+    },
+    {
+      "name": "Strongest parts identified",
+      "max_score": 7,
+      "description": "audit-report.md includes a section identifying the strongest parts of the skill worth keeping"
+    },
+    {
+      "name": "Findings with file references",
+      "max_score": 8,
+      "description": "Each finding in the prioritized list references a specific file (e.g. SKILL.md) and section or line"
+    },
+    {
+      "name": "Blockers separated from polish",
+      "max_score": 9,
+      "description": "audit-report.md distinguishes between blocking issues and lower-priority polish items (separate sections, labels, or severity markers)"
+    },
+    {
+      "name": "Smallest change set",
+      "max_score": 8,
+      "description": "audit-report.md recommends the smallest set of changes that address the highest-priority issues rather than a full rewrite"
+    },
+    {
+      "name": "Rerun status reported",
+      "max_score": 8,
+      "description": "audit-report.md states whether Tessl was rerun after any edits, and if so what the new score was"
+    },
+    {
+      "name": "Repo conventions loaded",
+      "max_score": 7,
+      "description": "audit-report.md or audit-log.sh shows that AGENTS.md was read before the audit findings were written"
+    },
+    {
+      "name": "Optimizer not invoked",
+      "max_score": 9,
+      "description": "audit-log.sh does NOT contain `--optimize` (optimizer not used since approval was not given)"
+    },
+    {
+      "name": "Adjacent issues flagged separately",
+      "max_score": 9,
+      "description": "Any issues found outside the skill surface (e.g. AGENTS.md problems) are noted as out-of-scope rather than acted on directly"
+    }
+  ]
+}

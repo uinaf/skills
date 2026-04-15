@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent correctly audits a repository across the four agent-readiness dimensions (bootable, testable, observable, verifiable), assigns pass/partial/fail status with evidence and gaps, derives the overall grade as the lowest dimension, and produces an init.sh boot script following the health-check loop pattern.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Four dimensions present",
+      "max_score": 8,
+      "description": "audit-report.md includes all four dimensions: bootable, testable, observable, and verifiable"
+    },
+    {
+      "name": "Status labels used",
+      "max_score": 8,
+      "description": "Each dimension in audit-report.md is assigned one of the three statuses: pass, partial, or fail"
+    },
+    {
+      "name": "Evidence cited per dimension",
+      "max_score": 8,
+      "description": "Each dimension in audit-report.md cites at least one specific file or command as evidence"
+    },
+    {
+      "name": "Gap described per dimension",
+      "max_score": 8,
+      "description": "Each dimension that is not 'pass' in audit-report.md includes a gap describing what is missing"
+    },
+    {
+      "name": "Overall grade is lowest dimension",
+      "max_score": 8,
+      "description": "audit-report.md states an overall grade that corresponds to the lowest-rated individual dimension (not an average)"
+    },
+    {
+      "name": "Mocks identified as zero testability",
+      "max_score": 8,
+      "description": "audit-report.md identifies the existing mock-based test suite as not counting toward testability (mocked tests score zero)"
+    },
+    {
+      "name": "Background app start in init.sh",
+      "max_score": 10,
+      "description": "scripts/init.sh starts the application process in the background (using & or equivalent) so the script can poll"
+    },
+    {
+      "name": "Health poll loop in init.sh",
+      "max_score": 10,
+      "description": "scripts/init.sh contains a loop that polls the health or readiness endpoint repeatedly (at minimum 10 iterations) before declaring success"
+    },
+    {
+      "name": "Non-zero exit on failure",
+      "max_score": 10,
+      "description": "scripts/init.sh exits with a non-zero status code (exit 1 or equivalent) if the app does not start successfully"
+    },
+    {
+      "name": "Strict mode in init.sh",
+      "max_score": 8,
+      "description": "scripts/init.sh includes set -euo pipefail or equivalent strict mode at the top"
+    },
+    {
+      "name": "Layer ordering respected",
+      "max_score": 7,
+      "description": "improvements.md or audit-report.md references addressing Boot before Smoke, and Smoke before higher layers — no higher layers built before boot is resolved"
+    },
+    {
+      "name": "No mock tests credited",
+      "max_score": 7,
+      "description": "The report does NOT suggest the existing mock-based jest tests provide meaningful test coverage or constitute passing testability"
+    }
+  ]
+}

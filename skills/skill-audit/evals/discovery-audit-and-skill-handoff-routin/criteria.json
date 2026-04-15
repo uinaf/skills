@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent audits discovery quality (name specificity, description completeness), flags missing overlap boundaries, identifies misplaced content that should be handed off to a different skill, uses Tessl per skill, writes descriptions in third person with what/when/boundary, and avoids calling the optimizer without approval.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Tessl run per skill",
+      "max_score": 8,
+      "description": "audit-log.sh contains a separate Tessl invocation for each of the four skills (four distinct Tessl commands targeting different skill paths)"
+    },
+    {
+      "name": "Score per skill reported",
+      "max_score": 7,
+      "description": "audit-report.md states a Tessl score for each of the four skills individually"
+    },
+    {
+      "name": "Vague names flagged",
+      "max_score": 8,
+      "description": "audit-report.md identifies at least two of the four skill names (notifier, alerter, comms-router, data-pipeline) as vague, generic, or forgettable"
+    },
+    {
+      "name": "Missing boundaries flagged",
+      "max_score": 9,
+      "description": "audit-report.md flags that the overlapping skills (notifier, alerter, comms-router) lack explicit boundary statements distinguishing them from each other"
+    },
+    {
+      "name": "Third-person descriptions proposed",
+      "max_score": 8,
+      "description": "All four proposed replacement descriptions in rewrite-suggestions.md are written in third person (no first-person pronouns)"
+    },
+    {
+      "name": "What and when in descriptions",
+      "max_score": 9,
+      "description": "Each proposed replacement description in rewrite-suggestions.md states both what the skill does and when to use it"
+    },
+    {
+      "name": "Overlap boundary in descriptions",
+      "max_score": 8,
+      "description": "At least two of the proposed replacement descriptions in rewrite-suggestions.md explicitly state when NOT to use that skill (boundary with overlapping skills)"
+    },
+    {
+      "name": "Misplaced code review content flagged",
+      "max_score": 9,
+      "description": "audit-report.md identifies the Code Review Guidance section in data-pipeline/SKILL.md as out of scope and recommends it be moved or handed off"
+    },
+    {
+      "name": "Correct handoff skill named",
+      "max_score": 9,
+      "description": "audit-report.md names `review` (or a `review` skill) as the appropriate destination for the code review guidance, rather than leaving it in data-pipeline"
+    },
+    {
+      "name": "Evidence over taste",
+      "max_score": 8,
+      "description": "audit-report.md grounds each finding in Tessl output, repo conventions, or the actual file content — not subjective preference alone"
+    },
+    {
+      "name": "Optimizer not invoked",
+      "max_score": 8,
+      "description": "audit-log.sh does NOT contain `--optimize`"
+    },
+    {
+      "name": "Scope respected",
+      "max_score": 9,
+      "description": "The agent does NOT rewrite the skill body or workflow sections — only metadata (name/description) improvements are proposed, and structural body changes are flagged as separate findings"
+    }
+  ]
+}

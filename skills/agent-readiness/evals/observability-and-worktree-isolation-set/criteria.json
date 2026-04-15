@@ -1,0 +1,71 @@
+{
+  "context": "Tests whether the agent adds a correctly structured JSON health endpoint and structured JSON request logging (observability), and implements worktree-safe port isolation using directory-path-derived ports with a proper boot poll loop — following the patterns described in the agent-readiness skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Health endpoint exists",
+      "max_score": 7,
+      "description": "app.py defines a GET /health route"
+    },
+    {
+      "name": "Health response has status field",
+      "max_score": 8,
+      "description": "The /health endpoint returns a JSON object containing a 'status' key (e.g., {\"status\": \"ok\", ...})"
+    },
+    {
+      "name": "Health response has version or uptime",
+      "max_score": 7,
+      "description": "The /health JSON response includes at least one of: 'version' or 'uptime' fields"
+    },
+    {
+      "name": "Structured JSON request logging",
+      "max_score": 9,
+      "description": "app.py emits a structured JSON log line for each request (not plain print statements) — containing at minimum method, path, and status fields"
+    },
+    {
+      "name": "Port derived from directory path",
+      "max_score": 10,
+      "description": "worktree-start.sh computes the PORT value using the current working directory ($PWD or equivalent) — not a hardcoded port number"
+    },
+    {
+      "name": "No hardcoded port 5000",
+      "max_score": 8,
+      "description": "worktree-start.sh does NOT use a hardcoded port 5000 (or any other fixed port number)"
+    },
+    {
+      "name": "Background app start in worktree-start.sh",
+      "max_score": 8,
+      "description": "worktree-start.sh starts the Flask application in the background (using & or equivalent)"
+    },
+    {
+      "name": "Poll loop in worktree-start.sh",
+      "max_score": 9,
+      "description": "worktree-start.sh polls the health endpoint in a loop (at least 10 iterations) before declaring success"
+    },
+    {
+      "name": "Non-zero exit on boot failure",
+      "max_score": 8,
+      "description": "worktree-start.sh exits with a non-zero status if the app fails to start within the polling period"
+    },
+    {
+      "name": "Strict mode in worktree-start.sh",
+      "max_score": 7,
+      "description": "worktree-start.sh includes set -euo pipefail"
+    },
+    {
+      "name": "teardown.sh stops service",
+      "max_score": 7,
+      "description": "teardown.sh stops the Flask service (kills the process by PID or uses a stop command)"
+    },
+    {
+      "name": "Port collision rationale documented",
+      "max_score": 7,
+      "description": "observability-notes.md explains how the port derivation prevents collisions between different worktrees on the same machine"
+    },
+    {
+      "name": "Dev environment observability",
+      "max_score": 5,
+      "description": "observability-notes.md or app.py adds observability to the development/local environment (not just describing it as a production concern)"
+    }
+  ]
+}

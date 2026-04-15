@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent produces an AGENTS.md that follows the skill's structural guidance: ~100 lines, terse table-of-contents format, contains required sections (boot, test, key conventions, doc links), and strips content that should NOT be in AGENTS.md (directory listings, auto-generated tables, full architecture tours, full API docs).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Length constraint",
+      "max_score": 10,
+      "description": "The new AGENTS.md is at most 120 lines (allowing slight tolerance around the ~100 line target)"
+    },
+    {
+      "name": "Boot command present",
+      "max_score": 10,
+      "description": "AGENTS.md contains the exact command to start the development server (e.g. `npm run dev` or equivalent)"
+    },
+    {
+      "name": "Test command present",
+      "max_score": 10,
+      "description": "AGENTS.md contains the command(s) to run tests (e.g. `npm test`)"
+    },
+    {
+      "name": "Links to deep docs",
+      "max_score": 10,
+      "description": "AGENTS.md contains links or pointers to at least two deeper docs files (e.g. docs/architecture.md, docs/api.md, docs/deployment.md)"
+    },
+    {
+      "name": "No directory listing",
+      "max_score": 10,
+      "description": "AGENTS.md does NOT contain a full directory tree or file listing (no ASCII tree with multiple nested levels)"
+    },
+    {
+      "name": "No auto-generated content",
+      "max_score": 10,
+      "description": "AGENTS.md does NOT contain the auto-generated file stats table or any section marked as auto-generated"
+    },
+    {
+      "name": "No full API docs",
+      "max_score": 10,
+      "description": "AGENTS.md does NOT include full API endpoint documentation (request/response bodies, full route listings) — at most a pointer to docs/api.md"
+    },
+    {
+      "name": "Deprecated script removed",
+      "max_score": 10,
+      "description": "AGENTS.md does NOT reference the deprecated `scripts/bootstrap.sh` — only `scripts/setup.sh` if referenced at all"
+    },
+    {
+      "name": "Key deviating conventions",
+      "max_score": 10,
+      "description": "AGENTS.md mentions at least one key convention that deviates from defaults (e.g. use custom logger instead of console.log, use AppError class, TypeScript strict mode no-any)"
+    },
+    {
+      "name": "Doc report produced",
+      "max_score": 10,
+      "description": "A doc-report.md file exists that lists what was removed from the old AGENTS.md and the reasoning"
+    }
+  ]
+}
