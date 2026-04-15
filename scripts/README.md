@@ -8,7 +8,7 @@ Run a read-only review across every local skill:
 
 ```bash
 cd ..
-./eval/review-skills.sh
+./scripts/review-skills.sh
 ```
 
 By default this enforces `--threshold 90`. Override with `TESSL_THRESHOLD=94` or pass `--threshold` explicitly.
@@ -28,7 +28,7 @@ Apply Tessl's optimizer to one skill at a time:
 
 ```bash
 cd ..
-./eval/optimize-skills.sh review
+./scripts/optimize-skills.sh review
 ```
 
 Direct form:
@@ -40,7 +40,7 @@ npx tessl skill review --optimize --yes --max-iterations 1 skills/review
 ## Suggested workflow
 
 1. Edit the skill
-2. Run `./eval/review-skills.sh`
+2. Run `./scripts/review-skills.sh`
 3. If the score or suggestions are weak, run Tessl optimize on a single skill or apply the feedback manually
 4. Re-run review and inspect the diff before keeping any optimizer changes
 
@@ -49,4 +49,4 @@ npx tessl skill review --optimize --yes --max-iterations 1 skills/review
 - `review-skills.sh` is the batch entrypoint for local skill review
 - `optimize-skills.sh` applies mutations, so run it intentionally and inspect the resulting diff
 - Prefer optimizing one skill at a time rather than churning the whole repo at once
-- CI runs `./eval/review-skills.sh` on pull requests and pushes to `main`
+- CI runs `./scripts/review-skills.sh` on pull requests and pushes to `main`

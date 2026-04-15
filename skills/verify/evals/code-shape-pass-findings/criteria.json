@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent performs a thorough code-shape review on a TypeScript module, correctly identifying unsafe type escapes (any, as casts, non-null assertions), dead and duplicate code, catch-all error handling, and comments that only narrate the code — and whether the output follows the expected verdict and findings format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "any type flagged",
+      "max_score": 10,
+      "description": "Flags the use of 'any' type (in decodeToken and/or parseJwt parameters/return types) as a safety failure or type-safety concern"
+    },
+    {
+      "name": "Unsafe cast flagged",
+      "max_score": 10,
+      "description": "Flags the unsafe 'as' cast in refreshToken (casting decoded payload to a specific shape without validation) as a safety concern"
+    },
+    {
+      "name": "Non-null assertion flagged",
+      "max_score": 10,
+      "description": "Flags the non-null assertion operator (payload.userId!) in getUserId as a safety failure"
+    },
+    {
+      "name": "Dead code identified",
+      "max_score": 10,
+      "description": "Identifies legacyValidate as dead/unused code that should be deleted"
+    },
+    {
+      "name": "Duplicate logic identified",
+      "max_score": 10,
+      "description": "Identifies that decodeToken and parseJwt are functionally identical and flags this as duplication"
+    },
+    {
+      "name": "Catch-all error flagged",
+      "max_score": 10,
+      "description": "Flags the generic catch(e) blocks in validateToken and/or hasPermission that swallow all errors without classification"
+    },
+    {
+      "name": "Error classification recommended",
+      "max_score": 10,
+      "description": "Recommends distinguishing between error types (e.g. malformed token, expired token, missing field) rather than collapsing all failures to a single false return"
+    },
+    {
+      "name": "Narrating comments flagged",
+      "max_score": 10,
+      "description": "Identifies at least two comments that merely restate what the code does (e.g. '// Check if the token exists', '// Decode the token', '// Return the user ID field') as commentary that should be removed"
+    },
+    {
+      "name": "Findings tied to impact",
+      "max_score": 10,
+      "description": "At least one finding includes an explanation of what could break or who is affected (e.g. non-null assertion could throw at runtime in production, catch-all silently hides malformed token attacks)"
+    },
+    {
+      "name": "Valid verdict",
+      "max_score": 10,
+      "description": "Report concludes with one of exactly three verdict values: 'ship it', 'needs review', or 'blocked' — no other phrasing"
+    }
+  ]
+}

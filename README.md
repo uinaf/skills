@@ -29,10 +29,10 @@ npx skills add uinaf/skills -g -s viteplus
 Use [Tessl](https://tessl.io/), the skill-evaluation CLI used in this repo, to review and optionally optimize skills. If `npx tessl ...` does not resolve locally, check the [CLI docs](https://docs.tessl.io/reference/cli-commands) before running the review loop.
 
 ```bash
-./eval/review-skills.sh
-./eval/optimize-skills.sh review
+./scripts/review-skills.sh
+./scripts/optimize-skills.sh review
 ```
 
-The eval helpers and workflow notes live in `eval/`.
+The local Tessl helper scripts and workflow notes live in `scripts/`.
 
-CI also runs `./eval/review-skills.sh` on pull requests and pushes to `main`.
+CI also runs `./scripts/review-skills.sh` on pull requests and pushes to `main`.

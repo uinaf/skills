@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent actually starts the server and makes real HTTP requests to verify behavior — not just reads/analyzes the source code — and whether the report follows evidence rules: exact commands recorded, real responses captured, failure paths exercised, surfaces named, success kept terse, findings tied to impact, and a valid verdict produced.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Server started and queried",
+      "max_score": 15,
+      "description": "Report shows evidence that the server was actually started (e.g. references to starting the process) and that HTTP requests were made to localhost:9127 — not just a static code review"
+    },
+    {
+      "name": "Real HTTP client used",
+      "max_score": 12,
+      "description": "Verification used curl or an equivalent real HTTP client (e.g. httpx, requests, wget) to exercise the server — not just calling Python functions directly or importing the module"
+    },
+    {
+      "name": "Actual response captured",
+      "max_score": 10,
+      "description": "Report includes actual HTTP response body content and status codes (e.g. '200 OK', '404', JSON response body) received from the live server"
+    },
+    {
+      "name": "Error/failure path exercised",
+      "max_score": 12,
+      "description": "At least one error or failure path was tested (e.g. requesting a non-existent user ID, sending malformed JSON to POST /users, or requesting an unknown route) and the response is documented"
+    },
+    {
+      "name": "Exact surfaces named",
+      "max_score": 10,
+      "description": "Report names the specific endpoints exercised (e.g. GET /users, GET /users/1, POST /users, GET /users/999) — not just 'the API was tested'"
+    },
+    {
+      "name": "Exact commands recorded",
+      "max_score": 10,
+      "description": "Report includes the actual commands run (e.g. the curl command lines with flags and URLs), not just a prose description of what was done"
+    },
+    {
+      "name": "Success kept terse",
+      "max_score": 8,
+      "description": "Report does NOT include verbose output from successful requests (e.g. does not dump full response headers for every passing call); successful checks are summarized briefly"
+    },
+    {
+      "name": "Finding tied to impact",
+      "max_score": 8,
+      "description": "At least one finding or observation in the report explains what could break, who is affected, or why it matters — not just a description of the behavior observed"
+    },
+    {
+      "name": "Valid verdict",
+      "max_score": 15,
+      "description": "Report contains a verdict using exactly one of: 'ship it', 'needs review', or 'blocked'"
+    }
+  ]
+}

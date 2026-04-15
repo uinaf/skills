@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent correctly applies minimal persona selection for a tiny documentation-only change, avoids reviewer spam, correctly applies the shape-based shortcut for doc-heavy changes, produces a valid verdict, and does not over-inflate minor findings into defects.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Minimal personas selected",
+      "max_score": 12,
+      "description": "The report uses only 1-2 personas, NOT all 6 personas — specifically avoids spawning silent-failures, types, and cleanup for this purely documentary change"
+    },
+    {
+      "name": "General persona used",
+      "max_score": 8,
+      "description": "The report includes the general reviewer persona (or equivalent broad code review lens)"
+    },
+    {
+      "name": "Comments persona used",
+      "max_score": 10,
+      "description": "The report includes the comments reviewer persona (or equivalent documentation/docstring lens) — appropriate given docstring change"
+    },
+    {
+      "name": "Tests persona omitted",
+      "max_score": 8,
+      "description": "The report does NOT apply a tests reviewer persona — no test coverage concern applies to a typo/docstring fix"
+    },
+    {
+      "name": "Verdict present",
+      "max_score": 10,
+      "description": "The report contains exactly one verdict label: 'ship it', 'needs review', or 'blocked'"
+    },
+    {
+      "name": "Scope stated",
+      "max_score": 8,
+      "description": "The report explicitly names the scope reviewed (e.g. the two files changed, README and format.ts, or the specific diff)"
+    },
+    {
+      "name": "Personas listed in output",
+      "max_score": 8,
+      "description": "The report explicitly names the reviewer personas used in a dedicated section or label"
+    },
+    {
+      "name": "No nit inflation",
+      "max_score": 10,
+      "description": "The report does NOT flag the parameter rename (amount → value) as a defect or high-severity finding — the JSDoc now correctly matches the actual parameter name"
+    },
+    {
+      "name": "Docstring accuracy noted",
+      "max_score": 8,
+      "description": "The report identifies that the @param name was corrected from 'amount' to 'value' to match the actual function signature — and treats this as an accuracy improvement, not a bug"
+    },
+    {
+      "name": "Unverified areas or residual risk",
+      "max_score": 8,
+      "description": "The report mentions any residual risk or unverified surfaces, OR explicitly states there are none (either outcome is acceptable — silence is not)"
+    },
+    {
+      "name": "Recommended follow-up",
+      "max_score": 10,
+      "description": "The report includes a recommended follow-up action from the allowed set: implementation, verify, agent-readiness, or docs"
+    }
+  ]
+}

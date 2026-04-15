@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent runs the repo's built-in verification infrastructure (make verify or pytest) before making any claims, produces a complete report with all required sections, exercises a real failure path, and correctly records exact evidence — rather than just reading the code and opining.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Guardrails run first",
+      "max_score": 15,
+      "description": "Report shows that the repo's built-in test command (make verify, make test, or pytest on test_calculator.py) was executed before any verdict or surface claim was made"
+    },
+    {
+      "name": "Test output recorded",
+      "max_score": 10,
+      "description": "Report includes actual pytest output (e.g. test names, PASSED/FAILED indicators, or summary line like '7 passed') from running the test suite — not just a statement that tests were run"
+    },
+    {
+      "name": "Failure path exercised",
+      "max_score": 10,
+      "description": "Report demonstrates that at least one error path was exercised (e.g. divide by zero, unknown operation) either through the test suite or by direct invocation, and the behavior is documented"
+    },
+    {
+      "name": "Verdict field present",
+      "max_score": 10,
+      "description": "Report contains a 'Verdict' section using exactly one of: 'ship it', 'needs review', or 'blocked'"
+    },
+    {
+      "name": "Change Verified section",
+      "max_score": 8,
+      "description": "Report includes a 'Change Verified' section (or equivalent) describing what was confirmed to work"
+    },
+    {
+      "name": "Surfaces Exercised section",
+      "max_score": 8,
+      "description": "Report includes a 'Surfaces Exercised' section (or equivalent) naming the specific commands or functions that were invoked"
+    },
+    {
+      "name": "Code-Shape Findings section",
+      "max_score": 8,
+      "description": "Report includes a 'Code-Shape Findings' section (or equivalent) containing observations about code quality, clarity, error handling, or duplication in the changed files"
+    },
+    {
+      "name": "Exact Evidence section",
+      "max_score": 8,
+      "description": "Report includes an 'Exact Evidence' section (or equivalent) containing the actual commands run and representative output received"
+    },
+    {
+      "name": "Recommended Follow-up section",
+      "max_score": 8,
+      "description": "Report includes a 'Recommended Follow-up' section (or equivalent) suggesting concrete next steps"
+    },
+    {
+      "name": "Error actionability assessed",
+      "max_score": 8,
+      "description": "Report comments on whether the error messages raised (e.g. 'Cannot divide by zero', 'Unknown operation: X') are clear, actionable, and help the caller understand what to do next"
+    },
+    {
+      "name": "No unverified claims",
+      "max_score": 7,
+      "description": "Report does NOT claim behavior is correct without running the code (e.g. does not say 'the divide function looks correct' without having executed it or its tests)"
+    }
+  ]
+}

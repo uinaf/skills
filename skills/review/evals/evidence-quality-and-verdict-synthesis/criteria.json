@@ -1,0 +1,71 @@
+{
+  "context": "Tests whether the agent produces an evidence-backed review report with correct verdict shape, ordered findings, explicit unverified markers, file references with line numbers, and incorporates repo guidance from CLAUDE.md. Also tests correct silent-failures and cleanup persona application.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CLAUDE.md loaded",
+      "max_score": 10,
+      "description": "The report references or applies at least one rule from CLAUDE.md (e.g. MAX_RETRIES constant, dead-letter requirement, logging with payment ID, error classification)"
+    },
+    {
+      "name": "File references in findings",
+      "max_score": 8,
+      "description": "At least two findings cite a specific file name (e.g. retry.ts, retry.test.ts) rather than only vague descriptions"
+    },
+    {
+      "name": "Line-level evidence",
+      "max_score": 8,
+      "description": "At least one finding references a specific line number or code snippet within a file"
+    },
+    {
+      "name": "Verdict present",
+      "max_score": 8,
+      "description": "The report contains exactly one verdict label: 'ship it', 'needs review', or 'blocked'"
+    },
+    {
+      "name": "Findings by severity",
+      "max_score": 8,
+      "description": "Findings are explicitly labeled or ordered by severity (e.g. high/medium/low, or ranked from most to least critical)"
+    },
+    {
+      "name": "Error classification finding",
+      "max_score": 10,
+      "description": "The report identifies that transient vs permanent payment errors are not classified before retrying (all errors lead to PENDING_RETRY), which violates the CLAUDE.md rule"
+    },
+    {
+      "name": "Silent failure finding",
+      "max_score": 8,
+      "description": "The report identifies that the catch block in scheduleRetry only logs a vague warning without the error message or type, losing failure signal"
+    },
+    {
+      "name": "Mock-heavy test concern",
+      "max_score": 6,
+      "description": "The report notes that the tests mock the database, charge provider, and logger — meaning the tests would pass even if real integrations broke"
+    },
+    {
+      "name": "Dead code identified",
+      "max_score": 6,
+      "description": "The report identifies retry.old.ts as dead/deprecated code that should be removed"
+    },
+    {
+      "name": "Unverified surfaces marked",
+      "max_score": 8,
+      "description": "The report explicitly marks at least one area as unverified (e.g. actual runtime behavior, payment provider behavior, monitoring integration)"
+    },
+    {
+      "name": "Recommended follow-up",
+      "max_score": 6,
+      "description": "The report recommends a specific follow-up from: implementation, verify, agent-readiness, or docs"
+    },
+    {
+      "name": "No nit inflation",
+      "max_score": 6,
+      "description": "The report does NOT elevate purely stylistic issues (naming conventions, formatting) to the same severity as functional defects"
+    },
+    {
+      "name": "Personas listed",
+      "max_score": 8,
+      "description": "The report explicitly names which reviewer personas were used"
+    }
+  ]
+}

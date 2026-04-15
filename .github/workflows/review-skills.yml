@@ -25,4 +25,4 @@ jobs:
           node-version: 24
 
       - name: Review skills with Tessl
-        run: ./eval/review-skills.sh
+        run: ./scripts/review-skills.sh
