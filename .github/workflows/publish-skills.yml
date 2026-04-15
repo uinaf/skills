@@ -36,6 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: discover
     if: ${{ needs.discover.outputs.tiles != '[]' }}
+    env:
+      TESSL_THRESHOLD: "90"
     strategy:
       fail-fast: false
       matrix:
@@ -51,6 +53,9 @@ jobs:
         uses: tesslio/setup-tessl@v2
         with:
           token: ${{ secrets.TESSL_TOKEN }}
+
+      - name: Review skill
+        run: tessl skill review --threshold "$TESSL_THRESHOLD" .
 
       - name: Lint tile
         run: tessl tile lint
