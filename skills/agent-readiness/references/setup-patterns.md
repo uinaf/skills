@@ -93,6 +93,8 @@ Key user flows on the real running app.
 - **CLI**: Golden file diffs (`diff output.json expected.json`)
 - **SDK/Library**: Build, then use the artifact as a downstream consumer would
 
+Prefer these over large suites of unit tests that mock the seam under change. For agent verification, one honest integration or e2e check is usually worth more than many self-verifying mocked tests.
+
 ## Mechanical Enforcement
 
 ### Git Hooks
@@ -123,6 +125,20 @@ jobs:
       - run: <your-smoke-command>
       - run: <your-test-command>
 ```
+
+### Unused-Code Checks
+
+Add dead-code and unused-symbol checks when the stack supports them. These tools are cheap, deterministic, and good at catching stale scaffolding that agents leave behind.
+
+```bash
+# TypeScript / JavaScript
+npx knip
+
+# Go
+staticcheck ./...
+```
+
+For Go repos using `golangci-lint`, enable the unused and dead-code style analyzers there instead of inventing a separate wrapper.
 
 ### Custom Lint Rules
 

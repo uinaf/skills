@@ -12,6 +12,7 @@ Use the existing infrastructure to prove your own change works before calling it
 - The builder does not grade their own work in the same context; switch into a fresh evaluator context or separate subagent first
 - Evidence beats confidence
 - Run repo guardrails first, then hit the real surface
+- Prefer smoke, integration, contract, or e2e proof over unit tests that mock most of the behavior under test
 - Challenge the changed code for shape as well as behavior; passing tests do not excuse bloated, duplicated, or comment-dependent code
 - Load shared doctrine from the repo's guidance files such as `AGENTS.md`, `CLAUDE.md`, or repo rules before judging the result
 - If the infrastructure is too weak to verify reliably, stop and hand off to `agent-readiness`
@@ -35,6 +36,7 @@ Use the existing infrastructure to prove your own change works before calling it
 ### 1. Run deterministic guardrails first
 
 - Prefer the repo's built-in entrypoint: `make verify`, `just verify`, `pnpm test`, `cargo test`, or the nearest targeted equivalent
+- When choosing tests, prefer the strongest cheap proof available: smoke, integration, contract, or e2e checks beat mock-heavy unit suites that mainly replay implementation details
 - Swallow boring success output and surface only failures, anomalies, and exact commands
 
 ### 2. Exercise the real surface
@@ -50,7 +52,8 @@ Follow [references/evidence-rules.md](references/evidence-rules.md) when collect
 
 - Focus on code touched in the current task unless the changes obviously exposed a broader local mess
 - Ask whether the solution matches the repo's language, framework, and design patterns rather than merely working
-- Remove duplication, dead branches, and unnecessary abstractions when they do not protect a real boundary
+- Remove duplication, dead branches, unused helpers, and unnecessary abstractions when they do not protect a real boundary
+- Treat type escape hatches such as `any`, unsafe `as`, boundary-leaking `unknown`, or non-null assertions as safety failures unless the repo explicitly allows them
 - Prefer code that explains itself; comments should survive only when they carry durable context the code cannot make obvious
 - Read the changed files as if a brand new agent inherited them tomorrow and had to extend the flow without prior context
 
@@ -79,7 +82,7 @@ After verification, report:
 - verdict
 - change verified
 - surfaces exercised
-- code-shape findings: clarity, duplication, comments, or maintainability debt in the changed files
+- code-shape findings: clarity, duplication, dead code, unsafe type escapes, comments, or maintainability debt in the changed files
 - top findings by severity
 - exact evidence: commands, screenshots, traces, responses, or file references
 - readiness gaps or doc drift discovered during verification

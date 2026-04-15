@@ -18,6 +18,14 @@ Use these for most non-trivial reviews:
 - API contracts changed
 - invariants moved into or out of types
 - a refactor changed data boundaries
+- the diff uses `any`, `as`, `unknown`, or other type escape hatches
+
+### Add [reviewers/cleanup.md](../reviewers/cleanup.md) when:
+
+- the diff is a refactor, migration, or generated-looking change with helper churn
+- dead code, stale flags, duplicate branches, or unused exports look plausible
+- the change introduces wrappers or abstractions that may add indirection without value
+- you suspect the right fix is deletion or merging paths rather than adding more code
 
 ### Add [reviewers/comments.md](../reviewers/comments.md) when:
 
@@ -28,8 +36,9 @@ Use these for most non-trivial reviews:
 ## Shape-Based Shortcuts
 
 - **UI feature** → general + tests + silent-failures
-- **API / backend** → general + tests + silent-failures; add types for schema changes
-- **State / migration / config** → general + tests + silent-failures; add types if invariants changed
+- **API / backend** → general + tests + silent-failures; add types for schema changes and cleanup for wide refactors
+- **State / migration / config** → general + tests + silent-failures; add types if invariants changed and cleanup if old paths may be left behind
+- **Refactor / cleanup** → general + cleanup; add tests or types only when behavior boundaries or invariants changed
 - **Doc-heavy change** → general + comments
 - **Tiny mechanical change** → general only, unless the change touches error handling or tests
 

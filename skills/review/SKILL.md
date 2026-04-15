@@ -37,6 +37,7 @@ Default personas:
 Add conditional personas only when they earn their keep:
 
 - [reviewers/types.md](reviewers/types.md)
+- [reviewers/cleanup.md](reviewers/cleanup.md)
 - [reviewers/comments.md](reviewers/comments.md)
 
 ## Workflow

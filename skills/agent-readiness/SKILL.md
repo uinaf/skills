@@ -12,6 +12,7 @@ Make a repo ready for autonomous agent work.
 - **Environment > instruction** — infrastructure matters more than the prompt
 - **Mechanical enforcement > prose** — hooks, CI, health checks, and scripts beat wishes
 - **Separate builder from judge** — `agent-readiness` builds the rig, `verify` proves your own change, `review` critiques existing code
+- **Real behavior > mocked confidence** — smoke, integration, and e2e checks beat large suites that mostly mock the seam under test
 - **Smallest useful layer first** — add layers in order, stop when the repo becomes reliably verifiable
 - **Progressive disclosure** — keep the core workflow here, load patterns on demand
 
@@ -117,7 +118,9 @@ See [references/setup-patterns.md](references/setup-patterns.md) for e2e, observ
 Tighten weak or flaky layers:
 
 - remove mock-only confidence theater
+- prefer smoke, integration, and e2e checks over mock-heavy suites that self-verify implementation details
 - replace one-off checks with reusable scripts or hooks
+- add dead-code or unused-symbol enforcement where the stack supports it
 - add logs and health signals agents can query
 - make parallel work safe when agent collisions are real
 
@@ -129,6 +132,7 @@ If changes created doc drift, hand off to `docs`.
 ## Anti-Patterns
 
 - **Mock-only tests** — pass by construction, verify nothing
+- **Mock-heavy unit suites as the main proof** — agents love them because they are easy to satisfy, not because they prove the system works
 - **Self-evaluation** — builder grading its own work
 - **Docs-only fixes disguised as readiness work**
 - **Routine PR review here** — that's `review`

@@ -36,14 +36,20 @@ Prove your own changes work on real surfaces. The agent that wrote the code must
 - Run the shipped CLI, service, or UI flow with representative inputs
 - For UI: Playwright CLI or CDP — inspect behavior, structure, legibility, responsiveness
 - For services: hit the real local endpoint, confirm full round trip
+- Treat this as stronger evidence than a pile of unit tests that mock the seam under change
 
 ### Deterministic Guardrails
 - Run the repo's built-in verify entrypoint first when it exists
 - Prefer targeted checks over full-suite context floods during iteration
+- Prefer integration, contract, smoke, and e2e checks over unit tests that mostly stub dependencies
+- Mock-heavy unit tests are supporting evidence, not primary proof, when they control the behavior being claimed
 - If a deterministic check fails, fix that failure before claiming runtime success
 
 ### Code Shape
 - Review the changed files for clarity, duplication, and maintainability after behavior is proven
+- Delete dead code, stale branches, and unused helpers when they no longer protect a real boundary
+- Treat `any`, unsafe casts, and boundary-leaking `unknown` as verification failures unless explicitly allowed
+- Prefer parsing external data once at the boundary over scattering validation and casts through core logic
 - Prefer matching existing language/framework patterns over inventing a new local style
 - Delete comments that only compensate for unclear code; keep only durable context the code cannot express
 - Ask whether a fresh agent could extend the changed path without reverse-engineering hidden intent
@@ -100,11 +106,11 @@ HumanLayer identified this: running a full test suite floods the context window,
 Pick the smallest set of checks that can honestly disprove the change:
 
 - **UI change** → targeted UI flow, screenshot, responsive spot-check, console scan
-- **API/backend** → representative request, error request, schema or contract check
+- **API/backend** → representative request, error request, schema or contract check; prefer this over handler-level mocks
 - **CLI/tooling** → shipped command invocation, representative args, exit code, stdout/stderr sanity check
 - **State/config** → write/read round trip, restart, boot with changed config, migrate existing state
-- **Pure refactor** → deterministic tests plus one surface check that proves behavior parity
-- **Generated-looking or overly busy code** → add a code-shape pass on the touched files: clarity, dedupe, abstraction pressure, and comment necessity
+- **Pure refactor** → deterministic tests plus one surface check that proves behavior parity, then delete stale paths and duplicates exposed by the refactor
+- **Generated-looking or overly busy code** → add a code-shape pass on the touched files: clarity, dedupe, dead code, abstraction pressure, comment necessity, and escape-hatch types
 
 ## Model Selection
 

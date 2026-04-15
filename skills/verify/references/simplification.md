@@ -16,15 +16,18 @@ Ask these in order:
 
 1. Does the implementation match the language, framework, and design patterns already used in this repo?
 2. Is any part of the solution duplicated, nearly duplicated, or split across helpers that should be one explicit path?
-3. Are there abstractions, wrappers, or helpers that exist only to make generated code look organized?
-4. Would removing comments make the code harder to understand, or would clearer naming and structure remove the need for them?
-5. If a brand new agent opened this file tomorrow, could it follow the flow and safely extend it without reverse-engineering hidden intent?
+3. Is there dead code, an unused export, a stale branch, or a compatibility path that should just be deleted?
+4. Are there abstractions, wrappers, or helpers that exist only to make generated code look organized?
+5. Is the code relying on `any`, unsafe `as`, boundary-leaking `unknown`, or scattered validation where parsing at the boundary should provide typed evidence instead?
+6. Would removing comments make the code harder to understand, or would clearer naming and structure remove the need for them?
+7. If a brand new agent opened this file tomorrow, could it follow the flow and safely extend it without reverse-engineering hidden intent?
 
 ## Improve
 
 - Prefer explicit names over explanatory comments
 - Prefer one obvious control flow over dense indirection
-- Prefer deleting dead branches and duplicate helpers over preserving them "just in case"
+- Prefer deleting dead branches, unused exports, and duplicate helpers over preserving them "just in case"
+- Prefer parsed boundaries and domain types over casts and scattered defensive checks
 - Prefer local consistency with the repo over importing a new pattern from memory
 - Prefer fewer concepts, not just fewer lines
 
@@ -40,6 +43,8 @@ Ask these in order:
 When this pass finds issues, tie them to one of these:
 
 - duplicated logic or near-duplicates
+- dead code, unused symbols, or stale compatibility paths
 - comments that reveal unclear structure
+- type escape hatches that disabled a useful safety net
 - abstractions that add indirection without protecting a boundary
 - naming or control flow that a fresh agent would struggle to follow
