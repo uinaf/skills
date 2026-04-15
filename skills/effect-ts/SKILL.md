@@ -16,10 +16,10 @@ Write idiomatic Effect code instead of promise-shaped TypeScript with Effect wra
 
 ## Read By Task
 
-- Setup, install, tsconfig, or repo audit → `references/setup-tooling.md`
-- Core application code → `references/core-patterns.md`
-- HTTP, CLI, platform, or stream work → `references/ecosystem-patterns.md`
-- Promise interop, framework boundaries, runtime issues, or gradual migration → `references/adoption-runtime.md`
+- Setup, install, tsconfig, or repo audit → [references/setup-tooling.md](references/setup-tooling.md)
+- Core application code → [references/core-patterns.md](references/core-patterns.md)
+- HTTP, CLI, platform, or stream work → [references/ecosystem-patterns.md](references/ecosystem-patterns.md)
+- Promise interop, framework boundaries, runtime issues, or gradual migration → [references/adoption-runtime.md](references/adoption-runtime.md)
 
 ## Topic Map
 

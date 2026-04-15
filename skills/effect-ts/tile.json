@@ -1,0 +1,11 @@
+{
+  "name": "uinaf/effect-ts",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Implement, debug, refactor, migrate, review, or explain Effect TypeScript code. Use when a task touches `effect` or `@effect/*` APIs, especially services, layers, schemas, runtime wiring, platform or CLI packages, Effect testing, or Promise-to-Effect migration.",
+  "skills": {
+    "effect-ts": {
+      "path": "SKILL.md"
+    }
+  }
+}

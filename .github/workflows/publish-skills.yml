@@ -1,0 +1,59 @@
+name: Publish Skills
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "skills/**"
+      - ".github/workflows/publish-skills.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      tiles: ${{ steps.collect.outputs.tiles }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Collect changed tiles
+        id: collect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            tiles_json="$(printf '%s\n' skills/* | jq -R -s 'split("\n") | map(select(length > 0))')"
+          else
+            tiles_json="$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- 'skills/*' | awk -F/ 'NF >= 2 { print $1 \"/\" $2 }' | sort -u | jq -R -s 'split("\n") | map(select(length > 0))')"
+          fi
+
+          echo "tiles=$tiles_json" >> "$GITHUB_OUTPUT"
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: discover
+    if: ${{ needs.discover.outputs.tiles != '[]' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        tile: ${{ fromJson(needs.discover.outputs.tiles) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.tile }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Tessl
+        uses: tesslio/setup-tessl@v2
+        with:
+          token: ${{ secrets.TESSL_TOKEN }}
+
+      - name: Lint tile
+        run: tessl tile lint
+
+      - name: Publish tile
+        run: tessl tile publish --bump patch
