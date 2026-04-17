@@ -54,8 +54,10 @@ Refresh the detailed documents that actually carry the knowledge.
 
 - architecture and API docs
 - task guides and runbooks
-- feature plans and specs
+- feature specs, plans, and decision records
 - readiness infrastructure docs after agent-readiness changes
+
+For new features, use the directory layout and templates in [references/structuring.md](references/structuring.md) — specs, plans, and decisions each have their own shape.
 
 ### 4. Clean up drift
 
@@ -95,3 +97,4 @@ After docs work, report:
 
 - [references/documentation.md](references/documentation.md) — AGENTS.md shape, scoped rules, README patterns, doc hygiene
 - [references/specifications.md](references/specifications.md) — feature specs, conformance tests, spec drift, SDD trade-offs
+- [references/structuring.md](references/structuring.md) — directory layout, templates, and naming for specs, plans, and decisions
