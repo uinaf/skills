@@ -21,33 +21,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          # paths-filter compares pushed commits locally, so discovery needs history
           fetch-depth: 0
+
+      - name: Detect changed publish inputs
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        id: filter
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        with:
+          list-files: json
+          filters: |
+            changed:
+              - 'skills/**'
+              - '.github/workflows/publish-skills.yml'
 
       - name: Collect changed tiles
         id: collect
+        env:
+          CHANGED_FILES_JSON: ${{ steps.filter.outputs.changed_files }}
         run: |
           set -euo pipefail
 
-          all_tiles_json() {
-            find skills -mindepth 1 -maxdepth 1 -type d | sort | jq -Rsc 'split("\n") | map(select(length > 0))'
-          }
-
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            tiles_json="$(all_tiles_json)"
+            tiles_json="$(scripts/collect-publish-tiles.sh --all)"
           else
-            changed_files="$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- skills .github/workflows/publish-skills.yml)"
-
-            if printf '%s\n' "$changed_files" | grep -qx '.github/workflows/publish-skills.yml'; then
-              tiles_json="$(all_tiles_json)"
-            else
-              tiles_json="$(
-                printf '%s\n' "$changed_files" \
-                  | grep '^skills/' \
-                  | cut -d/ -f1-2 \
-                  | sort -u \
-                  | jq -Rsc 'split("\n") | map(select(length > 0))'
-              )"
-            fi
+            tiles_json="$(scripts/collect-publish-tiles.sh --files-json "${CHANGED_FILES_JSON:-[]}")"
           fi
 
           echo "tiles=$tiles_json" >> "$GITHUB_OUTPUT"
