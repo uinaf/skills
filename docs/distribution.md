@@ -20,7 +20,7 @@ jq -r '.name' skills/*/tile.json
 - The publish workflow uses [`uinaf/tessl-publish-action`](https://github.com/uinaf/tessl-publish-action) to detect changed tiles, run review and lint, and publish them
 - The action derives semantic version bumps from Conventional Commit messages: breaking changes -> `major`, `feat` -> `minor`, everything else -> `patch`
 - Before publish, the action probes `tessl tile publish --dry-run` and keeps bumping patch versions in the job workspace until Tessl accepts a free version
-- The action does not commit version bumps back to this repository; `tile.json` changes exist only in the CI workspace for the publish job
+- After a successful publish, the workflow commits the resulting `tile.json` version bumps back to `main` as `github-actions[bot]` with a skip-CI commit message
 - The workflow expects a repository secret named `TESSL_TOKEN`
 
 ## Required GitHub secret
