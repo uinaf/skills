@@ -20,7 +20,7 @@ jq -r '.name' skills/*/tile.json
 - The publish workflow uses `dorny/paths-filter` for changed-file detection and `scripts/collect-publish-tiles.sh` to map changed paths back to owning tiles
 - The discovery job fetches full git history so `paths-filter` can compare pushed commits reliably
 - The publish workflow also runs `tessl skill review --threshold 90` for each changed skill and blocks publishing if the score is below that bar
-- Publishing uses `--bump patch`, so an existing registry version is automatically patch-bumped instead of failing the workflow
+- Before publish, the workflow probes `tessl tile publish --dry-run` and bumps patch versions in the job workspace until Tessl accepts a free version
 - The workflow expects a repository secret named `TESSL_TOKEN`
 
 ## Required GitHub secret

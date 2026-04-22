@@ -47,6 +47,7 @@ npx tessl skill review --optimize --yes --max-iterations 1 skills/review
 ## Notes
 
 - `collect-publish-tiles.sh` maps changed file paths to tile roots for the publish workflow
+- `resolve-publish-version.sh` bumps patch versions in CI until Tessl accepts an unused version for publish
 - `review-skills.sh` is the batch entrypoint for local skill review
 - `optimize-skills.sh` applies mutations, so run it intentionally and inspect the resulting diff
 - Prefer optimizing one skill at a time rather than churning the whole repo at once

@@ -78,5 +78,8 @@ jobs:
       - name: Lint tile
         run: tessl tile lint
 
+      - name: Resolve publish version
+        run: ../../../scripts/resolve-publish-version.sh .
+
       - name: Publish tile
-        run: tessl tile publish --bump patch
+        run: tessl tile publish
