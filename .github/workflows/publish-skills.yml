@@ -13,56 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  discover:
-    runs-on: ubuntu-latest
-    outputs:
-      tiles: ${{ steps.collect.outputs.tiles }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          # paths-filter compares pushed commits locally, so discovery needs history
-          fetch-depth: 0
-
-      - name: Detect changed publish inputs
-        if: ${{ github.event_name != 'workflow_dispatch' }}
-        id: filter
-        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
-        with:
-          list-files: json
-          filters: |
-            changed:
-              - 'skills/**'
-              - '.github/workflows/publish-skills.yml'
-
-      - name: Collect changed tiles
-        id: collect
-        env:
-          CHANGED_FILES_JSON: ${{ steps.filter.outputs.changed_files }}
-        run: |
-          set -euo pipefail
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            tiles_json="$(scripts/collect-publish-tiles.sh --all)"
-          else
-            tiles_json="$(scripts/collect-publish-tiles.sh --files-json "${CHANGED_FILES_JSON:-[]}")"
-          fi
-
-          echo "tiles=$tiles_json" >> "$GITHUB_OUTPUT"
-
   publish:
     runs-on: ubuntu-latest
-    needs: discover
-    if: ${{ needs.discover.outputs.tiles != '[]' }}
-    env:
-      TESSL_THRESHOLD: "90"
-    strategy:
-      fail-fast: false
-      matrix:
-        tile: ${{ fromJson(needs.discover.outputs.tiles) }}
-    defaults:
-      run:
-        working-directory: ${{ matrix.tile }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -72,14 +24,7 @@ jobs:
         with:
           token: ${{ secrets.TESSL_TOKEN }}
 
-      - name: Review skill
-        run: tessl skill review --threshold "$TESSL_THRESHOLD" .
-
-      - name: Lint tile
-        run: tessl tile lint
-
-      - name: Resolve publish version
-        run: ../../../scripts/resolve-publish-version.sh .
-
-      - name: Publish tile
-        run: tessl tile publish
+      - name: Publish changed tiles
+        uses: uinaf/tessl-publish-action@3fdcf60b9bd493ce598d18bf3c5ff719dfae3ce1
+        with:
+          review-threshold: "90"

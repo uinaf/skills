@@ -17,10 +17,10 @@ jq -r '.name' skills/*/tile.json
 - Each skill directory under `skills/*` has its own `tile.json`
 - `.github/workflows/publish-skills.yml` lints and publishes only the tiles that changed on pushes to `main`
 - If the workflow file itself changes, or the workflow is run manually, it publishes all tiles so workflow fixes can be validated immediately
-- The publish workflow uses `dorny/paths-filter` for changed-file detection and `scripts/collect-publish-tiles.sh` to map changed paths back to owning tiles
-- The discovery job fetches full git history so `paths-filter` can compare pushed commits reliably
-- The publish workflow also runs `tessl skill review --threshold 90` for each changed skill and blocks publishing if the score is below that bar
-- Before publish, the workflow probes `tessl tile publish --dry-run` and bumps patch versions in the job workspace until Tessl accepts a free version
+- The publish workflow uses [`uinaf/tessl-publish-action`](https://github.com/uinaf/tessl-publish-action) to detect changed tiles, run review and lint, and publish them
+- The action derives semantic version bumps from Conventional Commit messages: breaking changes -> `major`, `feat` -> `minor`, everything else -> `patch`
+- Before publish, the action probes `tessl tile publish --dry-run` and keeps bumping patch versions in the job workspace until Tessl accepts a free version
+- The action does not commit version bumps back to this repository; `tile.json` changes exist only in the CI workspace for the publish job
 - The workflow expects a repository secret named `TESSL_TOKEN`
 
 ## Required GitHub secret
