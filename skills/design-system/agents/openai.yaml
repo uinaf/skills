@@ -1,0 +1,4 @@
+interface:
+  display_name: "uinaf design system"
+  short_description: "Apply the uinaf brand identity to any uinaf output"
+  default_prompt: "Use $uinaf-design-system when producing or restyling any uinaf-branded artefact — web interfaces, blog posts, changelogs, docs, READMEs, slides, OG / social images, email, terminal banners, or app starting points. Covers voice, tokens, components, motion, and brand assets, with a Tailwind v4 path for web. Skip for non-uinaf work."
