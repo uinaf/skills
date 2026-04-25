@@ -33,7 +33,7 @@ Single column, narrow, framed-logo top-left, footer below.
       </div>
       <div class="flex gap-2">
         <a href="mailto:dev@uinaf.dev" class="u-link-plain">dev@uinaf.dev</a><span class="text-neutral-700">·</span>
-        <a href="https://github.com/uinaf" class="u-link-plain">gh ↗</a><span class="text-neutral-700">·</span>
+        <a href="https://github.com/uinaf" class="u-link-plain">github ↗</a><span class="text-neutral-700">·</span>
         <a href="https://x.com/uinafdev" class="u-link-plain">x ↗</a>
       </div>
     </footer>

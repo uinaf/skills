@@ -62,7 +62,7 @@ If a draft trips the SaaS detector, scrap it and write what the thing literally 
 | Surface | Pattern |
 |---|---|
 | Footer nav | `projects · terms · thanks` |
-| Footer contact | `dev@uinaf.dev · gh ↗ · x ↗` |
+| Footer contact | `dev@uinaf.dev · github ↗ · x ↗` |
 | External link | `name ↗` |
 | Card title | product name, lowercase, no prefix |
 | Card description | one literal sentence, period at end |

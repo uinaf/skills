@@ -80,7 +80,7 @@ Patterns:
 - No emoji prefixes (no 🐛 ✨ 🎉).
 - Each bullet: lowercase, period at end, one short clause.
 - Newest entry on top.
-- Don't link to PRs in the headline. If a bullet needs evidence, append a tiny `(gh ↗)` link.
+- Don't link to PRs in the headline. If a bullet needs evidence, append a tiny `(github ↗)` link.
 
 ## Documentation page
 
@@ -197,7 +197,7 @@ tool-name --no-strict          # to keep prior behavior
 | Surface | Pattern |
 |---|---|
 | Footer nav | `projects · terms · thanks` |
-| Footer contact | `dev@uinaf.dev · gh ↗ · x ↗` |
+| Footer contact | `dev@uinaf.dev · github ↗ · x ↗` |
 | External link in prose | `[name ↗](url)` (the `↗` is part of the link text) |
 | Card title | product name, lowercase, no prefix |
 | Card description | one literal sentence, period at end |

@@ -38,7 +38,7 @@ uinaf looks like a terminal you'd actually want to live in. Near-black canvas, a
 
 **Product / project copy.** Name on the left, one-line description below. The description is a literal description of what it does, not a benefit statement. e.g. `tccutil — CLI helpers for managing macOS TCC permissions.` not `tccutil — take back control of macOS privacy.`
 
-**Footer microcopy.** Use abbreviations: `gh ↗`, `x ↗`, `projects · terms · thanks`.
+**Footer microcopy.** Use the platform's recognizable short name with a trailing `↗` for external links: `github ↗`, `x ↗`, `npm ↗`. Lists like `projects · terms · thanks` separate with the middle dot.
 
 ## Visual foundations
 
@@ -94,7 +94,7 @@ uinaf is a low-icon brand. The codebase uses **zero icon fonts and zero SVG icon
 
 **The vocabulary, in full:**
 
-- `↗` — every external link gets one as a trailing affordance (`gh ↗`, `x ↗`, `name ↗` inside a card)
+- `↗` — every external link gets one as a trailing affordance (`github ↗`, `x ↗`, `name ↗` inside a card)
 - `·` (U+00B7 middle dot) — separator in footer link clusters
 - `—` (em dash) — used in copy, never as decoration
 - `→` `←` `↑` `↓` — directional, in dashboards/terminals (sparingly)

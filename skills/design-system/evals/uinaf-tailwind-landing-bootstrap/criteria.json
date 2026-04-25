@@ -65,7 +65,7 @@
     {
       "name": "Footer pattern",
       "max_score": 4,
-      "description": "Footer is two clusters: nav links left (e.g. `projects · terms · thanks`) and contact + socials right (e.g. `dev@uinaf.dev · gh ↗ · x ↗`). Separated by middle-dot · in neutral-700. All links use .u-link-plain."
+      "description": "Footer is two clusters: nav links left (e.g. `projects · terms · thanks`) and contact + socials right (e.g. `dev@uinaf.dev · github ↗ · x ↗`). Separated by middle-dot · in neutral-700. All links use .u-link-plain."
     }
   ]
 }
