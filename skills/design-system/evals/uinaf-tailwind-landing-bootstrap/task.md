@@ -1,6 +1,6 @@
 # Task: Bootstrap a uinaf-branded landing page on Tailwind v4
 
-A junior dev started a fresh Vite + Tailwind v4 project for a new internal uinaf tool. They've stubbed out a generic "hello world" page. Your job is to apply the uinaf design system end-to-end so the page lands on-brand.
+A junior dev started a fresh Vite + Tailwind v4 project to rebuild the public studio landing page (`uinaf.dev`). They've stubbed out a generic "hello world" page. Your job is to apply the uinaf design system end-to-end so the page lands on-brand.
 
 ## Project Location
 
@@ -14,7 +14,7 @@ The project files are at `/workspace/landing/`. The relevant files are:
 ## What to Produce
 
 1. Update `src/styles.css` so it imports Berkeley Mono from `cdn.uinaf.dev` and registers the full uinaf `@theme` token block (neutrals, slime, type scale, motion, radii). Add a `@layer components` block for `.u-link`, `.u-link-plain`, and `.u-card`.
-2. Update `index.html` head: page `<title>uinaf — internal tool</title>`, favicon and apple-touch-icon pointing at `https://cdn.uinaf.dev/images/uinaf-computer.png`, OG meta pointing at `https://cdn.uinaf.dev/images/uinaf-team.png`.
+2. Update `index.html` head: page `<title>uinaf</title>`, favicon and apple-touch-icon pointing at `https://cdn.uinaf.dev/images/uinaf-computer.png`, OG meta pointing at `https://cdn.uinaf.dev/images/uinaf-team.png`.
 3. Replace the body content with a uinaf-shaped landing: framed-logo top-left (240×240 inside a 1px `border-neutral-900` square, `https://cdn.uinaf.dev/images/uinaf-team.png` filling it), tagline `we bet you've seen us before` as h1, two short paragraphs, an `<hr>` hairline, then a footer with two link clusters separated by middle dots.
 4. Use only Tailwind utilities sourced from the `@theme` block plus the three `.u-*` component classes. No custom inline `<style>` blocks beyond what's in `src/styles.css`.
 

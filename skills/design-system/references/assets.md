@@ -43,16 +43,22 @@ font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospa
 
 Two illustrations exist. Don't generate or commission look-alikes; commission new originals if more are needed.
 
-### `uinaf-team.png` — primary mark / logo
+Pick by what the surface is *about*:
 
-- Two robed skeletons at a melting CRT
-- Used as the homepage logo at 240×240 inside a 1px `--neutral-900` square frame
-- Also used as the OG image for social previews
-
-### `uinaf-computer.png` — secondary mark / favicon
+### `uinaf-computer.png` — primary mark (product surfaces) + favicon
 
 - The melting CRT alone
-- Used at 32×32 (favicon) and 180×180 (apple-touch-icon)
+- Default studio identifier on **product surfaces**: tools, demos, internal dashboards, docs sites, slides, embedded app shells, README hero images
+- Iconic enough to identify the studio without competing with the page's actual content
+- Renders at 240×240 inside a 1px `--neutral-900` square frame for hero placement, or 60–80px in tool chrome
+- Also doubles as favicon at 32×32 and apple-touch-icon at 180×180
+
+### `uinaf-team.png` — about / social mark
+
+- Two robed skeletons at a melting CRT
+- Used on the **studio homepage** (`uinaf.dev`), About pages, team listings, and social share images (OG / Twitter)
+- Renders well at 240×240 as a monolithic lockup when the studio itself is the subject
+- Same 1px `--neutral-900` framing rules
 
 ### CDN paths (preferred for production)
 
@@ -75,6 +81,7 @@ The skill ships local copies for offline work, slide-deck mocks, and the case wh
 - Logo lockup is the framed 240×240 square. The 1px `--neutral-900` border is part of the mark.
 - Avatar / small-icon usage: 60–80px on the same black canvas.
 - Favicon usage: `uinaf-computer.png` only. Not the team mark.
+- Default to `uinaf-computer.png` for product surfaces. Reach for `uinaf-team.png` only when the studio itself is the subject (homepage, About, OG image).
 
 ### Favicon wiring
 

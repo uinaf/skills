@@ -46,8 +46,8 @@ The canonical brand spec is [references/brand-spec.md](references/brand-spec.md)
 ## Bundled files
 
 - [assets/colors_and_type.css](assets/colors_and_type.css) — drop-in stylesheet for web (tokens, semantic vars, base element styles, `.u-link`, `.u-link-plain`, `.u-card`). Imports Berkeley Mono from `cdn.uinaf.dev`. Use as-is for plain HTML, or as the source of truth for Tailwind theme values.
-- [assets/uinaf-team.png](assets/uinaf-team.png) — primary mark / logo (240×240 in a 1px frame, square crop on solid black).
-- [assets/uinaf-computer.png](assets/uinaf-computer.png) — secondary mark / favicon (32×32 favicon, 180×180 apple-touch-icon).
+- [assets/uinaf-computer.png](assets/uinaf-computer.png) — primary mark for product surfaces (tools, demos, docs, slides) + favicon (32×32) + apple-touch-icon (180×180). The default studio mark unless the surface is *about* the studio.
+- [assets/uinaf-team.png](assets/uinaf-team.png) — about / social mark (studio homepage, About pages, OG / Twitter images). 240×240 in a 1px frame, square crop on solid black.
 
 For production, prefer the CDN URLs over the bundled copies:
 

@@ -8,7 +8,7 @@ For decks, talks, internal presentations.
 
 - Aspect: 16:9 (1920×1080 or 1280×720). 4:3 only when the venue forces it.
 - Background: `--neutral-950` (`rgb(10,10,10)`). No gradients on slides.
-- Logo: framed `uinaf-team.png` in the top-left at ~80×80, with the 1px `--neutral-900` border. The 240×240 home-lockup size is overkill for slides.
+- Logo: framed `uinaf-computer.png` in the top-left at ~80×80, with the 1px `--neutral-900` border. The 240×240 home-lockup size is overkill for slides. Swap to `uinaf-team.png` only when the deck is *about* the studio (intro slides at a meetup, team-presentation context).
 - Page number: bottom-right, `--neutral-600`, mono small (`text-2xs` / 11px).
 - Footer hairline: `border-top: 1px solid --neutral-800` separating page chrome from body.
 - Body: one big idea per slide. Quote-style centered text in `text-2xl` (40px) or `text-3xl` (64px) for hero slides. Body slides use `text-xl` (28px) for the focal line and `text-md` (18px) for supporting prose.
@@ -25,7 +25,7 @@ Reveal.js / similar starter:
     width:80px; height:80px;
     border:1px solid #171717;
   ">
-    <img src="https://cdn.uinaf.dev/images/uinaf-team.png"
+    <img src="https://cdn.uinaf.dev/images/uinaf-computer.png"
          style="width:100%; height:100%; object-fit:cover;">
   </div>
 

@@ -167,10 +167,12 @@ Status colors: `--color-slime-green` (ok), `--color-warn`, `--color-error`, `--c
 
 ## Logo
 
+Default to `uinaf-computer.png` for product surfaces (tools, demos, docs, app shells). Reach for `uinaf-team.png` only when the surface is *about* the studio (homepage, About page, OG image).
+
 ```html
 <a href="/" class="u-link-plain block w-[240px] h-[240px] border border-neutral-900 transition hover:-translate-y-0.5 active:scale-[0.97]">
   <img
-    src="https://cdn.uinaf.dev/images/uinaf-team.png"
+    src="https://cdn.uinaf.dev/images/uinaf-computer.png"
     alt="uinaf"
     class="w-full h-full object-cover transition hover:scale-[1.015]"
   >

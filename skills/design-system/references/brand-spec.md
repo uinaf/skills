@@ -106,8 +106,14 @@ uinaf is a low-icon brand. The codebase uses **zero icon fonts and zero SVG icon
 **No icon fonts, no Lucide/Heroicons.** If you find yourself reaching for one, you're probably designing for a different brand. If a real icon is unavoidable (tool dashboard, IDE-like product), default to Lucide at `1px` stroke (the closest match for the hairline aesthetic) and render it in `--neutral-400`, never coloured. Document the substitution in that product's local README.
 
 **Logo / mark.**
-- Primary mark = `assets/uinaf-team.png` rendered at 240×240 inside a 1px `border-neutral-900` square frame, no rounding, no shadow. This is the homepage logo. It's the only "logo lockup" — there is no separate text wordmark.
-- Secondary / favicon mark = `assets/uinaf-computer.png` (the melting CRT alone). Used at 32×32 (favicon) and 180×180 (apple-touch-icon).
+
+uinaf has two illustrations and they serve two different jobs. Pick by what the surface is *about*:
+
+- **Primary mark** = `assets/uinaf-computer.png` (the melting CRT). The default studio identifier on **product surfaces** — tools, demos, internal dashboards, docs sites, slides, embedded app shells. Iconic enough to identify the studio without competing with the page's actual content. Render at 240×240 inside a 1px `border-neutral-900` square frame, no rounding, no shadow. Smaller framed sizes (60–80px) are common in tool chrome.
+- **About / social mark** = `assets/uinaf-team.png` (the two skeleton figures at desks). Use on the studio homepage (`uinaf.dev`), About pages, team listings, OG / Twitter share images, and any context where the studio itself is the subject. Same 1px framing rules; renders well at 240×240 as a monolithic lockup.
+- **Favicon mark** = `assets/uinaf-computer.png`. Used at 32×32 (favicon) and 180×180 (apple-touch-icon) on every uinaf-owned property.
+
+Neither illustration has a separate text wordmark — the lowercase `uinaf` set in Berkeley Mono can act as one when needed (social handles, command-line prompts).
 - The text `uinaf` set in Berkeley Mono, lowercase, can act as a wordmark when needed (e.g. social handles `@uinafdev`, command-line prompts).
 - **Never** rotate, recolor, gradient-fill, or place the logo on a non-black background.
 
