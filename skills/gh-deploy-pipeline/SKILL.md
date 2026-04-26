@@ -1,0 +1,139 @@
+---
+name: gh-deploy-pipeline
+description: "Set up or align a GitHub Actions deploy pipeline for an app or service. Use when standardizing repos around the verify-then-deploy shape: push to main → detect affected lanes → verify and build artifacts → e2e → deploy each lane to its host (Cloudflare Pages, AWS Amplify, GHCR + VPS, etc.) with a non-cancellable per-lane concurrency group. Pairs with `gh-release-pipeline` for versioned packages — this skill is for deploying running apps, not publishing artifacts to a registry."
+---
+
+# Deploy Pipeline
+
+Push-to-main, lane-aware, artifact-driven. Detect what changed, build it once, run e2e against the built artifact, then deploy that same artifact per host. Frontends ship to a static host (Cloudflare Pages, AWS Amplify); backends ship a container image to GHCR and cut over on the VPS. The shape is identical across both.
+
+## Pipeline Shape
+
+```
+push to main
+  └─► detect-changes      (paths-filter or turbo --affected → per-lane outputs)
+        └─► verify-<lane> (lint + typecheck + test + build → upload artifact)
+              └─► e2e-<lane>    (download artifact, run e2e against it)
+                    └─► deploy-<lane> (download artifact + load env → ship to host)
+                          └─► smoke / health-check  (hit the deployed URL)
+```
+
+Each lane is independent: a uinaf-only change builds and deploys only uinaf, leaving app untouched. Verify, e2e, and deploy run cancellable concurrency groups; the deploy job uses a **non-cancellable** group per `(env, lane)` so two pushes never race the same target.
+
+A separate `deploy.yml` (`workflow_dispatch`) lets a human re-deploy a specific ref + lane without re-running verify — same composite actions, same concurrency group, no path detection.
+
+## Workflow
+
+1. Confirm prerequisites: `main` is the deploy branch, the host (Cloudflare/Amplify/VPS) is reachable, and the secret store (1Password Connect, AWS OIDC, or repo secrets) is wired.
+2. Pick the deploy target — [references/targets.md](references/targets.md) covers Cloudflare Pages, AWS Amplify, and GHCR + VPS (blue/green with Traefik). Each gets its own composite action under `.github/actions/<name>` so the workflow stays declarative.
+3. Author `.github/workflows/main.yml` and (optionally) `.github/workflows/deploy.yml` per [references/workflows.md](references/workflows.md). Keep the `changes → verify → e2e → deploy` topology; do not collapse stages.
+4. Stand up change detection: `dorny/paths-filter@v4` for simple per-app rules, or a Turbo `--affected` walker for monorepos that need package-graph awareness. Output one boolean per deploy lane.
+5. Wire env loading via [references/secrets.md](references/secrets.md) — 1Password Connect for application env, AWS OIDC for cloud creds, GHCR auto-token for image push. Never paste secrets directly into workflow YAML.
+6. Set deploy concurrency: cancellable for verify/e2e, **non-cancellable** for deploy. Group by `(env, lane)` so a uinaf deploy does not block a app deploy, but two uinaf deploys serialize.
+7. Add a smoke step after deploy: hit the deployed URL or container health endpoint and fail the job if it is not 200. A green deploy that does not serve traffic is a failed deploy.
+8. Validate end-to-end: PR (verify only, no deploy) → merge a change touching one lane → watch detect → verify → e2e → deploy → smoke → publish summary. Confirm only the touched lane ran.
+9. Cross-check [references/troubleshooting.md](references/troubleshooting.md) when a deploy is stuck, racing, or shipping the wrong artifact.
+
+## Concrete Examples
+
+Top-level workflow (one lane shown; copy per app):
+
+```yaml
+name: main
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.filter.outputs.web }}
+    steps:
+      - uses: actions/checkout@v6
+        with: { fetch-depth: 0 }
+      - id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            web:
+              - 'apps/web/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+
+  verify-web:
+    needs: changes
+    if: ${{ needs.changes.outputs.web == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-workspace
+      - run: pnpm run check && pnpm run test && pnpm run build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: web-dist
+          path: apps/web/dist
+          if-no-files-found: error
+
+  e2e-web:
+    needs: verify-web
+    if: ${{ needs.verify-web.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with: { name: web-dist, path: apps/web/dist }
+      - uses: ./.github/actions/setup-workspace
+      - run: pnpm run e2e
+
+  deploy-web:
+    needs: [verify-web, e2e-web]
+    if: ${{ needs.verify-web.result == 'success' && needs.e2e-web.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    concurrency:
+      group: deploy-production-web
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with: { name: web-dist, path: apps/web/dist }
+      - uses: ./.github/actions/cloudflare-pages-deploy
+        with:
+          api-token:   ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          account-id:  ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          project-name: web-prod
+          dist-dir:    apps/web/dist
+          branch:      main
+      - run: curl -fsS https://web.example.com/healthz
+```
+
+Manual re-deploy (`.github/workflows/deploy.yml`) with the same concurrency group:
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      ref:  { type: string, default: main }
+      lane: { type: choice, options: [web], default: web }
+
+jobs:
+  deploy-web:
+    if: ${{ inputs.lane == 'web' }}
+    concurrency:
+      group: deploy-production-web   # same group as main.yml — manual + push serialize
+      cancel-in-progress: false
+    # ...build and deploy steps identical to main.yml
+```
+
+## Guardrails
+
+- One artifact end-to-end: e2e and deploy both consume the artifact verify uploaded. Never rebuild inside deploy.
+- Deploy concurrency is non-cancellable per `(env, lane)` and shared between `main.yml` and `deploy.yml`.
+- A deploy job is not green until its smoke step has hit the deployed URL.
