@@ -30,7 +30,7 @@ Audit a skill before calling it ready. Favor Tessl output, repo conventions, and
 3. Read the target `SKILL.md` first, then nearby `references/`, `scripts/`, and `agents/openai.yaml` only as needed
 4. Pick the right Tessl loop:
    - single skill: `npx tessl skill review --json skills/<name>`
-   - full repo batch: use a repo wrapper such as `./scripts/review-skills.sh` if one exists; otherwise run direct Tessl reviews per skill
+   - full repo batch: use a repo wrapper such as `./scripts/skills/review.sh` if one exists; otherwise run direct Tessl reviews per skill
    - optimizer only when explicitly requested: `npx tessl skill review --optimize --yes --max-iterations 1 skills/<name>`
 
 ## Workflow

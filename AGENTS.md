@@ -13,5 +13,5 @@ Instructions for contributors in this repo. For the *global behavioral rules* sy
 - Keep the repo as the system of record. If guidance matters, write it into versioned files.
 - Prefer mechanical enforcement over prose when a rule can be checked by scripts, templates, or CI.
 - Prefer harness evidence over intuition. Inspect files, run commands, and tune wording from what the repo actually does.
-- When changing a skill, run `npx tessl skill review skills/<name>`; for broader skill work, run `./scripts/review-skills.sh` and use the feedback to tighten wording and workflow.
+- When changing a skill, run `npx tessl skill review skills/<name>`; for broader skill work, run `./scripts/skills/review.sh` and use the feedback to tighten wording and workflow.
 - In checked-in Markdown, use repo-relative links for local docs and references. Never commit absolute filesystem targets such as `/Users/...`, `file://...`, or `vscode://...`.

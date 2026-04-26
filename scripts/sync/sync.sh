@@ -51,7 +51,7 @@ else
   echo "Skipping openclaw skills: ~/.openclaw not found"
 fi
 
-MANIFEST="$REPO_DIR/sync/skills.json"
+MANIFEST="$REPO_DIR/scripts/sync/skills.json"
 
 # Install skills only from stable manifest (portable across machines)
 if [ -f "$MANIFEST" ]; then

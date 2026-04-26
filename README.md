@@ -7,9 +7,9 @@ Reusable agent skills, global behavioral rules, and cross-machine sync for AI co
 ## Layout
 
 - `skills/` — reusable skill packages (the table below)
-- `rules/agents.md` — global behavioral rules synced into every agent on every machine via `sync/pull.sh`
-- `sync/` — cross-machine helpers: `pull.sh` (symlink rules + install skills), `push.sh` (publish local skill set into `sync/skills.json`)
-- `scripts/` — repo-local Tessl helpers (`review-skills.sh`, `optimize-skills.sh`)
+- `rules/agents.md` — global behavioral rules synced into every agent on every machine via `scripts/sync/sync.sh`
+- `scripts/sync/` — cross-machine helpers: `sync.sh` (symlink rules + install skills), `push.ts` (publish local skill set into `scripts/sync/skills.json`)
+- `scripts/skills/` — repo-local Tessl helpers (`review.sh`, `optimize.sh`)
 - `docs/` — deeper notes
 - `AGENTS.md` (root) — contributor guide for working on this repo (separate from `rules/agents.md`)
 
@@ -31,10 +31,10 @@ Reusable agent skills, global behavioral rules, and cross-machine sync for AI co
 ```bash
 git clone git@github.com:uinaf/agents.git
 cd agents
-./sync/pull.sh
+./scripts/sync/sync.sh
 ```
 
-This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs the skills listed in `sync/skills.json` into whichever supported agents you have on the box. Re-run any time. To publish your local skill set into `sync/skills.json` and push, use `./sync/push.sh`.
+This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs the skills listed in `scripts/sync/skills.json` into whichever supported agents you have on the box. Re-run any time. To publish your local skill set into `scripts/sync/skills.json` and push, use `./scripts/sync/push.ts`.
 
 ## Install individual skills
 
@@ -56,10 +56,10 @@ npx skills add uinaf/agents -g -s uinaf-design-system
 Use [Tessl](https://tessl.io/), the skill-evaluation CLI used in this repo, to review and optionally optimize skills. If `npx tessl ...` does not resolve locally, check the [CLI docs](https://docs.tessl.io/reference/cli-commands) before running the review loop.
 
 ```bash
-./scripts/review-skills.sh
-./scripts/optimize-skills.sh review
+./scripts/skills/review.sh
+./scripts/skills/optimize.sh review
 ```
 
-The local Tessl helper scripts and workflow notes live in `scripts/`.
+The local Tessl helper scripts and workflow notes live in `scripts/skills/`.
 
-CI also runs `./scripts/review-skills.sh` on pull requests and pushes to `main`.
+CI also runs `./scripts/skills/review.sh` on pull requests and pushes to `main`.
