@@ -12,8 +12,8 @@ SKILL_AGENTS=()
 
 if command -v claude >/dev/null 2>&1; then
   mkdir -p "$HOME/.claude"
-  ln -sf "$REPO_DIR/rules/AGENTS.md" "$HOME/.claude/CLAUDE.md"
-  echo "Linked: ~/.claude/CLAUDE.md -> rules/AGENTS.md"
+  ln -sf "$REPO_DIR/rules/agents.md" "$HOME/.claude/CLAUDE.md"
+  echo "Linked: ~/.claude/CLAUDE.md -> rules/agents.md"
   SKILL_AGENTS+=(claude-code)
 else
   echo "Skipping Claude Code setup: 'claude' is not installed"
@@ -21,14 +21,14 @@ fi
 
 if command -v codex >/dev/null 2>&1; then
   mkdir -p "$HOME/.codex"
-  ln -sf "$REPO_DIR/rules/AGENTS.md" "$HOME/.codex/AGENTS.md"
-  echo "Linked: ~/.codex/AGENTS.md -> rules/AGENTS.md"
+  ln -sf "$REPO_DIR/rules/agents.md" "$HOME/.codex/AGENTS.md"
+  echo "Linked: ~/.codex/AGENTS.md -> rules/agents.md"
   SKILL_AGENTS+=(codex)
 else
   echo "Skipping Codex setup: 'codex' is not installed"
 fi
 
-# Cursor User Rules are not filesystem-synced; copy from rules/AGENTS.md in Settings if you want them.
+# Cursor User Rules are not filesystem-synced; copy from rules/agents.md in Settings if you want them.
 if command -v cursor >/dev/null 2>&1; then
   SKILL_AGENTS+=(cursor)
 else
@@ -37,8 +37,8 @@ fi
 
 if command -v pi >/dev/null 2>&1; then
   mkdir -p "$HOME/.pi/agent"
-  ln -sf "$REPO_DIR/rules/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
-  echo "Linked: ~/.pi/agent/AGENTS.md -> rules/AGENTS.md"
+  ln -sf "$REPO_DIR/rules/agents.md" "$HOME/.pi/agent/AGENTS.md"
+  echo "Linked: ~/.pi/agent/AGENTS.md -> rules/agents.md"
   SKILL_AGENTS+=(pi)
 else
   echo "Skipping pi setup: 'pi' is not installed"

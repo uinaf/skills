@@ -1,17 +1,17 @@
-# skills
+# agents
 
 Reusable agent skills, global behavioral rules, and cross-machine sync for AI coding agents (Claude Code, Codex, Cursor, Pi, openclaw). Progressive disclosure, mechanical verification, repo-first truth.
 
-> Repo will be renamed to `uinaf/agents` once the merged layout settles. The previous `uinaf/agents` repo is preserved as `uinaf/agents-old` for history.
+> The previous `uinaf/agents` repo is preserved as `uinaf/agents-old` for history; this repo absorbed the old `uinaf/skills` and was renamed to take its place.
 
 ## Layout
 
 - `skills/` — reusable skill packages (the table below)
-- `rules/AGENTS.md` — global behavioral rules synced into every agent on every machine via `sync/pull.sh`
+- `rules/agents.md` — global behavioral rules synced into every agent on every machine via `sync/pull.sh`
 - `sync/` — cross-machine helpers: `pull.sh` (symlink rules + install skills), `push.sh` (publish local skill set into `sync/skills.json`)
 - `scripts/` — repo-local Tessl helpers (`review-skills.sh`, `optimize-skills.sh`)
 - `docs/` — deeper notes
-- `AGENTS.md` (root) — contributor guide for working on this repo (separate from `rules/AGENTS.md`)
+- `AGENTS.md` (root) — contributor guide for working on this repo (separate from `rules/agents.md`)
 
 | Skill | What it does |
 |-------|-------------|
@@ -29,26 +29,26 @@ Reusable agent skills, global behavioral rules, and cross-machine sync for AI co
 ## Sync (rules + skills together)
 
 ```bash
-git clone git@github.com:uinaf/skills.git
-cd skills
+git clone git@github.com:uinaf/agents.git
+cd agents
 ./sync/pull.sh
 ```
 
-This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/AGENTS.md`, then installs the skills listed in `sync/skills.json` into whichever supported agents you have on the box. Re-run any time. To publish your local skill set into `sync/skills.json` and push, use `./sync/push.sh`.
+This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs the skills listed in `sync/skills.json` into whichever supported agents you have on the box. Re-run any time. To publish your local skill set into `sync/skills.json` and push, use `./sync/push.sh`.
 
 ## Install individual skills
 
 ```bash
-npx skills add uinaf/skills -g -s agent-readiness
-npx skills add uinaf/skills -g -s docs
-npx skills add uinaf/skills -g -s review
-npx skills add uinaf/skills -g -s skill-audit
-npx skills add uinaf/skills -g -s verify
-npx skills add uinaf/skills -g -s effect-ts
-npx skills add uinaf/skills -g -s viteplus
-npx skills add uinaf/skills -g -s gh-release-pipeline
-npx skills add uinaf/skills -g -s gh-deploy-pipeline
-npx skills add uinaf/skills -g -s uinaf-design-system
+npx skills add uinaf/agents -g -s agent-readiness
+npx skills add uinaf/agents -g -s docs
+npx skills add uinaf/agents -g -s review
+npx skills add uinaf/agents -g -s skill-audit
+npx skills add uinaf/agents -g -s verify
+npx skills add uinaf/agents -g -s effect-ts
+npx skills add uinaf/agents -g -s viteplus
+npx skills add uinaf/agents -g -s gh-release-pipeline
+npx skills add uinaf/agents -g -s gh-deploy-pipeline
+npx skills add uinaf/agents -g -s uinaf-design-system
 ```
 
 ## Evaluate

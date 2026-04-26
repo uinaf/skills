@@ -2,10 +2,6 @@
 
 Behavioral guidelines for AI coding agents. Merge with project-specific instructions.
 
-> Synced via [`sync/pull.sh`](../sync/pull.sh) into `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.pi/agent/AGENTS.md`. For repo contributor guidance, see [`AGENTS.md`](../AGENTS.md). For language- and framework-specific defaults to copy into a project, see [`templates/per-project-AGENTS.md`](templates/per-project-AGENTS.md).
-
----
-
 ## Core Behavior
 
 - Lead with the answer, then reasoning. Cite file paths, command output, errors
