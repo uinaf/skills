@@ -34,7 +34,7 @@ cd agents
 ./scripts/sync/sync.sh
 ```
 
-This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs the skills listed in `scripts/sync/skills.json` into whichever supported agents you have on the box. Re-run any time. To publish your local skill set into `scripts/sync/skills.json` and push, use `./scripts/sync/push.ts`.
+This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs or updates the skills listed in `scripts/sync/skills.json` into whichever supported agents you have on the box. Sync is additive: it does not remove skills that are not in this manifest. Re-run any time. To publish your local skill set into `scripts/sync/skills.json` and push, use `./scripts/sync/push.ts`.
 
 ## Install individual skills
 
