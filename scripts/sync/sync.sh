@@ -4,7 +4,7 @@ set -euo pipefail
 PRUNE_MANAGED=0
 for arg in "$@"; do
   case "$arg" in
-    --prune|--prune-managed)
+    --prune)
       PRUNE_MANAGED=1
       ;;
     -h|--help)
