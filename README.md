@@ -6,7 +6,7 @@ Reusable agent skills, global behavioral rules, and cross-machine sync for AI co
 
 - `skills/` — reusable skill packages (the table below)
 - `rules/agents.md` — global behavioral rules synced into every agent on every machine via `scripts/sync/sync.sh`
-- `scripts/sync/` — cross-machine helpers: `sync.sh` (symlink rules + install skills), `push.ts` (publish local skill set into `scripts/sync/skills.json`)
+- `scripts/sync/` — cross-machine helper: `sync.sh` (symlink rules + install skills)
 - `scripts/skills/` — repo-local Tessl helpers (`review.sh`, `optimize.sh`)
 - `docs/` — deeper notes
 - `AGENTS.md` (root) — contributor guide for working on this repo (separate from `rules/agents.md`)
@@ -32,7 +32,7 @@ cd agents
 ./scripts/sync/sync.sh
 ```
 
-This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs or updates the skills listed in `scripts/sync/skills.json` into whichever supported agents you have on the box. Sync is additive by default: it does not remove skills that are not in this manifest. To remove stale globally installed skills whose source is `uinaf/agents`, run `./scripts/sync/sync.sh --prune`. Re-run any time. To publish your local skill set into `scripts/sync/skills.json` and push, use `./scripts/sync/push.ts`.
+This symlinks `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to `rules/agents.md`, then installs or updates the skills listed in `scripts/sync/skills.json` into whichever supported agents you have on the box. Sync is additive by default: it does not remove skills that are not in this manifest. To remove stale globally installed skills whose source is `uinaf/agents`, run `./scripts/sync/sync.sh --prune`. Re-run any time.
 
 ## Install individual skills
 
