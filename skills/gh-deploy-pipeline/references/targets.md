@@ -87,7 +87,7 @@ The `deploy-branch.ts` helper is small but load-bearing:
 
 ## GHCR + VPS (Container, blue/green with Traefik)
 
-For a backend service that runs on a VPS (uinaf-engine pattern). Two repos collaborate: this one builds and pushes the image; an Ansible inventory lives either alongside or in a separate ops repo and runs the cutover.
+For a backend service that runs on a VPS. Two repos may collaborate: this one builds and pushes the image; an Ansible inventory lives either alongside or in a separate ops repo and runs the cutover.
 
 ### Build + push the image
 

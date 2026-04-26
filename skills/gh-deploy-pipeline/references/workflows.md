@@ -2,6 +2,8 @@
 
 Conventions for the workflow files this skill produces. Two files cover the common cases; only add a third for preview deploys (PR-driven).
 
+Start by reading the repo's existing workflow/action files and any same-org repo that deploys to the same host. Preserve proven composite actions, token names, and deploy scripts when the target matches. Marketplace examples are fallback material, not the first source of truth.
+
 ## File layout
 
 ```
@@ -17,7 +19,7 @@ Conventions for the workflow files this skill produces. Two files cover the comm
     └── publish-preview-comment/  # only if you do PR previews
 ```
 
-Composite actions, not reusable workflows, for the deploy primitives. Reusable workflows are useful when you have many lanes that share the *whole* job graph (build → e2e → deploy); composite actions are right when only the deploy step itself is shared. uinaf-web uses both: `lane.yml` is a reusable workflow that calls `deploy-hosted-app` (composite). uinaf-web stays simpler — composite actions only, jobs duplicated per lane.
+Composite actions, not reusable workflows, for the deploy primitives. Reusable workflows are useful when you have many lanes that share the *whole* job graph (build → e2e → deploy); composite actions are right when only the deploy step itself is shared. A larger uinaf app may use both: `lane.yml` as a reusable workflow that calls `deploy-hosted-app` (composite). A smaller app can stay simpler with composite actions only and duplicated jobs per lane.
 
 ## Triggers
 

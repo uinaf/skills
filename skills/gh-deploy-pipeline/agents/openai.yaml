@@ -1,4 +1,4 @@
 interface:
   display_name: "Deploy Pipeline"
   short_description: "Standardize GitHub Actions deploy flow"
-  default_prompt: "Use $gh-deploy-pipeline to set up or align this repo's GitHub Actions deploy flow around the verify-then-deploy shape: push to main → detect affected lanes → verify and build artifacts → e2e → deploy each lane to its host (Cloudflare Pages, AWS Amplify, GHCR + VPS) → smoke check the deployed URL. Pick the deploy target that matches this repo and preserve any repo-specific bootstrap, change-detection, or per-lane composite actions already in place."
+  default_prompt: "Use $gh-deploy-pipeline to set up or align this repo's GitHub Actions deploy flow around the verify-then-deploy shape: push to main → detect affected lanes → verify and build artifacts → e2e → deploy each lane to its host (Cloudflare Pages, AWS Amplify, GHCR + VPS) → smoke check the deployed URL. Inspect existing workflows and any known-good sibling repo before choosing actions. Pick the deploy target that matches this repo and preserve any repo-specific bootstrap, change-detection, or per-lane composite actions already in place."

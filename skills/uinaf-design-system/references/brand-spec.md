@@ -55,7 +55,7 @@ The lowercase rule is scoped to surfaces uinaf controls visually — `uinaf.dev`
 - Prose anchors carry a *low-contrast underline by default* (`text-decoration-color: --neutral-700`), text in `inherit`. The underline is the affordance — never rely on color alone.
 - Hover swaps both color and underline-color to `--slime-cyan` (`#3FFFE6`). Nothing else animates. The link does not lift, does not bold, does not shadow.
 - Wrap prose blocks in `.u-prose` to inherit the pattern, or apply `.u-link` directly. Use `.u-link-plain` for nav, footer, card titles, and any anchor that wraps a larger composite — those use opacity-fade hover and no underline. Cards that wrap an `<a>` should use `.u-link-plain` so the underline doesn't span the whole card.
-- Cyan is the *only* link accent. Don't introduce per-brand link colors (the way altay.wtf colors `uinaf` amber, `klarna` pink, etc.) — that's a personal-site move; the studio voice is one accent.
+- Cyan is the *only* link accent. Don't introduce per-brand link colors for each product or client — that's a personal-site move; the studio voice is one accent.
 
 **Spacing.** Generous outer padding (`p-8` / 32px on framed content), tight internal density (`gap-2` / `gap-3` / `gap-4`). Containers cap at `max-w-xl` (36rem) for prose-driven pages — the site is intentionally narrow and legible. Sections are separated by `<hr>` hairlines, not by background-color shifts.
 

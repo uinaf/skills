@@ -2,6 +2,8 @@
 
 Use this reference when wiring the publish step. The verify→release shape stays identical across targets; only the publish plumbing and secrets change.
 
+Before picking an action, inspect the repo's current release files and at least one known-good sibling repo when the organization has one. Release and tap actions have subtle defaults around forks, direct pushes, generated formulae, and token scopes; copying the nearest working pattern is usually safer than inventing a new one.
+
 ## npm (Library or CLI)
 
 Plugins:
@@ -186,7 +188,25 @@ GoReleaser commits the updated `Formula/<cli-name>.rb` straight to the tap's def
 
 ### Flow B — Non-Go CLI (Node, Ruby, etc.)
 
-Use [`dawidd6/action-homebrew-bump-formula`](https://github.com/dawidd6/action-homebrew-bump-formula) after semantic-release tags the new version. It opens a PR (or pushes directly) to the tap with the bumped url + sha256.
+First check whether the org already has a non-Go CLI publishing to the same tap. If it does, copy that action and input shape unless the packaging format is different.
+
+For script or binary CLIs whose Homebrew formula can be generated from the GitHub Release archive, [`Justintime50/homebrew-releaser`](https://github.com/Justintime50/homebrew-releaser) is the boring direct-to-tap pattern. It clones the source repo and tap repo, generates or updates the formula, and commits straight to the tap branch using the supplied token. Pin the same major version the working sibling repo uses.
+
+```yaml
+- if: steps.release.outputs.new_release_published == 'true'
+  uses: Justintime50/homebrew-releaser@v3
+  with:
+    homebrew_owner: <org>
+    homebrew_tap: homebrew-tap
+    formula_folder: Formula
+    github_token: ${{ secrets.TAP_GITHUB_TOKEN }}
+    commit_owner: release-bot
+    commit_email: release-bot@users.noreply.github.com
+    install: 'bin.install "<cli-name>"'
+    test: 'system "#{bin}/<cli-name>", "--version"'
+```
+
+Use [`dawidd6/action-homebrew-bump-formula`](https://github.com/dawidd6/action-homebrew-bump-formula) only when you explicitly want its version-bump workflow and have verified its fork/direct-push behavior against the tap repo. Do not choose it as the default just because the task says "bump Homebrew"; in some setups it opens or assumes a fork path where the expected release shape is a direct push to the tap.
 
 ```yaml
 - if: steps.release.outputs.new_release_published == 'true'
@@ -200,6 +220,7 @@ Use [`dawidd6/action-homebrew-bump-formula`](https://github.com/dawidd6/action-h
 
 - The action computes the tarball sha256 from the GitHub-hosted release archive, so the source release must complete before this step runs.
 - For a Node CLI distributed via npm rather than a GitHub release archive, write a custom formula that uses `Language::Node::Shebang` and a `resource` block; the bump action does not handle that shape.
+- If the working sibling repo uses `Justintime50/homebrew-releaser`, do not replace it with an inline clone/sed/push script. Standard action first; custom shell only after proving no maintained action fits.
 
 ### Tap repo conventions
 

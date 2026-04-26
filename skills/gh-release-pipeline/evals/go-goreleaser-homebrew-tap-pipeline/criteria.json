@@ -43,6 +43,11 @@
       "description": "A `.goreleaser.yaml` (or equivalent) file is produced containing a `brews:` block that references the Homebrew tap repo"
     },
     {
+      "name": "No non-Go Homebrew action for Go",
+      "max_score": 6,
+      "description": "The solution does not add `Justintime50/homebrew-releaser`, `dawidd6/action-homebrew-bump-formula`, or an inline tap-update script for the Go CLI; GoReleaser owns the tap update"
+    },
+    {
       "name": "fetch-depth: 0",
       "max_score": 6,
       "description": "Both verify and release job checkout steps use `fetch-depth: 0`"

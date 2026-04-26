@@ -98,7 +98,7 @@ Most uinaf projects ship under MIT. The `LICENSE` file is the canonical text; `R
 
 ## Verify and delivery — the short version
 
-The detailed model lives in other skills (`viteplus`, `agent-readiness`, `uinaf-frontend-repos` for cross-reference). uinaf's expectations at the repo-doc level:
+The detailed model lives in other skills (`viteplus`, `agent-readiness`, `gh-release-pipeline`, and `gh-deploy-pipeline`). uinaf's expectations at the repo-doc level:
 
 - One repo-local `verify` entrypoint (`pnpm verify` for TypeScript) that gates everything.
 - Every merge to `main` is assumed publishable or deployable. Document the publish path in `CONTRIBUTING.md` so contributors aren't surprised when their merged commit ships.

@@ -5,6 +5,7 @@ Behavioral guidelines for AI coding agents. Merge with project-specific instruct
 ## Core Behavior
 
 - Lead with the answer, then reasoning. Cite file paths, command output, errors
+- If an approach is weak, say so and propose a better one
 - Fix only what was asked. Flag related issues, wait for approval before expanding scope
 - If instructions are unclear, contradictory, or have multiple plausible interpretations, ask before guessing
 - When rules conflict: safety/correctness > explicit user constraints > style/tone
@@ -34,6 +35,7 @@ For non-trivial tasks, before writing code:
 - Prefer integration / contract / e2e checks over mock-heavy unit tests
 - If verification infra is missing, flag it (use `agent-readiness`) — do not declare done
 - The builder never grades their own work. Hand verification to an independent evaluator (e.g. `verify` skill or a fresh subagent)
+- If it is not verified, it is not done
 
 ### Feedback loops
 
@@ -43,7 +45,13 @@ For non-trivial tasks, before writing code:
 
 ### Keep docs alive
 
-- After a feature, rename, move, or delete: grep `AGENTS.md`, `README`, and architecture docs for stale references and update them in the same change
+Doc drift degrades every future agent's performance. Update docs as part of the work, not after.
+
+- After implementing a feature, check whether `AGENTS.md`, `README`, or architecture docs need updates
+- After renaming, moving, or deleting code, grep docs for stale references
+- After a design decision, record it before moving on
+- If it is not in the repo, it does not exist to the next agent
+- If a `docs` skill is available, use it for audits and structural updates
 
 ### When blocked
 
@@ -51,19 +59,34 @@ Reproduce the failure, find the root cause with evidence, fix the root cause. No
 
 ---
 
+## Anti-Patterns
+
+- Big `AGENTS.md` files. Keep it a table of contents; load detail on demand
+- Self-evaluation. The agent that built the change is biased toward passing it
+- Mocked tests as verification. They often pass by construction and prove little
+- Infinite retry loops. Cap CI rounds and surface the real blocker
+- All-agentic pipelines. Deterministic checks belong in scripts, hooks, and CI
+
+---
+
 ## Code Principles
 
 - Build from small composable pieces with narrow surfaces; deep modules over layered complexity
 - Make illegal states unrepresentable; parse external input at the boundary, operate on typed values internally
+- Prefer reversible changes when uncertain
 - Delete dead code, unused exports, stale branches — do not preserve "just in case"
+- For hot paths or performance-sensitive changes, include before/after benchmark numbers
 - Follow existing repo conventions before inventing new ones; if you must invent, explain why
 - Never hardcode volatile metrics (test counts, coverage %) in docs — let commands be the source of truth
 - Use repo-relative links in checked-in Markdown; never commit absolute filesystem paths
+- Avoid TypeScript escape hatches (`as`, non-null `!`, `unknown as T`, double assertions) unless explicitly approved
 - Do not disable linters, type checks, or tests — fix the root cause
-- Treat errors as first-class: typed, contextful, no silent catches
+- Treat errors as first-class: typed, contextful, no silent catches. User-facing errors should help recovery while preserving operator diagnostics
 - Never log or surface secrets in error output
 - Schema/state changes must be forward-compatible with a documented rollback path; flag irreversible migrations before running them
 - Don't add dependencies unless necessary; prefer what's already in the stack
+- No real timers in tests. Mock time, mute loggers, and avoid assertions on logger calls
+- Prefer in-process tests; use subprocess tests only for true process-boundary behavior
 
 ---
 

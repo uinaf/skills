@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether verify refuses to call a change ready when the repo has no reliable boot/test/runtime surface, reports exact attempted commands, and hands off to agent-readiness instead of pretending static inspection is proof.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Blocked verdict",
+      "max_score": 16,
+      "description": "The report verdict is exactly `blocked`, not `ready for review`, `ship it`, or an optimistic equivalent"
+    },
+    {
+      "name": "Commands attempted",
+      "max_score": 12,
+      "description": "The report lists exact commands attempted to find or run verification infrastructure, such as package scripts, tests, boot commands, or lockfile checks"
+    },
+    {
+      "name": "Missing infra evidence",
+      "max_score": 12,
+      "description": "The report includes concrete evidence that verification infrastructure is missing or unusable, not just a generic statement that there are no tests"
+    },
+    {
+      "name": "No static proof substitution",
+      "max_score": 14,
+      "description": "The report does not treat reading `src/worker.ts` or reasoning about the function as equivalent to runtime verification"
+    },
+    {
+      "name": "Readiness gaps listed",
+      "max_score": 12,
+      "description": "The report names the missing readiness pieces, such as lockfile/install path, test script, boot command, smoke check, or service entrypoint"
+    },
+    {
+      "name": "agent-readiness handoff",
+      "max_score": 14,
+      "description": "The recommended follow-up is `agent-readiness` or an equivalent readiness-building task before review"
+    },
+    {
+      "name": "Surfaces not exercised honestly",
+      "max_score": 10,
+      "description": "The Surfaces Exercised section is honest about what was attempted and what could not be exercised"
+    },
+    {
+      "name": "No invented tests",
+      "max_score": 10,
+      "description": "The solution does not add ad hoc tests or a custom harness solely to claim verification passed; it reports the repo readiness gap"
+    }
+  ]
+}

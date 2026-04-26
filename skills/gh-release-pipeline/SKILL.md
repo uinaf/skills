@@ -22,15 +22,16 @@ Both jobs check out at `fetch-depth: 0`. The verify job is gated by a cancellabl
 
 ## Workflow
 
-1. Confirm prerequisites: `main` is the release branch, commits follow Conventional Commits, and a publish token for the target registry exists.
-2. Pick the publish target — [references/targets.md](references/targets.md) covers npm, CocoaPods/SwiftPM, Go (GoReleaser), Rust (release-plz + cargo-dist), GitHub Actions marketplace, and Homebrew tap automation.
-3. Author `.github/workflows/ci.yml` with verify and release jobs per [references/workflows.md](references/workflows.md).
-4. Add release config (`.releaserc.json`, `release.config.js`, or a `"release"` block in `package.json`) per [references/semantic-release.md](references/semantic-release.md).
-5. Wire publish secrets in repo settings (`NPM_TOKEN`, `COCOAPODS_TRUNK_TOKEN`, `TAP_GITHUB_TOKEN`, etc.) and scope `permissions:` per job — never broaden the default token.
-6. Add the `[skip ci]` short-circuit to both jobs so the bump commit does not retrigger.
-7. Set bot identity (`GIT_AUTHOR_NAME`/`GIT_COMMITTER_NAME` + emails) so the bump commit is attributed to the release bot, not the last human pusher.
-8. Validate end-to-end: PR (verify only) → merge a `feat:` / `fix:` → watch verify→release run → confirm tag, GitHub Release, published artifact, and the `chore(release): … [skip ci]` commit on `main`.
-9. Cross-check [references/troubleshooting.md](references/troubleshooting.md) when verify or release misbehaves before assuming the repo is at fault.
+1. Inspect the current repo first: existing `.github/workflows/*`, release config, tap formula, package metadata, and any failed PR/check logs. If the org has a known-good sibling repo for the same target, read that workflow before choosing an action.
+2. Confirm prerequisites: `main` is the release branch, commits follow Conventional Commits, and a publish token for the target registry exists.
+3. Pick the publish target — [references/targets.md](references/targets.md) covers npm, CocoaPods/SwiftPM, Go (GoReleaser), Rust (release-plz + cargo-dist), GitHub Actions marketplace, and Homebrew tap automation. Prefer an existing working repo pattern over a generic marketplace action.
+4. Author `.github/workflows/ci.yml` with verify and release jobs per [references/workflows.md](references/workflows.md).
+5. Add release config (`.releaserc.json`, `release.config.js`, or a `"release"` block in `package.json`) per [references/semantic-release.md](references/semantic-release.md).
+6. Wire publish secrets in repo settings (`NPM_TOKEN`, `COCOAPODS_TRUNK_TOKEN`, `TAP_GITHUB_TOKEN`, etc.) and scope `permissions:` per job — never broaden the default token.
+7. Add the `[skip ci]` short-circuit to both jobs so the bump commit does not retrigger.
+8. Set bot identity (`GIT_AUTHOR_NAME`/`GIT_COMMITTER_NAME` + emails) so the bump commit is attributed to the release bot, not the last human pusher.
+9. Validate end-to-end: PR (verify only) → merge a `feat:` / `fix:` → watch verify→release run → confirm tag, GitHub Release, published artifact, and the `chore(release): … [skip ci]` commit on `main`.
+10. Cross-check [references/troubleshooting.md](references/troubleshooting.md) when verify or release misbehaves before assuming the repo is at fault.
 
 ## Concrete Examples
 
@@ -104,5 +105,6 @@ Canonical `.releaserc.json`:
 ## Guardrails
 
 - One release pipeline per repo. If the repo already has a tag-driven backstop workflow, document why; do not silently introduce a second active path.
+- Repo precedent beats generic advice. If a sibling repo already ships the same artifact class successfully, preserve that action and shape unless you can point to a concrete mismatch.
 - Verify is the only gate to publish. Do not move guardrails into the release job, do not bypass via `workflow_dispatch`, do not weaken `needs: [verify]`.
 - The bump commit is sacred: bot-authored, `[skip ci]` in the message, respected by both jobs' `if:` guards. Breaking any of those re-triggers the pipeline infinitely.

@@ -2,35 +2,27 @@
   "skills": [
     {
       "name": "agent-readiness",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "docs",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "effect-ts",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "emil-design-eng",
       "source": "emilkowalski/skill"
     },
     {
+      "name": "gh-deploy-pipeline",
+      "source": "uinaf/agents"
+    },
+    {
       "name": "gh-release-pipeline",
-      "source": "uinaf/skills"
-    },
-    {
-      "name": "uinaf-frontend-docs",
-      "source": "uinaf/skills"
-    },
-    {
-      "name": "uinaf-frontend-repos",
-      "source": "uinaf/skills"
-    },
-    {
-      "name": "uinaf-sdk-dev",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "react-doctor",
@@ -38,26 +30,26 @@
     },
     {
       "name": "review",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "skill-audit",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "uinaf-design-system",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "verify",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     },
     {
       "name": "viteplus",
-      "source": "uinaf/skills"
+      "source": "uinaf/agents"
     }
   ],
-  "version": 30,
-  "manifestHash": "78b7d3c0a6ed8f27000b1324baf3fbee262af193c33c926d6e4c1f0a6ac18457",
-  "updatedAt": "2026-04-26T15:02:12Z"
+  "version": 32,
+  "manifestHash": "d1098151e66444ab4bdb9fe2cf60cff4fae12a3563c599cd48da44f58572bb67",
+  "updatedAt": "2026-04-26T22:45:00Z"
 }

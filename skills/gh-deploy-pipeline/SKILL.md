@@ -18,21 +18,22 @@ push to main
                           └─► smoke / health-check  (hit the deployed URL)
 ```
 
-Each lane is independent: a uinaf-only change builds and deploys only uinaf, leaving app untouched. Verify, e2e, and deploy run cancellable concurrency groups; the deploy job uses a **non-cancellable** group per `(env, lane)` so two pushes never race the same target.
+Each lane is independent: a web-only change builds and deploys only web, leaving api untouched. Verify, e2e, and deploy run cancellable concurrency groups; the deploy job uses a **non-cancellable** group per `(env, lane)` so two pushes never race the same target.
 
 A separate `deploy.yml` (`workflow_dispatch`) lets a human re-deploy a specific ref + lane without re-running verify — same composite actions, same concurrency group, no path detection.
 
 ## Workflow
 
-1. Confirm prerequisites: `main` is the deploy branch, the host (Cloudflare/Amplify/VPS) is reachable, and the secret store (1Password Connect, AWS OIDC, or repo secrets) is wired.
-2. Pick the deploy target — [references/targets.md](references/targets.md) covers Cloudflare Pages, AWS Amplify, and GHCR + VPS (blue/green with Traefik). Each gets its own composite action under `.github/actions/<name>` so the workflow stays declarative.
-3. Author `.github/workflows/main.yml` and (optionally) `.github/workflows/deploy.yml` per [references/workflows.md](references/workflows.md). Keep the `changes → verify → e2e → deploy` topology; do not collapse stages.
-4. Stand up change detection: `dorny/paths-filter@v4` for simple per-app rules, or a Turbo `--affected` walker for monorepos that need package-graph awareness. Output one boolean per deploy lane.
-5. Wire env loading via [references/secrets.md](references/secrets.md) — 1Password Connect for application env, AWS OIDC for cloud creds, GHCR auto-token for image push. Never paste secrets directly into workflow YAML.
-6. Set deploy concurrency: cancellable for verify/e2e, **non-cancellable** for deploy. Group by `(env, lane)` so a uinaf deploy does not block a app deploy, but two uinaf deploys serialize.
-7. Add a smoke step after deploy: hit the deployed URL or container health endpoint and fail the job if it is not 200. A green deploy that does not serve traffic is a failed deploy.
-8. Validate end-to-end: PR (verify only, no deploy) → merge a change touching one lane → watch detect → verify → e2e → deploy → smoke → publish summary. Confirm only the touched lane ran.
-9. Cross-check [references/troubleshooting.md](references/troubleshooting.md) when a deploy is stuck, racing, or shipping the wrong artifact.
+1. Inspect the current repo first: existing `.github/workflows/*`, `.github/actions/*`, hosting scripts, infra files, and recent failing runs. If the org has a known-good sibling repo for the same host, read that workflow before choosing actions or inventing shell.
+2. Confirm prerequisites: `main` is the deploy branch, the host (Cloudflare/Amplify/VPS) is reachable, and the secret store (1Password Connect, AWS OIDC, or repo secrets) is wired.
+3. Pick the deploy target — [references/targets.md](references/targets.md) covers Cloudflare Pages, AWS Amplify, and GHCR + VPS (blue/green with Traefik). Each gets its own composite action under `.github/actions/<name>` so the workflow stays declarative. Prefer a working repo-local or sibling composite action over a fresh marketplace guess.
+4. Author `.github/workflows/main.yml` and (optionally) `.github/workflows/deploy.yml` per [references/workflows.md](references/workflows.md). Keep the `changes → verify → e2e → deploy` topology; do not collapse stages.
+5. Stand up change detection: `dorny/paths-filter@v4` for simple per-app rules, or a Turbo `--affected` walker for monorepos that need package-graph awareness. Output one boolean per deploy lane.
+6. Wire env loading via [references/secrets.md](references/secrets.md) — 1Password Connect for application env, AWS OIDC for cloud creds, GHCR auto-token for image push. Never paste secrets directly into workflow YAML.
+7. Set deploy concurrency: cancellable for verify/e2e, **non-cancellable** for deploy. Group by `(env, lane)` so a web deploy does not block an api deploy, but two web deploys serialize.
+8. Add a smoke step after deploy: hit the deployed URL or container health endpoint and fail the job if it is not 200. A green deploy that does not serve traffic is a failed deploy.
+9. Validate end-to-end: PR (verify only, no deploy) → merge a change touching one lane → watch detect → verify → e2e → deploy → smoke → publish summary. Confirm only the touched lane ran.
+10. Cross-check [references/troubleshooting.md](references/troubleshooting.md) when a deploy is stuck, racing, or shipping the wrong artifact.
 
 ## Concrete Examples
 
@@ -135,5 +136,6 @@ jobs:
 ## Guardrails
 
 - One artifact end-to-end: e2e and deploy both consume the artifact verify uploaded. Never rebuild inside deploy.
+- Repo precedent beats generic advice. If a sibling repo already deploys to the same host successfully, preserve that workflow/action shape unless you can point to a concrete mismatch.
 - Deploy concurrency is non-cancellable per `(env, lane)` and shared between `main.yml` and `deploy.yml`.
 - A deploy job is not green until its smoke step has hit the deployed URL.

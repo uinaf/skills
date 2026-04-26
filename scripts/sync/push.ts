@@ -3,7 +3,8 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 type Skill = { name: string; source: string };
 type Manifest = {
@@ -13,9 +14,12 @@ type Manifest = {
   updatedAt?: string;
 };
 
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_DIR =
   process.env.AGENTS_DIR ??
-  execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf-8' }).trim();
+  execFileSync('git', ['-C', SCRIPT_DIR, 'rev-parse', '--show-toplevel'], {
+    encoding: 'utf-8',
+  }).trim();
 process.chdir(REPO_DIR);
 
 const GLOBAL_LOCK = join(homedir(), '.agents', '.skill-lock.json');

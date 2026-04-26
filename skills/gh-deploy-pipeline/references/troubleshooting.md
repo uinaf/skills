@@ -96,7 +96,7 @@ Common failure modes when standing up or operating a deploy pipeline. Check here
 ## Concurrency group serializes when it shouldn't
 
 - Cause: the group key includes `${{ github.ref }}` instead of `(env, lane)`, so two pushes on `main` correctly serialize but a manual dispatch from a different ref gets its own queue and can race.
-- Fix: lane-scoped key (`deploy-production-web`), not ref-scoped. Same key in `main.yml` and `deploy.yml`. Different lanes get different keys so uinaf and app can deploy in parallel.
+- Fix: lane-scoped key (`deploy-production-web`), not ref-scoped. Same key in `main.yml` and `deploy.yml`. Different lanes get different keys so web and api can deploy in parallel.
 
 ## "Resource not accessible by integration" when posting preview comment
 

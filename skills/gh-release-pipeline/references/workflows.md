@@ -7,6 +7,7 @@ Use this reference when authoring or aligning the GitHub Actions workflow files.
 - Default: a single `.github/workflows/ci.yml` with `verify` and `release` jobs.
 - Split into `verify.yml` + `release.yml` only when verify must run on a different cadence (e.g., scheduled) or when release needs a runner the verify path does not.
 - Avoid a third "tag-driven backstop" workflow unless the repo has a documented reason. Two active release paths is a foot-gun.
+- Before changing layout, read existing workflows and any same-org repo that already publishes the same artifact type. Keep its action choice, token naming, and tap handling when the target matches.
 
 ## Triggers
 
@@ -112,7 +113,7 @@ Pick one matching the repo's toolchain and place it after `actions/checkout`. Th
 ```
 
 ```yaml
-# Go (uinaf-cli style)
+# Go CLI
 - uses: jdx/mise-action@v4
 - run: mise run verify
 ```
