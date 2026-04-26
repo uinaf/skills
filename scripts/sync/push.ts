@@ -15,7 +15,6 @@ type Manifest = {
 };
 
 const REPO_SOURCE = 'uinaf/agents';
-const LEGACY_REPO_SOURCE = 'uinaf/skills';
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_DIR =
   process.env.AGENTS_DIR ??
@@ -36,13 +35,9 @@ if (existsSync(GLOBAL_LOCK)) {
   };
   const currentSkills = current.skills ?? [];
   const currentManaged: Skill[] = currentSkills
-    .filter((skill) => skill.source === REPO_SOURCE || skill.source === LEGACY_REPO_SOURCE)
-    .map((skill) => ({ ...skill, source: REPO_SOURCE }));
+    .filter((skill) => skill.source === REPO_SOURCE);
   const managedFromLock: Skill[] = Object.entries(lock.skills ?? {})
-    .map(([name, value]) => ({
-      name,
-      source: value.source === LEGACY_REPO_SOURCE ? REPO_SOURCE : value.source,
-    }))
+    .map(([name, value]) => ({ name, source: value.source }))
     .filter((skill) => skill.source === REPO_SOURCE);
   const managedByName = new Map<string, Skill>();
   for (const skill of currentManaged) managedByName.set(skill.name, skill);
@@ -50,7 +45,7 @@ if (existsSync(GLOBAL_LOCK)) {
 
   const managedNames = new Set(managedByName.keys());
   const preservedExternal = currentSkills.filter(
-    (skill) => skill.source !== REPO_SOURCE && skill.source !== LEGACY_REPO_SOURCE && !managedNames.has(skill.name),
+    (skill) => skill.source !== REPO_SOURCE && !managedNames.has(skill.name),
   );
   const skills: Skill[] = [...managedByName.values(), ...preservedExternal]
     .sort((a, b) => a.name.localeCompare(b.name));
