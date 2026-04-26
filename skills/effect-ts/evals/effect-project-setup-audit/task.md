@@ -2,21 +2,62 @@
 
 A junior developer has started a new Effect TypeScript project, but the configuration has several problems. Your job is to audit the project and produce a corrected configuration.
 
-## Project Location
+## Output Specification
 
-The project files are at `/workspace/scenario-2-project/`. The relevant files are:
+Produce the following files at the workspace root, ready to commit as-is (no placeholders left unfilled):
 
-- `package.json` — lists dependencies and scripts
-- `tsconfig.json` — TypeScript compiler configuration
-- `.vscode/settings.json` — VS Code workspace settings (may or may not exist)
-- `src/index.ts` — application entrypoint (for reference)
+1. A corrected `package.json` (keep all existing app dependencies; only fix Effect-related packages and scripts)
+2. A corrected `tsconfig.json`
+3. A `.vscode/settings.json` with the recommended TypeScript settings for this kind of project
+4. An `AUDIT.md` explaining each problem found and what was changed
 
-## What to Produce
+## Input Files
 
-1. Write a corrected `package.json` to `/workspace/scenario-2-project/package.json` (keep all existing app dependencies; only fix Effect-related packages and scripts)
-2. Write a corrected `tsconfig.json` to `/workspace/scenario-2-project/tsconfig.json`
-3. Write a VS Code workspace settings file to `/workspace/scenario-2-project/.vscode/settings.json` with the recommended TypeScript settings for this kind of project
-4. Write an audit report to `/workspace/scenario-2-project/AUDIT.md` explaining each problem found and what was changed
+The following files represent the current state of the repository. Extract them before beginning. The project targets the Node.js runtime.
+
+=============== FILE: package.json ===============
+{
+  "name": "scenario-2-project",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "effect": "^3.10.0",
+    "@effect/schema": "^0.75.0",
+    "@effect/platform": "^0.69.0",
+    "@effect/platform-node": "^0.64.0",
+    "@effect/platform-bun": "^0.49.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "tsx": "^4.19.0"
+  }
+}
+
+=============== FILE: tsconfig.json ===============
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"]
+}
+
+=============== FILE: src/index.ts ===============
+import { Effect } from "effect"
+
+const program = Effect.succeed("hello, world")
+
+Effect.runSync(program)
 
 ## Known Issues to Investigate
 
@@ -31,4 +72,4 @@ The current `tsconfig.json` has:
 - no `verbatimModuleSyntax`
 - no `@effect/language-service` plugin
 
-Fix all issues you find by applying standard Effect project conventions. The project targets the Node.js runtime.
+Fix all issues you find by applying standard Effect project conventions.
