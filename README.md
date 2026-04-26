@@ -11,6 +11,8 @@ Reusable agent skills for coding workflows. Progressive disclosure, mechanical v
 | **verify** | Verify your own completed change against the existing infrastructure and real surfaces before calling it done |
 | **effect-ts** | Effect TypeScript patterns — setup, Layer/Schema/Service, platform packages, runtime wiring, Promise-to-Effect migration |
 | **viteplus** | Migrate frontend repos to the stock VitePlus workflow across scripts, tests, CI, and packaging |
+| **gh-release-pipeline** | Standardize a repo's GitHub Actions release flow — verify → semantic-release tags + publishes (npm, CocoaPods/SwiftPM, Go, Rust, GitHub Action) → version-bump back to main with `[skip ci]` |
+| **gh-deploy-pipeline** | Standardize a repo's GitHub Actions deploy flow — push to main → detect lanes → verify + e2e against built artifacts → deploy each lane (Cloudflare Pages, AWS Amplify, GHCR + VPS) → smoke check |
 | **uinaf-design-system** | Apply the uinaf brand identity to any uinaf output — web (Tailwind v4), blog / changelog / docs / READMEs, slides, OG / social, email, terminal banners, native app starting points |
 
 ## Install
@@ -23,6 +25,8 @@ npx skills add uinaf/skills -g -s skill-audit
 npx skills add uinaf/skills -g -s verify
 npx skills add uinaf/skills -g -s effect-ts
 npx skills add uinaf/skills -g -s viteplus
+npx skills add uinaf/skills -g -s gh-release-pipeline
+npx skills add uinaf/skills -g -s gh-deploy-pipeline
 npx skills add uinaf/skills -g -s uinaf-design-system
 ```
 

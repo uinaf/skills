@@ -1,6 +1,6 @@
 ---
 name: gh-release-pipeline
-description: "Set up or align a GitHub Actions release pipeline for a versioned package, library, CLI, or marketplace action. Use when standardizing repos around the verify-then-release shape: push to main → guardrails → semantic-release tags + publishes → version-bump commit back to main with `[skip ci]`. Default to this shape unless the repo has a proven exception."
+description: "Set up or align a GitHub Actions release pipeline for a versioned package, library, CLI, or marketplace action. Use when standardizing repos around the verify-then-release shape: push to main → guardrails → semantic-release tags + publishes → version-bump commit back to main with `[skip ci]`. Pairs with `gh-deploy-pipeline` for running apps — this skill is for publishing versioned artifacts to a registry, not deploying a running service."
 ---
 
 # Release Pipeline
@@ -52,7 +52,7 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
       # bootstrap toolchain, then:
       - run: <repo verify command>   # e.g. vp run verify, make verify, mise run verify
@@ -69,7 +69,7 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0, persist-credentials: true }
       # bootstrap toolchain + install publish creds, then:
       - uses: cycjimmy/semantic-release-action@v4

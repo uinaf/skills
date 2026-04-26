@@ -16,7 +16,7 @@ Common failure modes when standing up or operating this pipeline. Check here bef
 ## "fatal: could not read Username for 'https://github.com'" during `@semantic-release/git` push
 
 - Cause: the checkout step omitted `persist-credentials: true` (or set it to false), or the workflow's default token does not have `contents: write`.
-- Fix: ensure `actions/checkout@v5` keeps credentials and the release job declares `permissions: { contents: write }`.
+- Fix: ensure `actions/checkout@v6` keeps credentials and the release job declares `permissions: { contents: write }`.
 
 ## Tag created but no GitHub Release / no published artifact
 
@@ -37,7 +37,7 @@ Common failure modes when standing up or operating this pipeline. Check here bef
 ## Semantic-release computes the wrong version
 
 - Cause: shallow checkout — semantic-release walks history, and `fetch-depth: 1` (the default) hides previous tags.
-- Fix: `actions/checkout@v5` with `fetch-depth: 0` on **both** verify and release.
+- Fix: `actions/checkout@v6` with `fetch-depth: 0` on **both** verify and release.
 
 ## npm publish fails with "ENEEDAUTH" or 403
 

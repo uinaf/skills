@@ -55,7 +55,7 @@ Use this reference when authoring or aligning the GitHub Actions workflow files.
 
 ## Checkout
 
-- Both jobs: `actions/checkout@v5` with `fetch-depth: 0`. Semantic-release walks history to compute the next version; a shallow clone breaks it.
+- Both jobs: `actions/checkout@v6` with `fetch-depth: 0`. Semantic-release walks history to compute the next version; a shallow clone breaks it.
 - Release also needs `persist-credentials: true` (the default) so `@semantic-release/git` can push the bump commit using `GITHUB_TOKEN`.
 
 ## `[skip ci]` Gate
