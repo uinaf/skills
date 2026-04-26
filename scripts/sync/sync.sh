@@ -1,6 +1,27 @@
 #!/bin/bash
 set -euo pipefail
 
+PRUNE_MANAGED=0
+for arg in "$@"; do
+  case "$arg" in
+    --prune-managed)
+      PRUNE_MANAGED=1
+      ;;
+    -h|--help)
+      echo "Usage: $0 [--prune-managed]"
+      echo
+      echo "  --prune-managed  Remove globally installed uinaf/agents skills that are no longer in scripts/sync/skills.json."
+      echo "                   Skills from other sources are left alone."
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $arg" >&2
+      echo "Usage: $0 [--prune-managed]" >&2
+      exit 2
+      ;;
+  esac
+done
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
 
@@ -69,6 +90,26 @@ if [ -f "$MANIFEST" ]; then
       echo "Installing skill: $name from $source"
       npx skills add "$source" -g -y -a "${SKILL_AGENTS[@]}" -s "$name" </dev/null 2>/dev/null || echo "  Failed: $name"
     done
+
+    if [ "$PRUNE_MANAGED" -eq 1 ]; then
+      LOCKFILE="$HOME/.agents/.skill-lock.json"
+      if [ -f "$LOCKFILE" ]; then
+        echo "Pruning managed uinaf/agents skills missing from manifest"
+        jq -r \
+          --argjson manifest "$(jq -c '[.skills[].name]' "$MANIFEST")" \
+          '(.skills // {}) | to_entries[] | select(.value.source == "uinaf/agents") | select(.key as $name | $manifest | index($name) | not) | .key' \
+          "$LOCKFILE" |
+        while read -r skill_name; do
+          [ -n "$skill_name" ] || continue
+          echo "Removing managed stale skill: $skill_name"
+          npx skills remove "$skill_name" -g -y </dev/null 2>/dev/null || echo "  Failed to remove: $skill_name"
+        done
+      else
+        echo "No global skill lockfile found; skipping managed prune"
+      fi
+    else
+      echo "Skipping prune. Use --prune-managed to remove stale uinaf/agents skills."
+    fi
   fi
 else
   echo "No skills manifest found at $MANIFEST"
