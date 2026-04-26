@@ -1,5 +1,0 @@
-node_modules/
-results/
-.env
-.env.local
-*.log
