@@ -242,3 +242,4 @@ Reload doesn't re-animate. New tab does.
 
 - No modals, toasts, popovers, tabs, accordions, sidebars, sticky nav, breadcrumbs.
 - If a real product needs one, design it from these foundations and document the addition in that product's local README.
+- One documented carve-out: install snippets on OSS project pages use a small package-manager picker (brew / curl / cargo / npm) — see [oss-project-page.md](oss-project-page.md). Don't generalize this into tabs anywhere else.
