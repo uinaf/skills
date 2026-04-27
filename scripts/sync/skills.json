@@ -9,10 +9,6 @@
       "source": "uinaf/agents"
     },
     {
-      "name": "effect-ts",
-      "source": "uinaf/agents"
-    },
-    {
       "name": "emil-design-eng",
       "source": "emilkowalski/skill"
     },
