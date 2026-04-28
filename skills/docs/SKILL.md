@@ -93,13 +93,15 @@ Concrete checks:
 
 ## Output
 
-After docs work, report:
+After docs work, report a compact docs footer:
 
 - files updated
-- stale or duplicated docs removed or rewritten
-- commands or paths verified
-- remaining doc gaps
-- any handoff needed to `agent-readiness`, `review`, or `verify`
+- verified: command names or path checks, not output logs
+- removed or rewritten: only if stale or duplicated docs changed
+- gaps: remaining doc gaps, or `none`
+- next: `agent-readiness`, `review`, `verify`, or `none`
+
+Keep the footer to 5 labeled lines or fewer. Do not repeat the same file list in prose after listing changed files.
 
 ## References
 

@@ -83,14 +83,19 @@ Separate blockers from polish. If edits are requested, fix the highest-leverage 
 
 ## Output
 
-After an audit, report:
+After an audit, report a compact audit footer:
 
 - scope audited
 - Tessl command and score
-- strongest parts worth keeping
-- prioritized findings with file references
-- smallest recommended changes
+- findings: highest-priority issues only, or `none`
+- changes: files changed or smallest recommended change
 - rerun status if edits were made
+
+Keep details compact:
+
+- Do not paste long Tessl output; report the score and only actionable suggestions
+- Keep the footer to 5 labeled lines or fewer
+- If edits were made, avoid restating every diff hunk; name the behavioral change and verification
 
 ## References
 

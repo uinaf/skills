@@ -78,27 +78,29 @@ Verify never issues `ship it`. The independent ship decision is `review`'s job.
 
 ## Output
 
-After verification, report:
+After verification, report a compact verification footer:
 
 - verdict
-- change verified
-- surfaces exercised
-- self-corrections applied during verification (if any)
-- top findings by severity (issues you could not self-correct)
-- exact evidence: commands, screenshots, traces, responses, or file references
-- readiness gaps or doc drift discovered during verification
-- recommended follow-up: `review`, `agent-readiness`, `docs`, or more implementation
+- evidence: exact command names or runtime surfaces, not full logs
+- fixed during verify: only if self-corrections happened
+- unverified or gaps: readiness gaps, doc drift, or `none`
+- next: `review`, `agent-readiness`, `docs`, or more implementation
+
+Keep the final answer short:
+
+- Put detailed failures, screenshots, traces, and file references in native findings or the work log, not in the footer
+- Do not repeat command output that already appeared in the terminal
+- Keep the footer to 5 labeled lines or fewer
+- Omit `fixed during verify` when nothing was corrected
+- Use comma-separated command names and surfaces instead of paragraphs
 
 Example:
 
 ```text
 verdict: ready for review
-change verified: retry banner after transient API failure
-surfaces exercised: pnpm test test/retry.spec.ts, curl http://127.0.0.1:3000/api/retry
-self-corrections: dropped unused import in src/retry/banner.ts; tightened error log to include status code
-top finding: medium — the UI recovers, but the retry count is not persisted across refresh (left for review to weigh)
-evidence: local API returned 200 after retry; browser screenshot after refresh shows count reset to 0
-recommended follow-up: review
+evidence: pnpm test test/retry.spec.ts, curl /api/retry
+unverified or gaps: none
+next: review
 ```
 
 ## References

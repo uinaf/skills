@@ -14,7 +14,7 @@ Independently audit existing code with concern-specific lenses and decide whethe
 - Load shared doctrine from the target repo's guidance files such as `AGENTS.md`, `CLAUDE.md`, or repo rules
 - Keep the final verdict tied to concrete evidence, not reviewer instinct alone
 - Keep findings risk-focused; do not drown the user in low-value nits
-- Always list the reviewer personas you used, even when there were only one or two
+- Track the reviewer personas you used; include them in the visible answer only when the user asks or the harness has a compact metadata field
 - Always include an explicit `unverified areas` line, even if the answer is `none`
 - Always choose the verdict from exactly: `ship it`, `needs review`, `blocked`
 - If runtime proof for your own completed change is the goal, hand off to `verify`
@@ -87,38 +87,40 @@ Order findings by severity. If no findings are discovered, say that explicitly a
 
 ## Output
 
-After review, report:
+After review, report a tiny verdict footer:
 
 - verdict
-- scope reviewed
-- reviewer personas used
-- top findings by severity
-- exact evidence: file references, commands, traces, or responses
+- evidence summary: exact command names or runtime surfaces, not full logs
 - unverified areas or readiness gaps
-- recommended follow-up: implementation, `verify`, `agent-readiness`, or `docs`
+- next: implementation, `verify`, `agent-readiness`, or `docs`
 
 Use those labels explicitly. Do not replace them with softer prose like "safe to merge" or "do not ship today".
 
 Prefer the active harness's best native review representation instead of a prose-heavy wall of text.
 
+Keep the final answer short:
+
+- Put detailed issue text, file references, and line numbers in native findings or the fallback findings list
+- Do not repeat native finding details in the verdict block
+- Keep the verdict footer to 4 labeled lines or fewer
+- Keep each label to one sentence; use comma-separated command names instead of log excerpts
+- Omit scope and personas from the footer unless the user asked for them or the scope would be ambiguous without one short `reviewed:` line
+- If there are no findings, say `findings: none` and keep the rest equally compact
+
 Harness-specific presentation rules:
 
-- Tell the harness to use the strongest structured review format it supports
-- Codex / OpenAI review harnesses: prefer the native structured findings UI so issues appear as `P0` / `P1` / `P2` / `P3` findings with tight file and line references
-- Claude / Anthropic harnesses: prefer a compact findings table over paragraphs. Recommended columns: severity, file or lines, issue, why it matters, and evidence
-- Any harness without a richer native review primitive: fall back to a short severity-ordered list, not a long narrative
-- Do not hide actionable findings inside a long prose recap when the harness can represent them more clearly
+- Prefer the strongest structured finding format available: Codex/OpenAI native `P0` / `P1` / `P2` / `P3` cards, or a compact table in Claude/Anthropic harnesses
+- If no richer primitive exists, use a short severity-ordered findings list with file/line, issue, impact, and evidence
+- Never hide actionable findings inside the footer or a long prose recap
 
 Example:
 
 ```text
 verdict: needs review
-scope reviewed: feature/auth-session branch
-reviewer personas: general, tests, silent-failures
 finding: high — src/auth/session.ts:42 fallback returns an anonymous session when token parsing fails
-evidence: targeted test passes only for valid tokens; no failure-path coverage covers malformed headers
+evidence: pnpm test src/auth/session.test.ts
 unverified areas: runtime behavior for malformed OAuth callbacks
-recommended follow-up: implementation
+next: implementation
 ```
 
 ## References

@@ -35,12 +35,17 @@
     {
       "name": "Surfaces not exercised honestly",
       "max_score": 10,
-      "description": "The Surfaces Exercised section is honest about what was attempted and what could not be exercised"
+      "description": "The report is honest about what was attempted and what could not be exercised, without requiring a verbose Surfaces Exercised section"
     },
     {
       "name": "No invented tests",
       "max_score": 10,
       "description": "The solution does not add ad hoc tests or a custom harness solely to claim verification passed; it reports the repo readiness gap"
+    },
+    {
+      "name": "Compact blocked footer",
+      "max_score": 8,
+      "description": "The final blocked verification footer is no more than 5 labeled lines and does not repeat the missing-infra evidence after listing it once"
     }
   ]
 }

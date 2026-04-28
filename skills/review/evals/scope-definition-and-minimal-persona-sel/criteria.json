@@ -30,12 +30,12 @@
     {
       "name": "Scope stated",
       "max_score": 8,
-      "description": "The report explicitly names the scope reviewed (e.g. the two files changed, README and format.ts, or the specific diff)"
+      "description": "The report names the reviewed scope only when needed to disambiguate the review; it does not add a noisy scope line after clear findings"
     },
     {
       "name": "Personas listed in output",
       "max_score": 8,
-      "description": "The report explicitly names the reviewer personas used in a dedicated section or label"
+      "description": "The report shows persona choice only when useful for the task or in compact metadata; it does not force persona details into the verdict footer"
     },
     {
       "name": "No nit inflation",
@@ -56,6 +56,11 @@
       "name": "Recommended follow-up",
       "max_score": 10,
       "description": "The report includes a recommended follow-up action from the allowed set: implementation, verify, agent-readiness, or docs"
+    },
+    {
+      "name": "Compact verdict block",
+      "max_score": 8,
+      "description": "The report stays concise: findings, if any, are not repeated in the verdict footer, and the final metadata uses no more than 4 labeled lines with no scope/persona noise unless needed"
     }
   ]
 }

@@ -65,7 +65,12 @@
     {
       "name": "Personas listed",
       "max_score": 8,
-      "description": "The report explicitly names which reviewer personas were used"
+      "description": "The report shows persona choice only when useful for the task or in compact metadata; it does not force persona details into the verdict footer"
+    },
+    {
+      "name": "Compact verdict block",
+      "max_score": 8,
+      "description": "After detailed findings, the final verdict footer is compact: no more than 4 labeled lines, no duplicated finding paragraphs, no scope/persona noise unless needed for ambiguity, and command evidence is summarized by command or surface name rather than pasted logs"
     }
   ]
 }

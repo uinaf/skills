@@ -46,6 +46,11 @@
       "name": "Valid verdict",
       "max_score": 15,
       "description": "Report contains a verdict using exactly one of: 'ready for review', 'needs more work', or 'blocked'. Does NOT use 'ship it' (that verdict belongs to review)."
+    },
+    {
+      "name": "Compact verification footer",
+      "max_score": 8,
+      "description": "Report keeps the final verification footer to no more than 5 labeled lines, does not repeat detailed response bodies after recording them once, and summarizes successful evidence by command or surface name"
     }
   ]
 }

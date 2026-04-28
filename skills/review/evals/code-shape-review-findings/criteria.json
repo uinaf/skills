@@ -51,6 +51,11 @@
       "name": "Valid verdict",
       "max_score": 10,
       "description": "Report concludes with one of exactly three verdict values: 'ship it', 'needs review', or 'blocked' — no other phrasing"
+    },
+    {
+      "name": "Compact verdict block",
+      "max_score": 8,
+      "description": "Report does not end with a prose-heavy recap: detailed findings appear once, and verdict metadata is limited to no more than 4 labeled lines with no scope/persona noise unless needed"
     }
   ]
 }

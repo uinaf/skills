@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent correctly selects reviewer personas for a refactor that touches types, error handling, dead code, and auth. The agent should apply the default personas plus relevant conditional ones, avoid spawning unnecessary personas, load the repo's AGENTS.md, and produce a well-structured output with verdict, personas listed, and evidence.",
+  "context": "Tests whether the agent correctly selects reviewer personas for a refactor that touches types, error handling, dead code, and auth. The agent should apply the default personas plus relevant conditional ones, avoid spawning unnecessary personas, load the repo's AGENTS.md, and produce a well-structured output with verdict and evidence without a noisy footer.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -30,7 +30,7 @@
     {
       "name": "Personas listed in output",
       "max_score": 6,
-      "description": "The review report explicitly lists the reviewer personas used in a dedicated section or field"
+      "description": "The review report shows persona choice only when useful for the task or in compact metadata; it does not force persona details into the verdict footer"
     },
     {
       "name": "Verdict present",
@@ -40,7 +40,7 @@
     {
       "name": "Scope stated",
       "max_score": 6,
-      "description": "The report names the scope reviewed (e.g. the PR, the auth middleware, the specific files)"
+      "description": "The report names the reviewed scope only when needed to disambiguate the review; it does not add a noisy scope line after clear findings"
     },
     {
       "name": "Findings ordered by severity",
@@ -66,6 +66,11 @@
       "name": "Recommended follow-up",
       "max_score": 6,
       "description": "The report includes a recommended follow-up action from the allowed options: implementation, verify, agent-readiness, or docs"
+    },
+    {
+      "name": "Compact verdict block",
+      "max_score": 6,
+      "description": "The report keeps verdict metadata compact: no more than 4 labeled lines after findings, no repeated finding details, no scope/persona noise unless needed, and no prose-heavy recap"
     }
   ]
 }

@@ -142,14 +142,20 @@ If changes created doc drift, hand off to `docs`.
 
 ## Output
 
-After readiness work, report:
+After readiness work, report a compact readiness footer:
 
-- grade before and after
-- dimensions with evidence
+- grade: before → after
+- evidence: changed commands, smoke checks, or runtime surfaces
 - files changed
-- remaining gaps ranked by impact
-- verify readiness
-- recommended next handoff: `verify`, `review`, `docs`, or human review
+- remaining gaps: highest-impact gaps only, or `none`
+- next: `verify`, `review`, `docs`, or human review
+
+Keep details compact:
+
+- Put dimension-by-dimension evidence in the audit table when useful, not again in the footer
+- Do not paste logs; name the command or file that proves the claim
+- Keep the footer to 5 labeled lines or fewer
+- Omit unchanged dimensions unless they explain the final grade
 
 ## References
 
