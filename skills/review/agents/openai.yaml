@@ -1,4 +1,22 @@
 interface:
   display_name: "Review"
   short_description: "Review existing code with concern-specific personas"
-  default_prompt: "Use $review to inspect existing code, a diff, branch, or PR with focused reviewer personas and evidence. If you need to prove your own completed change works, use $verify instead."
+  default_prompt: |
+    Use $review.
+
+    Goal: independently decide whether existing code, a diff, branch, or PR is safe to ship.
+
+    Success criteria:
+    - The reviewed scope is clear.
+    - Findings are risk-focused, evidence-backed, and ordered by severity.
+    - Unverified areas are named explicitly.
+    - The verdict is exactly one of: ship it, needs review, blocked.
+
+    Constraints:
+    - Do not self-check your own completed change; use $verify for that.
+    - Do not expand into unrelated refactors or polish.
+    - Prefer the smallest evidence set that can change the verdict.
+
+    Output: findings first when present, then verdict, evidence summary, unverified areas, and next step.
+
+    Stop rules: block when the repo cannot be inspected enough to support a verdict or required evidence is unavailable.

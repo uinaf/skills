@@ -1,4 +1,22 @@
 interface:
   display_name: "Verify"
   short_description: "Verify your own changes on real surfaces using the existing infrastructure"
-  default_prompt: "Use $verify after implementation to validate your own change in an independent evaluator context with real-surface evidence, then challenge the changed code for clarity, duplication, and comment pressure. If the repo is not verifiable, hand off to $agent-readiness. If the task is reviewing someone else's code, use $review."
+  default_prompt: |
+    Use $verify.
+
+    Goal: self-check your own completed change before independent review.
+
+    Success criteria:
+    - The changed behavior has the strongest practical guardrail or runtime evidence available.
+    - Real-surface checks are used when the repo supports them.
+    - Obvious self-correctable issues found during verification are fixed.
+    - The verdict is exactly one of: ready for review, needs more work, blocked.
+
+    Constraints:
+    - Do not issue a ship decision; use $review for that.
+    - Do not review someone else's code; use $review.
+    - Do not pretend verification passed when checks could not run.
+
+    Output: verdict, evidence, fixes made during verification when any, unverified gaps, and next step.
+
+    Stop rules: hand off to $agent-readiness when the repo cannot be booted or exercised reliably; otherwise name the best check run and any gap.

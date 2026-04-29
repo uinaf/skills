@@ -1,4 +1,22 @@
 interface:
   display_name: "Deploy Pipeline"
   short_description: "Standardize GitHub Actions deploy flow"
-  default_prompt: "Use $gh-deploy-pipeline to set up or align this repo's GitHub Actions deploy flow around the verify-then-deploy shape: push to main → detect affected lanes → verify and build artifacts → e2e → deploy each lane to its host (Cloudflare Pages, AWS Amplify, GHCR + VPS) → smoke check the deployed URL. Inspect existing workflows and any known-good sibling repo before choosing actions. Pick the deploy target that matches this repo and preserve any repo-specific bootstrap, change-detection, or per-lane composite actions already in place."
+  default_prompt: |
+    Use $gh-deploy-pipeline.
+
+    Goal: align this repo's GitHub Actions deploy flow around verify-then-deploy for running apps.
+
+    Success criteria:
+    - Changes are detected per deploy lane.
+    - Verify builds one artifact, e2e consumes that artifact, deploy ships that same artifact.
+    - Deploy jobs serialize per environment and lane, then smoke-check the deployed URL or health endpoint.
+    - Existing repo or sibling-host patterns are preserved unless evidence shows they are wrong.
+
+    Constraints:
+    - Use this for deployed services or apps, not package releases; use $gh-release-pipeline for publishing versioned artifacts.
+    - Do not paste secrets into workflow YAML.
+    - Do not rebuild inside deploy.
+
+    Output: summarize changed workflow/action files, target hosts, validation path, risks, and remaining setup needed.
+
+    Stop rules: block when deploy credentials, host target, or lane ownership cannot be confirmed safely.

@@ -1,4 +1,22 @@
 interface:
   display_name: "Release Pipeline"
   short_description: "Standardize GitHub Actions release flow"
-  default_prompt: "Use $gh-release-pipeline to set up or align this repo's GitHub Actions release flow around the verify-then-release shape: push to main → guardrails → semantic-release tags and publishes → version-bump commit back to main with [skip ci]. Inspect existing workflows and any known-good sibling repo before choosing actions. Pick the publish target that matches this repo (npm, CocoaPods/SwiftPM, Go/GoReleaser, Rust/release-plz+cargo-dist, GitHub Action) and preserve any repo-specific verify command or release plumbing already in place."
+  default_prompt: |
+    Use $gh-release-pipeline.
+
+    Goal: align this repo's GitHub Actions release flow around verify-then-release for versioned artifacts.
+
+    Success criteria:
+    - Verify is the publish gate on PRs and main.
+    - Main-branch release analyzes conventional commits, tags, publishes, and writes the version bump with [skip ci].
+    - The publish target matches the repo artifact type.
+    - Existing working release plumbing is preserved unless evidence shows it conflicts with the target shape.
+
+    Constraints:
+    - Use this for packages, libraries, CLIs, marketplace actions, and registry publishing, not deployed running apps.
+    - Do not add a second active release path unless the repo already requires one and the reason is documented.
+    - Do not weaken verify or bypass it with manual release paths.
+
+    Output: summarize changed workflow/config files, publish target, validation path, risks, and remaining setup needed.
+
+    Stop rules: block when the release branch, registry target, or required publish credentials cannot be confirmed safely.
