@@ -14,9 +14,7 @@ Independently audit existing code with concern-specific lenses and decide whethe
 - Load shared doctrine from the target repo's guidance files such as `AGENTS.md`, `CLAUDE.md`, or repo rules
 - Keep the final verdict tied to concrete evidence, not reviewer instinct alone
 - Keep findings risk-focused; do not drown the user in low-value nits
-- Track the reviewer personas you used; include them in the visible answer only when the user asks or the harness has a compact metadata field
-- Always include an explicit `unverified areas` line, even if the answer is `none`
-- Always choose the verdict from exactly: `ship it`, `needs review`, `blocked`
+- Track reviewer personas internally; include them visibly only when asked or when the harness has compact metadata
 - If runtime proof for your own completed change is the goal, hand off to `verify`
 
 ## Handoffs
@@ -77,13 +75,7 @@ Concrete starting points:
 
 ### 4. Synthesize the verdict
 
-Produce one clear outcome:
-
-- `ship it`
-- `needs review`
-- `blocked`
-
-Order findings by severity. If no findings are discovered, say that explicitly and mention any residual risk or testing gap.
+Order findings by severity. If no findings are discovered, say that explicitly and mention any residual risk or testing gap. Choose exactly one verdict: `ship it`, `needs review`, or `blocked`.
 
 ## Output
 
