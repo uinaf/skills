@@ -79,14 +79,16 @@ Order findings by severity. If no findings are discovered, say that explicitly a
 
 ## Output
 
-After review, report a tiny verdict footer:
+After review, report in this compact bullet shape:
 
-- verdict
-- evidence summary: exact command names or runtime surfaces, not full logs
-- unverified areas or readiness gaps
-- next: implementation, `verify`, `agent-readiness`, or `docs`
+- `- findings:` first, only when present; otherwise `- findings: none`
+- `- verdict:` exactly one of `ship it`, `needs review`, or `blocked`
+- `- evidence:` concise explanations of what checks proved, not full commands
+- `- unverified:` residual risk, readiness gaps, or `none`
+- `- next:` one of `implementation`, `verify`, `agent-readiness`, or `docs`
+- `- notes:` only for out-of-scope repo state the user must act on
 
-Use those labels explicitly. Do not replace them with softer prose like "safe to merge" or "do not ship today".
+Use those labels explicitly. Do not replace them with softer prose like "safe to merge" or "do not ship today". Do not add an opener, closer, apology, status preface, or conversational recap.
 
 Prefer the active harness's best native review representation instead of a prose-heavy wall of text.
 
@@ -94,10 +96,13 @@ Keep the final answer short:
 
 - Put detailed issue text, file references, and line numbers in native findings or the fallback findings list
 - Do not repeat native finding details in the verdict block
-- Keep the verdict footer to 4 labeled lines or fewer
-- Keep each label to one sentence; use comma-separated command names instead of log excerpts
+- Keep the core verdict footer to 4 labeled lines or fewer after findings; add `notes:` only when necessary
+- Keep each label to one short sentence or fragment
+- Summarize passing commands by intent and result, for example `typecheck passed for tv-vite` or `browser e2e covered pointer long-press`; include the full command only when it failed, is needed for reproduction, or the user asks for it
+- Keep `unverified:` narrow; split only by semicolon when there are multiple concrete gaps
 - Omit scope and personas from the footer unless the user asked for them or the scope would be ambiguous without one short `reviewed:` line
 - If there are no findings, say `findings: none` and keep the rest equally compact
+- If repo housekeeping appears, prefer `notes: untracked "--" left out of scope` over a paragraph
 
 Harness-specific presentation rules:
 
@@ -108,11 +113,11 @@ Harness-specific presentation rules:
 Example:
 
 ```text
-verdict: needs review
-finding: high — src/auth/session.ts:42 fallback returns an anonymous session when token parsing fails
-evidence: pnpm test src/auth/session.test.ts
-unverified areas: runtime behavior for malformed OAuth callbacks
-next: implementation
+- finding: high — src/auth/session.ts:42 fallback returns an anonymous session when token parsing fails
+- verdict: needs review
+- evidence: session tests exercised token parsing failures
+- unverified: malformed OAuth callback runtime behavior
+- next: implementation
 ```
 
 ## References

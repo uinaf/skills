@@ -17,6 +17,6 @@ interface:
     - Do not expand into unrelated refactors or polish.
     - Prefer the smallest evidence set that can change the verdict.
 
-    Output: findings first when present, then verdict, evidence summary, unverified areas, and next step.
+    Output: no conversational opener. Use bullet labels only: findings (or `findings: none`), verdict, evidence, unverified, next, and optional notes for out-of-scope repo state. Keep each label to one short sentence or fragment. Summarize passing commands by intent/result instead of printing full command strings; include full commands only for failures, reproduction, or when asked.
 
     Stop rules: block when the repo cannot be inspected enough to support a verdict or required evidence is unavailable.
