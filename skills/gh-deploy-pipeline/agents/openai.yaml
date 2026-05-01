@@ -17,6 +17,6 @@ interface:
     - Do not paste secrets into workflow YAML.
     - Do not rebuild inside deploy.
 
-    Output: summarize changed workflow/action files, target hosts, validation path, risks, and remaining setup needed.
+    Output: no conversational opener. Use bullet labels only: files changed, targets, evidence, risks, remaining setup, and next. Summarize passing validation by intent/result instead of printing full command strings; include full commands only for failures, reproduction, or when asked.
 
     Stop rules: block when deploy credentials, host target, or lane ownership cannot be confirmed safely.

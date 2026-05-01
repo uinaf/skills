@@ -16,6 +16,6 @@ interface:
     - Do not validate your own product change; use $verify for that.
     - Do not turn documentation-only cleanup into readiness work; use $docs.
 
-    Output: report the readiness grade before and after, evidence, files changed, remaining gaps, and next step.
+    Output: no conversational opener. Use bullet labels only: grade, evidence, files changed, remaining gaps, and next. Summarize passing checks by intent/result instead of printing full command strings; include full commands only for failures, reproduction, or when asked.
 
     Stop rules: stop and report blocked when the repo cannot be booted or required infrastructure facts cannot be verified.

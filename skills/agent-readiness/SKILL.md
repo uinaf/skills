@@ -5,22 +5,14 @@ description: "Audit and build the infrastructure a repo needs so agents can work
 
 # Agent-Readiness
 
-Make a repo ready for autonomous agent work.
+Make a repo ready for autonomous agent work by adding mechanical proof: boot scripts, smoke checks, CI/hooks, observable signals, and isolation where needed. Add the smallest useful layer first; stop once the repo is reliably verifiable.
 
-## Principles
+## Boundaries
 
-- **Environment > instruction** — infrastructure matters more than the prompt
-- **Mechanical enforcement > prose** — hooks, CI, health checks, and scripts beat wishes
-- **Separate builder from judge** — `agent-readiness` builds the rig, `verify` proves your own change, `review` critiques existing code
-- **Real behavior > mocked confidence** — smoke, integration, and e2e checks beat large suites that mostly mock the seam under test
-- **Smallest useful layer first** — add layers in order, stop when the repo becomes reliably verifiable
-- **Progressive disclosure** — keep the core workflow here, load patterns on demand
-
-## Handoffs
-
-- Need to review existing code, a diff, branch, or PR → use `review`
-- Need to prove your own completed change works on real surfaces → use `verify`
-- Need to update AGENTS.md, README.md, specs, or repo docs → use `docs`
+- Existing code, diff, branch, or PR review → `review`
+- Your own completed product change → `verify`
+- AGENTS.md, README.md, specs, or repo docs → `docs`
+- Mock-only tests, docs-only cleanup, and builder self-evaluation are not readiness proof.
 
 ## The 7-Layer Stack
 
@@ -53,7 +45,7 @@ Grade the repo across these dimensions:
 For each, report:
 
 - status: `pass` / `partial` / `fail`
-- evidence: file or command
+- evidence: file, check outcome, or runtime surface
 - gap: what is missing
 
 Use [references/grading.md](references/grading.md). Lowest dimension sets the overall grade.
@@ -74,7 +66,7 @@ Build missing layers in this order:
 
 **Boot → Smoke → Interact → E2e → Enforce → Observe → Isolate**
 
-Each step should be independently useful. Stop once the repo is reliably verifiable; do not build a cathedral because you got excited.
+Each step should be independently useful. Stop once the repo is reliably verifiable.
 
 When readiness work includes agent entrypoints, keep `AGENTS.md` as the canonical authored guide and place `CLAUDE.md` beside it as a symlink to `AGENTS.md` rather than maintaining two separate guidance files.
 
@@ -120,7 +112,6 @@ See [references/setup-patterns.md](references/setup-patterns.md) for e2e, observ
 Tighten weak or flaky layers:
 
 - remove mock-only confidence theater
-- prefer smoke, integration, and e2e checks over mock-heavy suites that self-verify implementation details
 - replace one-off checks with reusable scripts or hooks
 - add dead-code or unused-symbol enforcement where the stack supports it
 - add logs and health signals agents can query
@@ -131,24 +122,15 @@ Tighten weak or flaky layers:
 When the repo reaches C+ and can be judged honestly, hand off to `verify` or `review`.
 If changes created doc drift, hand off to `docs`.
 
-## Anti-Patterns
-
-- **Mock-only tests** — pass by construction, verify nothing
-- **Mock-heavy unit suites as the main proof** — agents love them because they are easy to satisfy, not because they prove the system works
-- **Self-evaluation** — builder grading its own work
-- **Docs-only fixes disguised as readiness work**
-- **Routine PR review here** — that's `review`
-- **Perfect infrastructure upfront** — iterate from real failure modes
-
 ## Output
 
-After readiness work, report a compact readiness footer:
+After readiness work, report in this compact bullet shape:
 
-- grade: before → after
-- evidence: changed commands, smoke checks, or runtime surfaces
-- files changed
-- remaining gaps: highest-impact gaps only, or `none`
-- next: `verify`, `review`, `docs`, or human review
+- `- grade:` before → after
+- `- evidence:` concise explanations of what readiness checks proved
+- `- files changed:` changed readiness files
+- `- remaining gaps:` highest-impact gaps only, or `none`
+- `- next:` `verify`, `review`, `docs`, or human review
 
 Keep details compact:
 
@@ -156,6 +138,7 @@ Keep details compact:
 - Do not paste logs; name the command or file that proves the claim
 - Keep the footer to 5 labeled lines or fewer
 - Omit unchanged dimensions unless they explain the final grade
+- Summarize passing checks by intent and result; include full commands only when they failed, are needed for reproduction, or the user asks for them
 
 ## References
 

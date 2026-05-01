@@ -17,6 +17,6 @@ interface:
     - Do not review someone else's code; use $review.
     - Do not pretend verification passed when checks could not run.
 
-    Output: verdict, evidence, fixes made during verification when any, unverified gaps, and next step.
+    Output: no conversational opener. Use bullet labels only: verdict, evidence, fixed during verify when any, unverified gaps, and next. Summarize passing commands by intent/result instead of printing full command strings; include full commands only for failures, reproduction, or when asked.
 
     Stop rules: hand off to $agent-readiness when the repo cannot be booted or exercised reliably; otherwise name the best check run and any gap.

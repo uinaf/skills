@@ -6,10 +6,10 @@ Verification without proof is just flattering yourself.
 
 Prefer reproducible proof:
 
-- exact commands run
+- commands or runtime surfaces exercised, recorded exactly in the work log when needed for reproduction
 - screenshots tied to a named flow
 - HTTP requests and responses
-- CLI output
+- representative CLI output for failures or meaningful status lines
 - structured logs, traces, or health checks
 - concrete error messages, codes, and recovery hints from an exercised failure path
 - file references with line numbers for static findings
@@ -37,6 +37,9 @@ Prefer reproducible proof:
 7. **Do not flood context with giant logs**
    - quote only the relevant lines or summarize with exact pointers
 
+8. **Keep final evidence human-readable**
+   - in the final footer, summarize passing checks by intent and result; include full commands only for failures, reproduction, or when asked
+
 ## Minimum Output Shape
 
 For each meaningful finding:
@@ -52,4 +55,4 @@ For the overall verification:
 - verdict: `ready for review` / `needs more work` / `blocked` (verify never issues `ship it` — that's `review`'s call)
 - change verified
 - surfaces exercised
-- evidence summary
+- evidence summary: what passed or failed, not a raw command list unless reproduction requires it

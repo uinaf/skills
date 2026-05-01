@@ -41,21 +41,14 @@ Grade a project's readiness for autonomous agent work from F to A. Mechanical cr
 ## Example Output
 
 ```
-Grade: C → B (after adding e2e tests + CI gate)
-Layers: 1-4 present, 5 partial, 6-7 missing
-
-Bootable:   pass   — `npm run dev` starts app, health check at :3000/health
-Testable:   pass   — 3 Playwright e2e tests hit real UI, 1 API round-trip test
-Observable: partial — structured logs exist but no queryable health endpoint
-Verifiable: pass   — screenshots captured, response logs saved
-
-Gaps (ranked):
-1. No git hooks (layer 5) — lint/smoke not enforced pre-push
-2. No structured health endpoint (layer 6) — logs only
-3. No worktree isolation (layer 7) — parallel agents would collide
-
-Next step: add pre-push hook with lint + smoke
-Confidence: needs review (observable gaps)
+- grade: C → B after adding e2e tests and a CI gate
+- layers: 1-4 present, 5 partial, 6-7 missing
+- bootable: pass — dev server starts and health check responds
+- testable: pass — e2e covers real UI and one API round trip
+- observable: partial — structured logs exist, queryable health endpoint missing
+- verifiable: pass — screenshots and response logs are captured
+- gaps: pre-push enforcement missing; health endpoint missing; worktree isolation missing
+- next: add pre-push hook with lint and smoke
 ```
 
 ## Grading Rules

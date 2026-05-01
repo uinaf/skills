@@ -17,6 +17,6 @@ interface:
     - Do not add a second active release path unless the repo already requires one and the reason is documented.
     - Do not weaken verify or bypass it with manual release paths.
 
-    Output: summarize changed workflow/config files, publish target, validation path, risks, and remaining setup needed.
+    Output: no conversational opener. Use bullet labels only: files changed, publish target, evidence, risks, remaining setup, and next. Summarize passing validation by intent/result instead of printing full command strings; include full commands only for failures, reproduction, or when asked.
 
     Stop rules: block when the release branch, registry target, or required publish credentials cannot be confirmed safely.

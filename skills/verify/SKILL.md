@@ -78,13 +78,13 @@ Verify never issues `ship it`. The independent ship decision is `review`'s job.
 
 ## Output
 
-After verification, report a compact verification footer:
+After verification, report in this compact bullet shape:
 
-- verdict
-- evidence: exact command names or runtime surfaces, not full logs
-- fixed during verify: only if self-corrections happened
-- unverified or gaps: readiness gaps, doc drift, or `none`
-- next: `review`, `agent-readiness`, `docs`, or more implementation
+- `- verdict:` exactly one of `ready for review`, `needs more work`, or `blocked`
+- `- evidence:` concise explanations of what checks proved, not full commands
+- `- fixed during verify:` only if self-corrections happened
+- `- unverified or gaps:` readiness gaps, doc drift, or `none`
+- `- next:` `review`, `agent-readiness`, `docs`, or more implementation
 
 Keep the final answer short:
 
@@ -92,16 +92,16 @@ Keep the final answer short:
 - Do not repeat command output that already appeared in the terminal
 - Keep the footer to 5 labeled lines or fewer
 - Omit `fixed during verify` when nothing was corrected
-- Use comma-separated command names and surfaces instead of paragraphs
+- Summarize passing checks by intent and result, for example `typecheck passed for tv-vite` or `API smoke check returned 200`; include full commands only when they failed, are needed for reproduction, or the user asks for them
 - For failures or blocked checks, include the relevant error/status line or response snippet; do not hide the only evidence in terminal output
 
 Example:
 
 ```text
-verdict: ready for review
-evidence: pnpm test test/retry.spec.ts, curl /api/retry
-unverified or gaps: none
-next: review
+- verdict: ready for review
+- evidence: retry tests covered success and failure paths; API retry smoke returned 200
+- unverified or gaps: none
+- next: review
 ```
 
 ## References
